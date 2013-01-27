@@ -1,37 +1,4 @@
 #include "GLWindow.h"
-#include <functional>
-#include <vector>
-
-#include "singleton.h"
-
-typedef std::function< void GLFWCALL(int, int)> GLFWKeyCallback;
-
-class CallbackForwarder : public Singleton<CallbackForwarder>
-{
-	std::vector<GLFWKeyCallback> callbacks;
-public:
-	void forward(int arg1, int arg2)
-	{
-		for (auto & callback : callbacks)
-			callback(arg1, arg2);
-
-	}
-	void registerCallback(GLFWKeyCallback callback)
-	{
-		callbacks.push_back(callback);
-	}
-};
-
-void forwardCallbacks(int arg1, int arg2)
-{
-	CallbackForwarder::instance().forward(arg1, arg2); 
-}
-
-void registerCallback(GLFWKeyCallback callback)
-{
-	CallbackForwarder::instance().registerCallback(callback);
-}
-
 
 int GLWindow::init(char *windowTitle)
 {
@@ -57,21 +24,17 @@ int GLWindow::open(int width, int height, bool fullscreen)
 	{
 		glfwSetWindowTitle(windowTitle);	
 
-		registerCallback([&](int a, int b){this->keyCallback(a, b);});
-		glfwSetKeyCallback(&forwardCallbacks);
-
-
-
-		/*glfwSetCharCallback(this->charCallback);
+		//registerCallback([&](int a, int b){this->keyCallback(a, b);});
+		glfwSetKeyCallback(GLFWCallbacks::keyCallback);
+		glfwSetCharCallback(GLFWCallbacks::charCallback);
 		
-		glfwSetMouseButtonCallback(this->mouseButtonCallback);
-		glfwSetMousePosCallback(this->mousePosCallback);
-		glfwSetMouseWheelCallback(this->mouseWheelCallback);
+		glfwSetMouseButtonCallback(GLFWCallbacks::mouseButtonCallback);
+		glfwSetMousePosCallback(GLFWCallbacks::mousePosCallback);
+		glfwSetMouseWheelCallback(GLFWCallbacks::mouseWheelCallback);
 
-		glfwSetWindowCloseCallback(this->windowCloseCallback);
-		glfwSetWindowSizeCallback(this->windowSizeCallback);
-		glfwSetWindowRefreshCallback(this->windowRefreshCallback);	
-	*/
+		glfwSetWindowCloseCallback(GLFWCallbacks::windowCloseCallback);
+		glfwSetWindowSizeCallback(GLFWCallbacks::windowSizeCallback);
+		glfwSetWindowRefreshCallback(GLFWCallbacks::windowRefreshCallback);	
 	}
 
 	return returnVal;
@@ -92,12 +55,12 @@ void GLWindow::close()
 
 //callbacks
 
-int GLFWCALL GLWindow::windowCloseCallback(){return GL_TRUE;}
-void GLFWCALL GLWindow::windowSizeCallback(int width, int height){}
-void GLFWCALL GLWindow::windowRefreshCallback(){}
-void GLFWCALL GLWindow::keyCallback(int key, int action){}
-void GLFWCALL GLWindow::charCallback(int character, int action){}
-void GLFWCALL GLWindow::mouseButtonCallback(int button, int action){}
-void GLFWCALL GLWindow::mousePosCallback(int x, int y){}
-void GLFWCALL GLWindow::mouseWheelCallback(int pos){}
+int GLFWCALL GLFWCallbacks::windowCloseCallback(){return GL_TRUE;}
+void GLFWCALL GLFWCallbacks::windowSizeCallback(int width, int height){}
+void GLFWCALL GLFWCallbacks::windowRefreshCallback(){}
+void GLFWCALL GLFWCallbacks::keyCallback(int key, int action){}
+void GLFWCALL GLFWCallbacks::charCallback(int character, int action){}
+void GLFWCALL GLFWCallbacks::mouseButtonCallback(int button, int action){}
+void GLFWCALL GLFWCallbacks::mousePosCallback(int x, int y){}
+void GLFWCALL GLFWCallbacks::mouseWheelCallback(int pos){}
 

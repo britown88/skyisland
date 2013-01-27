@@ -18,6 +18,12 @@ public:
 	bool isOpen();
 	void swapBuffers();
 
+	
+	
+};
+
+namespace GLFWCallbacks
+{
 	void GLFWCALL keyCallback(int key, int action);
 	int GLFWCALL windowCloseCallback();
 	void GLFWCALL windowSizeCallback(int width, int height);
@@ -26,5 +32,4 @@ public:
 	void GLFWCALL mouseButtonCallback(int button, int action);
 	void GLFWCALL mousePosCallback(int x, int y);
 	void GLFWCALL mouseWheelCallback(int pos);
-	
-};
+}
