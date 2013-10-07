@@ -1,10 +1,13 @@
 
 #include <GLFW/glfw3.h>
 #include "Application.h"
+#include "RenderManager.h"
+#include "IOCContainer.h"
 
 void Application::start()
 {
-   onAppStart();
+   if(!glfwInit())
+      throw std::exception("GLFW Failed to initialize");
 
    auto winSize = getWindowSize();
    auto winTitle = getWindowTitle();
@@ -15,9 +18,12 @@ void Application::start()
    else
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
-   m_appRunning = true;
+   RenderManager *rManager = new RenderManager(*m_window);
+   IOC.add(rManager);
 
-   
+   onAppStart();
+
+   m_appRunning = true;   
 }
 
 void Application::step()
@@ -31,6 +37,8 @@ void Application::step()
 void Application::terminate()
 {
    onTerminate();
+
+   delete &IOC.resolve<RenderManager>();
 }
 
 bool Application::isRunning()

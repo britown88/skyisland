@@ -5,7 +5,8 @@
 class ICamera
 {
 public:
-   virtual const IScene& getScene()=0;
+   virtual ~ICamera(){}
+   virtual const IScene& getScene() const=0;
 
-   virtual Rectf getBounds()=0;
+   virtual const Rectf getBounds() const=0;
 };

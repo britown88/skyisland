@@ -7,9 +7,6 @@ void GLWindow::registerCallbacks()
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)
 {
-   if(!glfwInit())
-      throw std::exception("GLFW Failed to initialize");
-
    glfwWindowHint(GLFW_RESIZABLE, 0);
    m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), NULL, NULL);
 
@@ -25,9 +22,6 @@ GLWindow::GLWindow(Int2 winSize, std::string windowName)
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName, GLFWmonitor *monitor)
 {
-   if(!glfwInit())
-      throw std::exception("GLFW Failed to initialize");
-
    m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), monitor, NULL);
 
    if(!m_window)
@@ -44,6 +38,15 @@ GLWindow::~GLWindow()
 {
    glfwDestroyWindow(m_window);
    glfwTerminate();
+}
+
+void GLWindow::addViewport(std::shared_ptr<IViewport> vPort)
+{
+   m_viewports.push_back(std::move(vPort));
+}
+const GLWindow::ViewportList &GLWindow::getViewports()
+{
+   return m_viewports;
 }
 
 void GLWindow::pollEvents()

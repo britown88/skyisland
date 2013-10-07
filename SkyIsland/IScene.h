@@ -2,18 +2,20 @@
 
 #include "Vector.h"
 #include "Rect.h"
-#include "IEntity.h"
+#include "Entity.h"
 
 #include <vector>
+#include <memory>
 
 class IScene
 {
 public:
+   virtual ~IScene(){}
    virtual Float2 getSize() = 0;
-   virtual void addEntity(const IEntity &entity)=0;
+   virtual void addEntity(Entity &entity)=0;
 
-   virtual std::vector<IEntity*> getEntities()=0;
-   virtual std::vector<IEntity*> getEntities(Rectf bounds)=0;
+   virtual EntityList *getEntities()=0;
+   virtual EntityList *getEntities(const Rectf bounds)=0;
 
 
 };

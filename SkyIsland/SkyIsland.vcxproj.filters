@@ -22,30 +22,42 @@
     <Filter Include="Header Files\Interfaces\Entities">
       <UniqueIdentifier>{679d2ba7-6b70-4f69-96a2-50f12ec8708b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Implementations">
-      <UniqueIdentifier>{6b2571f9-e70e-4285-ade5-0f3e07c42f6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Implementations\Entities">
-      <UniqueIdentifier>{57084238-1b36-48cc-99c3-5a62d12606b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Implementations\Graphics">
-      <UniqueIdentifier>{8995267e-09a4-4c25-9dd5-06d4fbd848fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Implementations\Math">
-      <UniqueIdentifier>{f368ad0f-85bf-4e7a-9dca-1c35f4cc9626}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Implementations\Utility">
-      <UniqueIdentifier>{f0adfae4-98c8-47ec-837e-a4e61d907abf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ABC">
       <UniqueIdentifier>{33d9a725-f754-47db-af38-96284ee6a6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes">
+      <UniqueIdentifier>{6b2571f9-e70e-4285-ade5-0f3e07c42f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Entities">
+      <UniqueIdentifier>{57084238-1b36-48cc-99c3-5a62d12606b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Graphics">
+      <UniqueIdentifier>{8995267e-09a4-4c25-9dd5-06d4fbd848fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Math">
+      <UniqueIdentifier>{f368ad0f-85bf-4e7a-9dca-1c35f4cc9626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Utility">
+      <UniqueIdentifier>{f0adfae4-98c8-47ec-837e-a4e61d907abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Graphics\DrawObjects">
+      <UniqueIdentifier>{a1090316-4782-4fd5-afb1-4c3a92d5b07d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{9c48f167-2c0b-4ad3-90a0-07168d7587d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\DrawObjects">
+      <UniqueIdentifier>{404b0b2e-af2d-468b-b10b-d4454e9ee64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Entities\Components">
+      <UniqueIdentifier>{3f490ae3-e247-4ef2-a190-db85ae6e1ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Graphics\Renderables">
+      <UniqueIdentifier>{ae233f9f-ee1d-4b3b-877d-2abc4a9f69f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SkyApp.cpp">
@@ -53,6 +65,24 @@
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTriangle.cpp">
+      <Filter>Source Files\Graphics\DrawObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GLWindow.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,26 +95,77 @@
     <ClInclude Include="IViewport.h">
       <Filter>Header Files\Interfaces\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="IEntity.h">
-      <Filter>Header Files\Interfaces\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Header Files\Implementations\Math</Filter>
+      <Filter>Header Files\Concretes\Math</Filter>
     </ClInclude>
     <ClInclude Include="IOCContainer.h">
-      <Filter>Header Files\Implementations\Utility</Filter>
+      <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Rect.h">
-      <Filter>Header Files\Implementations\Math</Filter>
+      <Filter>Header Files\Concretes\Math</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Header Files\ABC</Filter>
     </ClInclude>
     <ClInclude Include="SkyApp.h">
-      <Filter>Header Files\Implementations</Filter>
+      <Filter>Header Files\Concretes</Filter>
     </ClInclude>
     <ClInclude Include="GLWindow.h">
-      <Filter>Header Files\Implementations\Graphics</Filter>
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>Header Files\Interfaces\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderThread.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawObject.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Concretes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files\Concretes\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawTriangle.h">
+      <Filter>Header Files\Concretes\Graphics\DrawObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IntrusiveLinkedList.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyTriangle.h">
+      <Filter>Header Files\Concretes\Graphics\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

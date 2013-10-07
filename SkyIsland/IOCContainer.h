@@ -3,8 +3,9 @@
 #include <map>
 #include <typeinfo>
 #include <string>
+#include "Singleton.h"
 
-class IOCContainer
+class IOCContainer : public Singleton<IOCContainer>
 {
    std::map<std::string, void*> m_typeInstanceMap;
 
@@ -28,10 +29,11 @@ public:
    }
 
    template<typename T>
-   void add(T& obj)
+   void add(T* obj)
    {
-      m_typeInstanceMap[typeid(T).name()] = (void*)&obj;
+      m_typeInstanceMap[typeid(T).name()] = (void*)obj;
    }
 };
 
-static IOCContainer IOC;
+
+#define IOC IOCContainer::instance()

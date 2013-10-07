@@ -1,35 +1,57 @@
 #include <GLFW/glfw3.h>
 #include "SkyApp.h"
+#include "Viewport.h"
+#include "Camera.h"
+#include "Scene.h"
+#include "RenderManager.h"
+
+#include "GraphicsComponent.h"
+#include "PositionComponent.h"
+#include "SkyTriangle.h"
+
 
 class SkyApp : public Application
 {
+   std::string getWindowTitle()
+   {
+      return "Skuy Island Gaem";
+   }
+
+   //Int2 getWindowSize()
+   //{
+   //   return Int2(1920, 1080);
+   //}
+
+   //GLFWmonitor *getWindowMonitor()
+   //{
+   //   return glfwGetPrimaryMonitor();
+   //}
+
+   std::unique_ptr<Scene> scene;
+   std::unique_ptr<Camera> camera;
+   std::shared_ptr<Viewport> viewport;
+
+   Entity test;
+
+   void onAppStart()
+   {
+      scene.reset(new Scene(Float2(800, 600)));
+      camera.reset(new Camera(Rectf(0, 0, 800, 600), *scene));
+      viewport.reset(new Viewport(Rectf(0, 0, 800, 600), *camera));
+
+      m_window->addViewport(viewport);
+
+      test.addComponent<GraphicsComponent>(new GraphicsComponent(std::shared_ptr<IRenderable>(new SkyTriangle())));
+      test.addComponent<PositionComponent>(new PositionComponent(Float2()));
+
+      scene->addEntity(test);
+
+   }
+
    void onStep()
    {
-      float ratio;
-      int width, height;
-      Int2 winSize = m_window->getSize();
-      width = winSize.x;
-      height = winSize.y;
-      ratio = width / (float) height;
-      glViewport(0, 0, width, height);
-      glClear(GL_COLOR_BUFFER_BIT);
-      glMatrixMode(GL_PROJECTION);
-      glLoadIdentity();
-      glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-      glMatrixMode(GL_MODELVIEW);
-      glLoadIdentity();
-      glPushMatrix();
-      glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
-      glBegin(GL_TRIANGLES);
-      glColor3f(1.f, 0.f, 0.f);
-      glVertex3f(-0.6f, -0.4f, 0.f);
-      glColor3f(0.f, 1.f, 0.f);
-      glVertex3f(0.6f, -0.4f, 0.f);
-      glColor3f(0.f, 0.f, 1.f);
-      glVertex3f(0.f, 0.6f, 0.f);
-      glEnd();
-      glPopMatrix();
-      m_window->swapBuffers();
+      IOC.resolve<RenderManager>().render();
+
       m_window->pollEvents();
       
    }
