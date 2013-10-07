@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{6c805a46-066e-4101-b5b9-da9065409807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces\Graphics">
+      <UniqueIdentifier>{b553dfd5-50a7-4ca5-9adc-00c2a54a0cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces\Entities">
+      <UniqueIdentifier>{679d2ba7-6b70-4f69-96a2-50f12ec8708b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Implementations">
+      <UniqueIdentifier>{6b2571f9-e70e-4285-ade5-0f3e07c42f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Implementations\Entities">
+      <UniqueIdentifier>{57084238-1b36-48cc-99c3-5a62d12606b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Implementations\Graphics">
+      <UniqueIdentifier>{8995267e-09a4-4c25-9dd5-06d4fbd848fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Implementations\Math">
+      <UniqueIdentifier>{f368ad0f-85bf-4e7a-9dca-1c35f4cc9626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Implementations\Utility">
+      <UniqueIdentifier>{f0adfae4-98c8-47ec-837e-a4e61d907abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ABC">
+      <UniqueIdentifier>{33d9a725-f754-47db-af38-96284ee6a6e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ICamera.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IViewport.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntity.h">
+      <Filter>Header Files\Interfaces\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\Implementations\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCContainer.h">
+      <Filter>Header Files\Implementations\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Header Files\Implementations\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files\ABC</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyApp.h">
+      <Filter>Header Files\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="GLWindow.h">
+      <Filter>Header Files\Implementations\Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
