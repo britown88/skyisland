@@ -29,7 +29,9 @@ void RenderManager::renderViewport(IViewport &vp)
 void RenderManager::finalizeRender()
 {
    auto &queue = m_renderer->drawQueue();
-
+   
+   glClear(GL_COLOR_BUFFER_BIT);
+   
    for(auto& scene : queue)
       scene->draw();      
 

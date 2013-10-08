@@ -8,9 +8,13 @@
 #include "MeshComponent.h"
 #include "PositionComponent.h"
 #include "RotationComponent.h"
+#include "PhysicsComponents.h"
+#include "Physics.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
+
+#include "CharacterController.h"
 
 class MoveEntityRight : public IKeyEvent
 {
@@ -21,9 +25,10 @@ public:
 
    void run()
    {
-      auto &p = m_entity.getComponent<IPositionComponent>();
+      //auto &p = m_entity.getComponent<IPositionComponent>();
+      //p.setPosition(p.getPosition() + Float2(3.0f, 0.0f));
 
-      p.setPosition(p.getPosition() + Float2(3.0f, 0.0f));
+      m_entity.getComponent<VelocityComponent>().velocity.x = 0.50f;
    }
 
 };
@@ -48,17 +53,24 @@ class SkyApp : public Application
 
    std::unique_ptr<Scene> scene;
    std::unique_ptr<Camera> camera;
+
+   std::unique_ptr<CharacterController> cc;
+
    std::shared_ptr<Viewport> viewport;
+
+   std::shared_ptr<Viewport> viewport2;
 
    Entity test;
 
    void onAppStart()
    {
       scene.reset(new Scene(Float2(800, 600)));
-      camera.reset(new Camera(Rectf(20, 40, 100, 100), *scene));
+      camera.reset(new Camera(Rectf(0, 0, 400, 300), *scene));
       viewport.reset(new Viewport(Rectf(0, 0, 800, 600), *camera));
+      viewport2.reset(new Viewport(Rectf(680, 510, 120, 90), *camera));
 
       m_window->addViewport(viewport);
+      m_window->addViewport(viewport2);
 
       std::vector<Vertex> vertices;
       std::vector<int> indices;
@@ -73,12 +85,19 @@ class SkyApp : public Application
 
       test.addComponent<MeshComponent>(new MeshComponent(vertices, indices));
       test.addComponent<IPositionComponent>(new PositionComponent(Float2()));
-      //test.addComponent<RotationComponent>(new RotationComponent(45.0f, Float2(50.0f, 50.0f)));
+      test.addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
+      test.addComponent<FrictionComponent>(new FrictionComponent(0.01f));
+      test.addComponent<AccelerationComponent>(new AccelerationComponent(0.0f, 0.0f, 5.0f));
+      //test.addComponent<RotationComponent>(new RotationComponent(90.0f, Float2(50.0f, 50.0f)));
 
       scene->addEntity(test);
 
-      auto left = std::unique_ptr<IKeyEvent>(new MoveEntityRight(test));
-      IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), std::move(left));
+      cc = std::unique_ptr<CharacterController>(new CharacterController(test));
+
+      //IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), [&](){this->onStep();});
+
+      //auto left = std::unique_ptr<IKeyEvent>(new MoveEntityRight(test));
+      //IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), std::move(left));
    }
 
    void onStep()
@@ -88,6 +107,7 @@ class SkyApp : public Application
 
       for(auto vp : vps)
       {
+         Physics::updateWorldPhsyics((IScene&)vp->getCamera().getScene(), vp->getCamera().getBounds());
          rm.renderViewport(*vp);
       }
 

@@ -64,6 +64,15 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{1a202342-a1bf-4831-80cf-9846ecba9b67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Concretes\Physics">
+      <UniqueIdentifier>{dd854ad6-64d3-4e74-8e61-9c5c0112e2da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{a05ba518-14d9-41a5-8185-aaed04e51a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\Game">
+      <UniqueIdentifier>{89227e98-33ab-40a4-a449-e14c2e370580}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +117,12 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -130,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Header Files\ABC</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyApp.h">
-      <Filter>Header Files\Concretes</Filter>
     </ClInclude>
     <ClInclude Include="GLWindow.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
@@ -214,6 +226,21 @@
     </ClInclude>
     <ClInclude Include="DrawScene.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponents.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Trig.h">
+      <Filter>Header Files\Concretes\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files\Concretes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyApp.h">
+      <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>Header Files\Concretes\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
