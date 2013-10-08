@@ -102,6 +102,12 @@
     <ClCompile Include="KeyHandler.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="DrawScene.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="KeyHandler.h">
       <Filter>Header Files\Concretes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawScene.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

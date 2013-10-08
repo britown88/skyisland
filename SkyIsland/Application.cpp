@@ -19,7 +19,7 @@ void Application::start()
    else
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
-   RenderManager *rManager = new RenderManager(*m_window);
+   RenderManager *rManager = new RenderManager();
    IOC.add(rManager);
 
    KeyHandler *kHandler = new KeyHandler();

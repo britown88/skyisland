@@ -68,9 +68,11 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DrawScene.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="Renderables.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkyApp.cpp" />
@@ -82,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DrawScene.h" />
     <ClInclude Include="DrawTriangle.h" />
     <ClInclude Include="EntityBuilders.h" />
     <ClInclude Include="GLWindow.h" />

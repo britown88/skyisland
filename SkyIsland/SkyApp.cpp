@@ -55,7 +55,7 @@ class SkyApp : public Application
    void onAppStart()
    {
       scene.reset(new Scene(Float2(800, 600)));
-      camera.reset(new Camera(Rectf(0, 0, 80, 60), *scene));
+      camera.reset(new Camera(Rectf(20, 40, 100, 100), *scene));
       viewport.reset(new Viewport(Rectf(0, 0, 800, 600), *camera));
 
       m_window->addViewport(viewport);
@@ -83,7 +83,16 @@ class SkyApp : public Application
 
    void onStep()
    {
-      IOC.resolve<RenderManager>().render();
+      auto vps = m_window->getViewports();
+      auto &rm = IOC.resolve<RenderManager>();
+
+      for(auto vp : vps)
+      {
+         rm.renderViewport(*vp);
+      }
+
+      rm.finalizeRender();
+      m_window->swapBuffers();
 
       m_window->pollEvents();
       

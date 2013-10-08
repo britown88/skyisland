@@ -5,11 +5,12 @@
 #include "Vertex.h"
 #include "IDrawObject.h"
 #include "Transform.h"
+#include "DrawScene.h"
 
 class IRenderer
 {
 public:
-   typedef std::vector<std::shared_ptr<IDrawObject> > DrawQueue;
+   typedef std::unique_ptr<DrawScene> DScenePtr;
 
    virtual ~IRenderer(){}
 
@@ -17,6 +18,7 @@ public:
 
    //clears the drawobject queue
    virtual void clearQueue()=0;
-   virtual std::unique_ptr<DrawQueue> getDrawQueue()=0;
+   virtual std::vector<DScenePtr> &drawQueue()=0;
+   virtual void newScene(IViewport &vp, ICamera &cam)=0;
 
 };

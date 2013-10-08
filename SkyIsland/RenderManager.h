@@ -5,12 +5,12 @@
 
 class RenderManager
 {
-   GLWindow& m_window;
    std::unique_ptr<IRenderer> m_renderer;
    
 public:
-   RenderManager(GLWindow &window);
+   RenderManager();
 
-   void render();
+   void finalizeRender();
+   void renderViewport(IViewport &vp);
 
 };

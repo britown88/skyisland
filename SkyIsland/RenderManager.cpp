@@ -7,47 +7,32 @@
 
 #include "Renderer.h"
 
-RenderManager::RenderManager(GLWindow &window):m_window(window)
+RenderManager::RenderManager()
 {
    m_renderer.reset(new Renderer());
 }
 
-void RenderManager::render()
+void RenderManager::renderViewport(IViewport &vp)
 {
-   auto vps = m_window.getViewports();
+   ICamera *camera = (ICamera*)&vp.getCamera();
+   IScene *scene = (IScene *)&camera->getScene();
 
-   for(auto vp : vps)
+   m_renderer->newScene(vp, *camera);
+
+   for(auto &ent : *scene->getEntities(camera->getBounds()))
    {
-      const ICamera *camera = &vp->getCamera();
-      IScene *scene = (IScene *)&camera->getScene();
-
-      for(auto &ent : *scene->getEntities(camera->getBounds()))
-      {
-         if(ent.hasComponent<MeshComponent>())
-            buildMeshRenderable(ent)->render(*m_renderer); 
-
-      }
-
-      auto doList = m_renderer->getDrawQueue();
-
-      glViewport(vp->getBounds().left, vp->getBounds().top, vp->getBounds().right, vp->getBounds().bottom);
-      glClear(GL_COLOR_BUFFER_BIT);
-      glMatrixMode(GL_PROJECTION);
-      glLoadIdentity();
-      glOrtho(
-         camera->getBounds().left, 
-         camera->getBounds().right, 
-         camera->getBounds().bottom, -
-         camera->getBounds().top, 
-         1.0f, -1.0f);
-      glMatrixMode(GL_MODELVIEW);
-      glLoadIdentity();
-
-      for(auto DO : *doList)
-         DO->draw();
-
-      m_window.swapBuffers();
-
-      m_renderer->clearQueue();
+      if(ent.hasComponent<MeshComponent>())
+         buildMeshRenderable(ent)->render(*m_renderer); 
    }
 }
+
+void RenderManager::finalizeRender()
+{
+   auto &queue = m_renderer->drawQueue();
+
+   for(auto& scene : queue)
+      scene->draw();      
+
+   m_renderer->clearQueue();
+}
+
