@@ -9,6 +9,25 @@
 #include "PositionComponent.h"
 #include "RotationComponent.h"
 
+#include "IKeyEvent.h"
+#include "KeyHandler.h"
+
+class MoveEntityRight : public IKeyEvent
+{
+   Entity &m_entity;
+public:
+
+   MoveEntityRight(Entity &e):m_entity(e){}
+
+   void run()
+   {
+      auto &p = m_entity.getComponent<IPositionComponent>();
+
+      p.setPosition(p.getPosition() + Float2(3.0f, 0.0f));
+   }
+
+};
+
 
 class SkyApp : public Application
 {
@@ -57,6 +76,9 @@ class SkyApp : public Application
       //test.addComponent<RotationComponent>(new RotationComponent(45.0f, Float2(50.0f, 50.0f)));
 
       scene->addEntity(test);
+
+      auto left = std::unique_ptr<IKeyEvent>(new MoveEntityRight(test));
+      IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), std::move(left));
    }
 
    void onStep()

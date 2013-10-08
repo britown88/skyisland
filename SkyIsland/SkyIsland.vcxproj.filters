@@ -55,6 +55,15 @@
     <Filter Include="Header Files\Concretes\Graphics\Renderables">
       <UniqueIdentifier>{ae233f9f-ee1d-4b3b-877d-2abc4a9f69f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Concretes\Input">
+      <UniqueIdentifier>{2a5e5221-d681-4c09-9dcb-6f335b12019d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces\Input">
+      <UniqueIdentifier>{1c75a7d3-3e8d-4041-8411-b1ccd0ade199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{1a202342-a1bf-4831-80cf-9846ecba9b67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyHandler.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,15 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files\Concretes\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Keystroke.h">
+      <Filter>Header Files\Concretes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="IKeyEvent.h">
+      <Filter>Header Files\Interfaces\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyHandler.h">
+      <Filter>Header Files\Concretes\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -69,6 +69,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
+    <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="Renderables.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -84,6 +85,9 @@
     <ClInclude Include="DrawTriangle.h" />
     <ClInclude Include="EntityBuilders.h" />
     <ClInclude Include="GLWindow.h" />
+    <ClInclude Include="IKeyEvent.h" />
+    <ClInclude Include="KeyHandler.h" />
+    <ClInclude Include="Keystroke.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="IntrusiveLinkedList.h" />
     <ClInclude Include="IPositionComponent.h" />

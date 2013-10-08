@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "Application.h"
 #include "RenderManager.h"
+#include "KeyHandler.h"
 #include "IOCContainer.h"
 
 void Application::start()
@@ -21,6 +22,9 @@ void Application::start()
    RenderManager *rManager = new RenderManager(*m_window);
    IOC.add(rManager);
 
+   KeyHandler *kHandler = new KeyHandler();
+   IOC.add(kHandler);
+
    onAppStart();
 
    m_appRunning = true;   
@@ -39,6 +43,7 @@ void Application::terminate()
    onTerminate();
 
    delete &IOC.resolve<RenderManager>();
+   delete &IOC.resolve<KeyHandler>();
 }
 
 bool Application::isRunning()
@@ -60,3 +65,4 @@ GLFWmonitor *Application::getWindowMonitor()
 {
    return NULL;
 }
+

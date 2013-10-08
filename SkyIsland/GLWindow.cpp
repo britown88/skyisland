@@ -1,8 +1,10 @@
 #include <GLFW/glfw3.h>
 #include "GLWindow.h"
+#include "KeyHandler.h"
 
 void GLWindow::registerCallbacks()
 {
+   glfwSetKeyCallback(m_window, keyCallback);
 }
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)
@@ -72,4 +74,9 @@ void GLWindow::toggleFullscreen()
 Int2 GLWindow::getSize()
 {
    return m_windowSize;
+}
+
+void GLWindow::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
+{
+   IOC.resolve<KeyHandler>().runEvent(Keystroke(key, action, mode));
 }
