@@ -2,7 +2,8 @@
 
 #include "RenderManager.h"
 #include "PositionComponent.h"
-#include "GraphicsComponent.h"
+#include "MeshComponent.h"
+#include "Renderables.h"
 
 #include "Renderer.h"
 
@@ -22,13 +23,9 @@ void RenderManager::render()
 
       for(auto &ent : *scene->getEntities(camera->getBounds()))
       {
-         if(ent.hasComponent<PositionComponent>() && ent.hasComponent<GraphicsComponent>())
-         {
-            auto g = ent.getComponent<GraphicsComponent>();
-            auto p = ent.getComponent<PositionComponent>();
+         if(ent.hasComponent<MeshComponent>())
+            buildMeshRenderable(ent)->render(*m_renderer); 
 
-            g.getRenderable().render(p.getPosition(), *m_renderer);            
-         }
       }
 
       auto doList = m_renderer->getDrawQueue();
@@ -37,7 +34,12 @@ void RenderManager::render()
       glClear(GL_COLOR_BUFFER_BIT);
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
-      glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f);
+      glOrtho(
+         camera->getBounds().left, 
+         camera->getBounds().right, 
+         camera->getBounds().bottom, -
+         camera->getBounds().top, 
+         1.0f, -1.0f);
       glMatrixMode(GL_MODELVIEW);
       glLoadIdentity();
 

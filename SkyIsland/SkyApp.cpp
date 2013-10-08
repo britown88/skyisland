@@ -5,9 +5,9 @@
 #include "Scene.h"
 #include "RenderManager.h"
 
-#include "GraphicsComponent.h"
+#include "MeshComponent.h"
 #include "PositionComponent.h"
-#include "SkyTriangle.h"
+#include "RotationComponent.h"
 
 
 class SkyApp : public Application
@@ -36,16 +36,27 @@ class SkyApp : public Application
    void onAppStart()
    {
       scene.reset(new Scene(Float2(800, 600)));
-      camera.reset(new Camera(Rectf(0, 0, 800, 600), *scene));
+      camera.reset(new Camera(Rectf(0, 0, 80, 60), *scene));
       viewport.reset(new Viewport(Rectf(0, 0, 800, 600), *camera));
 
       m_window->addViewport(viewport);
 
-      test.addComponent<GraphicsComponent>(new GraphicsComponent(std::shared_ptr<IRenderable>(new SkyTriangle())));
-      test.addComponent<PositionComponent>(new PositionComponent(Float2()));
+      std::vector<Vertex> vertices;
+      std::vector<int> indices;
+
+      vertices.push_back(Vertex(Float2(0.0, 0.0f), 1.0f, 0.0f, 0.0f));
+      vertices.push_back(Vertex(Float2(100.0f, 0.0f), 0.f, 1.f, 0.f));
+      vertices.push_back(Vertex(Float2(50.0f, 100.0f), 0.f, 0.f, 1.f));
+
+      indices.push_back(0);
+      indices.push_back(1);
+      indices.push_back(2);
+
+      test.addComponent<MeshComponent>(new MeshComponent(vertices, indices));
+      test.addComponent<IPositionComponent>(new PositionComponent(Float2()));
+      //test.addComponent<RotationComponent>(new RotationComponent(45.0f, Float2(50.0f, 50.0f)));
 
       scene->addEntity(test);
-
    }
 
    void onStep()

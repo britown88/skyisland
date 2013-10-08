@@ -6,5 +6,5 @@ class IRenderable
 {
 public:
    virtual ~IRenderable(){}
-   virtual void render(Float2 drawPos, const IRenderer &renderer) const=0;
+   virtual void render(const IRenderer &renderer) const=0;
 };

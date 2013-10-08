@@ -2,14 +2,17 @@
 
 #include <GLFW/glfw3.h>
 
-DrawTriangle::DrawTriangle(const std::vector<Vertex> & vertices, const std::vector<int> &faces):
-   m_vertices(vertices), m_faces(faces)
+DrawTriangle::DrawTriangle(std::vector<Vertex> vertices, std::vector<int> faces, Transform transform):
+   m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transform(transform)
 {
 }
 
 void DrawTriangle::draw()
 {
    glPushMatrix();
+
+      applyGLTransformation(m_transform);
+
       glBegin(GL_TRIANGLES);
          for(int face : m_faces)
          {

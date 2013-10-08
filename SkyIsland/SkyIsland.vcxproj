@@ -69,22 +69,28 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
+    <ClCompile Include="Renderables.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DrawTriangle.h" />
+    <ClInclude Include="EntityBuilders.h" />
     <ClInclude Include="GLWindow.h" />
-    <ClInclude Include="GraphicsComponent.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="IntrusiveLinkedList.h" />
+    <ClInclude Include="IPositionComponent.h" />
     <ClInclude Include="PositionComponent.h" />
+    <ClInclude Include="Renderables.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IDrawObject.h" />
@@ -100,7 +106,7 @@
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkyApp.h" />
-    <ClInclude Include="SkyTriangle.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Viewport.h" />

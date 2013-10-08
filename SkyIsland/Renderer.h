@@ -3,6 +3,7 @@
 #include "IRenderer.h"
 #include "IDrawObject.h"
 #include "DrawTriangle.h"
+
 #include <vector>
 #include <memory>
 
@@ -16,9 +17,9 @@ public:
       m_drawQueue.reset(new DrawQueue());
    }
 
-   void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces) const
+   void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const
    {
-      m_drawQueue->push_back(std::shared_ptr<IDrawObject>(new DrawTriangle(vertices, faces)));
+      m_drawQueue->push_back(std::shared_ptr<IDrawObject>(new DrawTriangle(vertices, faces, transform)));
    }
 
    std::unique_ptr<DrawQueue> getDrawQueue()

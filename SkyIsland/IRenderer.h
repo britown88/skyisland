@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "Vertex.h"
 #include "IDrawObject.h"
+#include "Transform.h"
 
 class IRenderer
 {
@@ -11,7 +13,7 @@ public:
 
    virtual ~IRenderer(){}
 
-   virtual void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces) const=0;
+   virtual void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const=0;
 
    //clears the drawobject queue
    virtual void clearQueue()=0;

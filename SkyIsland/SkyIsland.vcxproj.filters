@@ -84,6 +84,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Renderables.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -155,17 +161,29 @@
     <ClInclude Include="PositionComponent.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsComponent.h">
-      <Filter>Header Files\Concretes\Entities\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyTriangle.h">
-      <Filter>Header Files\Concretes\Graphics\Renderables</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="IPositionComponent.h">
+      <Filter>Header Files\Interfaces\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderables.h">
+      <Filter>Header Files\Concretes\Graphics\Renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityBuilders.h">
+      <Filter>Header Files\Concretes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Concretes\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
