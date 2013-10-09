@@ -9,6 +9,8 @@ IOCContainer IOC;
 
 void Application::start()
 {
+   srand (time(NULL));
+
    if(!glfwInit())
       throw std::exception("GLFW Failed to initialize");
 
@@ -39,9 +41,18 @@ double Application::getTime()
    return glfwGetTime();
 }
 
+double Application::frameTime()
+{
+   return 1000.0 / m_frameRate;
+}
+
+int Application::rand(int lower, int upper)
+{
+   return (::rand() % (upper - lower)) + lower;
+}
+
 void Application::step()
 {
-
    onStep();
 
    if(m_window->shouldClose())

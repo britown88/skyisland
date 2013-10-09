@@ -12,8 +12,10 @@ static double updateTimestamp = 0.0;
 
 void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
 {
-   double deltaTime = IOC.resolve<Application>().getTime() - updateTimestamp;
-   float dt = deltaTime / 0.01666;
+   auto &app = IOC.resolve<Application>();
+
+   double deltaTime = app.getTime() - updateTimestamp;
+   float dt = deltaTime / (app.frameTime() / 1000.0);
 
    for(auto &ent : *world.getEntities())
    {
@@ -34,8 +36,21 @@ void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
 
                //v.velocity = v.velocity + delta;
 
-               if(fabs(v.velocity.x + delta.x) <= a.maxVelocity) v.velocity.x += delta.x * dt;
-               if(fabs(v.velocity.y + delta.y) <= a.maxVelocity) v.velocity.y += delta.y * dt;                  
+               if(fabs(v.velocity.x + delta.x * dt) <= a.maxVelocity) 
+                  v.velocity.x += delta.x * dt;
+               else
+                  if(v.velocity.x > 0.0f)
+                     v.velocity.x = a.maxVelocity;
+                  else
+                     v.velocity.x = -a.maxVelocity;
+               
+               if(fabs(v.velocity.y + delta.y * dt) <= a.maxVelocity) 
+                  v.velocity.y += delta.y * dt;   
+               else
+                  if(v.velocity.y > 0.0f)
+                     v.velocity.y = a.maxVelocity;
+                  else
+                     v.velocity.y = -a.maxVelocity;
 
             }
 
@@ -56,5 +71,5 @@ void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
       }
    }
 
-   updateTimestamp = IOC.resolve<Application>().getTime();
+   updateTimestamp = app.getTime();
 }

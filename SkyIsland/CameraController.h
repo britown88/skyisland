@@ -12,6 +12,8 @@ class CameraController
    std::unique_ptr<ICameraMoveStrategy> m_strategy;
 
    bool m_clipToScene;
+
+   void targetEntity();
    
 public:
    CameraController(std::shared_ptr<ICamera> camera, std::unique_ptr<ICameraMoveStrategy> strategy);

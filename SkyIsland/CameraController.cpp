@@ -13,9 +13,9 @@ void CameraController::setTarget(Float2 pos){m_targetPos = pos;}
 void CameraController::moveToTarget(){m_pos = Float2(m_targetPos.x, m_targetPos.y);}
 void CameraController::setClipToSceneBounds(bool clip){m_clipToScene = clip;}
 void CameraController::setCameraCenter(Float2 center){m_center = center;}
-void CameraController::followEntity(std::weak_ptr<Entity> entity){m_entity = entity;}
+void CameraController::followEntity(std::weak_ptr<Entity> entity){m_entity = entity; updateCamera();}
 
-void CameraController::updateCamera()
+void CameraController::targetEntity()
 {
    //if following an entity
    if(auto e = m_entity.lock())
@@ -29,11 +29,15 @@ void CameraController::updateCamera()
             m_targetPos += e->getComponent<GraphicalBoundsComponent>().size * 0.5f;
       }
    }
+}
+
+void CameraController::updateCamera()
+{
+   
+   targetEntity();
 
    //update positiona ccording to strategy
-   if(m_pos != m_targetPos)
-      m_pos = m_strategy->moveCamera(m_pos, m_targetPos);
-
+   m_pos = m_strategy->moveCamera(m_pos, m_targetPos);
 
    //clip to world
    if(m_clipToScene)

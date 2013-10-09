@@ -17,6 +17,9 @@ void DrawScene::draw()
    auto camBounds = m_camera.getBounds();
 
    glViewport(vpBounds.left, vpBounds.top, vpBounds.right, vpBounds.bottom);
+   glScissor(vpBounds.left, vpBounds.top, vpBounds.right, vpBounds.bottom);
+   glEnable(GL_SCISSOR_TEST);
+   glClear(GL_COLOR_BUFFER_BIT);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    glOrtho(0, camBounds.width(), camBounds.height(), 0, 1.0f, -1.0f);
