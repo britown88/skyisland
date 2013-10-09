@@ -5,6 +5,8 @@
 #include "KeyHandler.h"
 #include "IOCContainer.h"
 
+IOCContainer IOC;
+
 void Application::start()
 {
    if(!glfwInit())
@@ -25,13 +27,21 @@ void Application::start()
    KeyHandler *kHandler = new KeyHandler();
    IOC.add(kHandler);
 
+   IOC.add(this);
+
    onAppStart();
 
    m_appRunning = true;   
 }
 
+double Application::getTime()
+{
+   return glfwGetTime();
+}
+
 void Application::step()
 {
+
    onStep();
 
    if(m_window->shouldClose())

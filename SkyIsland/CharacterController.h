@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Entity.h"
+#include <memory>
 
 class CharacterController
 {
-   Entity &m_entity;
+   std::weak_ptr<Entity> m_entity;
 
    bool m_running;
    bool upPressed, downPressed, leftPressed, rightPressed;
@@ -21,6 +22,6 @@ class CharacterController
    void onRightRelease();   
 
 public:
-   CharacterController(Entity &entity);
+   CharacterController(std::weak_ptr<Entity> entity);
    ~CharacterController();
 };

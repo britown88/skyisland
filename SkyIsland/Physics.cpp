@@ -2,12 +2,19 @@
 
 #include "IPositionComponent.h"
 #include "PhysicsComponents.h"
+#include "IOCContainer.h"
+#include "Application.h"
 
 #include "Trig.h"
 #include <algorithm>
 
+static double updateTimestamp = 0.0;
+
 void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
 {
+   double deltaTime = IOC.resolve<Application>().getTime() - updateTimestamp;
+   float dt = deltaTime / 0.01666;
+
    for(auto &ent : *world.getEntities())
    {
       if(ent.hasComponent<IPositionComponent>())
@@ -27,8 +34,8 @@ void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
 
                //v.velocity = v.velocity + delta;
 
-               if(fabs(v.velocity.x + delta.x) <= a.maxVelocity) v.velocity.x += delta.x;
-               if(fabs(v.velocity.y + delta.y) <= a.maxVelocity) v.velocity.y += delta.y;                  
+               if(fabs(v.velocity.x + delta.x) <= a.maxVelocity) v.velocity.x += delta.x * dt;
+               if(fabs(v.velocity.y + delta.y) <= a.maxVelocity) v.velocity.y += delta.y * dt;                  
 
             }
 
@@ -36,16 +43,18 @@ void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
             {
                auto &f = ent.getComponent<FrictionComponent>();
 
-               if(v.velocity.x > 0) v.velocity.x = std::max(0.0f, v.velocity.x - f.friction);
-               else if(v.velocity.x < 0) v.velocity.x = std::min(0.0f, v.velocity.x + f.friction);
+               if(v.velocity.x > 0) v.velocity.x = std::max(0.0f, v.velocity.x - f.friction * dt);
+               else if(v.velocity.x < 0) v.velocity.x = std::min(0.0f, v.velocity.x + f.friction * dt);
 
-               if(v.velocity.y > 0) v.velocity.y = std::max(0.0f, v.velocity.y - f.friction);
-               else if(v.velocity.y < 0) v.velocity.y = std::min(0.0f, v.velocity.y + f.friction);               
+               if(v.velocity.y > 0) v.velocity.y = std::max(0.0f, v.velocity.y - f.friction * dt);
+               else if(v.velocity.y < 0) v.velocity.y = std::min(0.0f, v.velocity.y + f.friction * dt);               
 
             }
 
-            p.setPosition(p.getPosition() + v.velocity);
+            p.setPosition(p.getPosition() + v.velocity * dt);
          }
       }
    }
+
+   updateTimestamp = IOC.resolve<Application>().getTime();
 }

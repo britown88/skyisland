@@ -4,13 +4,14 @@
 
 class Camera : public ICamera
 {
-   const IScene& m_scene;
+   IScene& m_scene;
    Rectf m_bounds;
 
 public:
-   Camera(Rectf bounds, const IScene& scene);
+   Camera(Rectf bounds, IScene& scene);
 
-   const IScene& getScene() const;
+   IScene& getScene();
 
-   const Rectf getBounds() const;
+   Rectf getBounds();
+   void setBounds(Rectf bounds);
 };

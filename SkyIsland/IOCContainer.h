@@ -5,7 +5,7 @@
 #include <string>
 #include "Singleton.h"
 
-class IOCContainer : public Singleton<IOCContainer>
+class IOCContainer
 {
    std::map<std::string, void*> m_typeInstanceMap;
 
@@ -36,4 +36,4 @@ public:
 };
 
 
-#define IOC IOCContainer::instance()
+extern IOCContainer IOC;

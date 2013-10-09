@@ -3,4 +3,4 @@
 #include <math.h>
 
 
-#define PI 3.14159265
+static const float PI = 3.14159265f;

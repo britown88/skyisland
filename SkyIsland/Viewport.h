@@ -6,12 +6,12 @@
 class Viewport : public IViewport
 {
    Rectf m_bounds;
-   const Camera &m_camera;
+   Camera &m_camera;
 
 
 public:
-   Viewport(Rectf bounds, const Camera &camera);
+   Viewport(Rectf bounds, Camera &camera);
 
-   const ICamera& getCamera();
+   ICamera& getCamera();
    Rectf getBounds();
 };

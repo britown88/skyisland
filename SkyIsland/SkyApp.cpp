@@ -9,36 +9,22 @@
 #include "PositionComponent.h"
 #include "RotationComponent.h"
 #include "PhysicsComponents.h"
+#include "GraphicComponents.h"
 #include "Physics.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
 
 #include "CharacterController.h"
-
-class MoveEntityRight : public IKeyEvent
-{
-   Entity &m_entity;
-public:
-
-   MoveEntityRight(Entity &e):m_entity(e){}
-
-   void run()
-   {
-      //auto &p = m_entity.getComponent<IPositionComponent>();
-      //p.setPosition(p.getPosition() + Float2(3.0f, 0.0f));
-
-      m_entity.getComponent<VelocityComponent>().velocity.x = 0.50f;
-   }
-
-};
+#include "CameraController.h"
+#include "CameraStrategies.h"
 
 
 class SkyApp : public Application
 {
    std::string getWindowTitle()
    {
-      return "Skuy Island Gaem";
+      return "Square Island Gaem";
    }
 
    //Int2 getWindowSize()
@@ -52,22 +38,23 @@ class SkyApp : public Application
    //}
 
    std::unique_ptr<Scene> scene;
-   std::unique_ptr<Camera> camera;
+   std::shared_ptr<Camera> camera, camera2;
 
    std::unique_ptr<CharacterController> cc;
 
-   std::shared_ptr<Viewport> viewport;
+   std::shared_ptr<Viewport> viewport, viewport2;
 
-   std::shared_ptr<Viewport> viewport2;
+   std::shared_ptr<Entity> test;
 
-   Entity test;
+   std::unique_ptr<CameraController> camControl;
 
    void onAppStart()
    {
       scene.reset(new Scene(Float2(800, 600)));
-      camera.reset(new Camera(Rectf(0, 0, 400, 300), *scene));
+      camera.reset(new Camera(Rectf(0, 0, 1600, 1200), *scene));
+      camera2.reset(new Camera(Rectf(0, 0, 160, 120), *scene));
       viewport.reset(new Viewport(Rectf(0, 0, 800, 600), *camera));
-      viewport2.reset(new Viewport(Rectf(680, 510, 120, 90), *camera));
+      viewport2.reset(new Viewport(Rectf(0, 0, 160, 120), *camera2));
 
       m_window->addViewport(viewport);
       m_window->addViewport(viewport2);
@@ -76,23 +63,34 @@ class SkyApp : public Application
       std::vector<int> indices;
 
       vertices.push_back(Vertex(Float2(0.0, 0.0f), 1.0f, 0.0f, 0.0f));
-      vertices.push_back(Vertex(Float2(100.0f, 0.0f), 0.f, 1.f, 0.f));
-      vertices.push_back(Vertex(Float2(50.0f, 100.0f), 0.f, 0.f, 1.f));
+      vertices.push_back(Vertex(Float2(100.0f, 0.0f), 1.0f, 0.0f, 0.0f));
+      vertices.push_back(Vertex(Float2(100.0f, 100.0f), 1.0f, 1.0f, 1.0f));
+      vertices.push_back(Vertex(Float2(0.0f, 100.0f), 1.0f, 1.0f, 1.0f));
 
-      indices.push_back(0);
-      indices.push_back(1);
-      indices.push_back(2);
+      indices.push_back(0);indices.push_back(1);indices.push_back(3);
+      indices.push_back(1);indices.push_back(3);indices.push_back(2);
 
-      test.addComponent<MeshComponent>(new MeshComponent(vertices, indices));
-      test.addComponent<IPositionComponent>(new PositionComponent(Float2()));
-      test.addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
-      test.addComponent<FrictionComponent>(new FrictionComponent(0.01f));
-      test.addComponent<AccelerationComponent>(new AccelerationComponent(0.0f, 0.0f, 5.0f));
+
+      test = std::make_shared<Entity>();
+      test->addComponent<MeshComponent>(new MeshComponent(vertices, indices));
+      test->addComponent<GraphicalBoundsComponent>(new GraphicalBoundsComponent(Float2(100.0f, 100.0f)));
+      test->addComponent<IPositionComponent>(new PositionComponent(Float2()));
+      test->addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
+      test->addComponent<FrictionComponent>(new FrictionComponent(0.0f));
+      test->addComponent<AccelerationComponent>(new AccelerationComponent(0.0f, 0.0f, 10.0f));
       //test.addComponent<RotationComponent>(new RotationComponent(90.0f, Float2(50.0f, 50.0f)));
 
-      scene->addEntity(test);
+      scene->addEntity(*test);
 
       cc = std::unique_ptr<CharacterController>(new CharacterController(test));
+
+      camControl.reset(new CameraController(
+         camera2, 
+         std::unique_ptr<ICameraMoveStrategy>(new BasicCameraMove())));
+
+      camControl->setCameraCenter(Float2(0.5f, 0.5f));
+      camControl->followEntity(test);
+
 
       //IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), [&](){this->onStep();});
 
@@ -106,14 +104,18 @@ class SkyApp : public Application
       auto &rm = IOC.resolve<RenderManager>();
 
       for(auto vp : vps)
-      {
          Physics::updateWorldPhsyics((IScene&)vp->getCamera().getScene(), vp->getCamera().getBounds());
+      
+      camControl->updateCamera();
+
+      for(auto vp : vps)
          rm.renderViewport(*vp);
-      }
+
 
       rm.finalizeRender();
       m_window->swapBuffers();
 
+      
       m_window->pollEvents();
       
    }

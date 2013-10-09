@@ -11,6 +11,8 @@ public:
    bool isRunning();
    void step();
 
+   double getTime();
+
 protected:
    std::unique_ptr<GLWindow> m_window;
    bool m_appRunning;

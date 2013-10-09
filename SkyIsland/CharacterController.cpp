@@ -6,13 +6,13 @@
 #include "PhysicsComponents.h"
 
 
-CharacterController::CharacterController(Entity &entity):
+CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(entity)
 {
-   m_accel = 0.05f;
+   m_accel = 1.0f;
    m_runAccel = 1.0f;
    m_maxVelocity = 10.0f;
-   m_friction = 0.25f;
+   m_friction = 0.5f;
 
    upPressed = false;
    downPressed = false;
@@ -45,121 +45,159 @@ CharacterController::~CharacterController()
 
 void CharacterController::onUpPress()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
+   {
+      auto &a = e->getComponent<AccelerationComponent>();
+      e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
 
-   a.acceleration = m_accel;
-   a.direction = 90.0f;
-   upPressed = true;
-   downPressed = false;
+      a.acceleration = m_accel;
+
+      a.direction = 90.0f;
+      upPressed = true;
+      downPressed = false;
       
-   if(leftPressed)
-      a.direction = 135.0f; 
-   else if(rightPressed)
-      a.direction = 45.0f;   
+      if(leftPressed)
+         a.direction = 135.0f; 
+      else if(rightPressed)
+         a.direction = 45.0f;   
+   }
+   
 }
 
 void CharacterController::onUpRelease()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
    if(upPressed)
    {
+      auto &a = e->getComponent<AccelerationComponent>();
       upPressed = false;
       if(leftPressed)
          a.direction = 180.0f; 
       else if(rightPressed)
          a.direction = 0.0f;
       else
+      {
          a.acceleration = 0.0f;
+         e->getComponent<FrictionComponent>().friction = m_friction;
+      }
+         
    }
 }
 
 void CharacterController::onLeftPress()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
+   {
+      auto &a = e->getComponent<AccelerationComponent>();
+      e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
 
-   a.acceleration = m_accel;
-   a.direction = 180.0f;
-   leftPressed = true;
-   rightPressed = false;
+      a.acceleration = m_accel;
+      a.direction = 180.0f;
+      leftPressed = true;
+      rightPressed = false;
       
-   if(upPressed)
-      a.direction = 135.0f; 
-   else if(downPressed)
-      a.direction = 225.0f;   
+      if(upPressed)
+         a.direction = 135.0f; 
+      else if(downPressed)
+         a.direction = 225.0f;   
+   }
+
 }
 
 void CharacterController::onLeftRelease()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
    if(leftPressed)
    {
+      auto &a = e->getComponent<AccelerationComponent>();
       leftPressed = false;
       if(upPressed)
          a.direction = 90.0f; 
       else if(downPressed)
          a.direction = 270.0f;
       else
+      {
          a.acceleration = 0.0f;
+         e->getComponent<FrictionComponent>().friction = m_friction;
+      }
    }
 }
 
 void CharacterController::onDownPress()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
+   {
+      auto &a = e->getComponent<AccelerationComponent>();
+      e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
 
-   a.acceleration = m_accel;
-   a.direction = 270.0f;
-   downPressed = true;
-   upPressed = false;
+      a.acceleration = m_accel;
+      a.direction = 270.0f;
+      downPressed = true;
+      upPressed = false;
       
-   if(leftPressed)
-      a.direction = 225.0f; 
-   else if(rightPressed)
-      a.direction = 315.0f;   
+      if(leftPressed)
+         a.direction = 225.0f; 
+      else if(rightPressed)
+         a.direction = 315.0f; 
+   }
+     
 }
 
 void CharacterController::onDownRelease()
-{
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+{   
+   if(auto e = m_entity.lock())
    if(downPressed)
    {
+      auto &a = e->getComponent<AccelerationComponent>();
       downPressed = false;
       if(leftPressed)
          a.direction = 180.0f; 
       else if(rightPressed)
          a.direction = 0.0f;
       else
+      {
          a.acceleration = 0.0f;
+         e->getComponent<FrictionComponent>().friction = m_friction;
+      }
    }
 }
 
 void CharacterController::onRightPress()
 {
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+   if(auto e = m_entity.lock())
+   {
+      auto &a = e->getComponent<AccelerationComponent>();
+      e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
 
-   a.acceleration = m_accel;
-   a.direction = 0.0f;
-   rightPressed = true;
-   leftPressed = false;
+      a.acceleration = m_accel;
+      a.direction = 0.0f;
+      rightPressed = true;
+      leftPressed = false;
       
-   if(upPressed)
-      a.direction = 45.0f; 
-   else if(downPressed)
-      a.direction = 315.0f;   
+      if(upPressed)
+         a.direction = 45.0f; 
+      else if(downPressed)
+         a.direction = 315.0f;  
+   }
 }
 
 void CharacterController::onRightRelease()
-{
-   auto &a = m_entity.getComponent<AccelerationComponent>();
+{   
+   if(auto e = m_entity.lock())
    if(rightPressed)
    {
+      auto &a = e->getComponent<AccelerationComponent>();
+
       rightPressed = false;
       if(upPressed)
          a.direction = 90.0f; 
       else if(downPressed)
          a.direction = 270.0f;
       else
+      {
          a.acceleration = 0.0f;
+         e->getComponent<FrictionComponent>().friction = m_friction;
+      }
    }
 }
 

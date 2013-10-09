@@ -1,7 +1,9 @@
 #include "Camera.h"
 
-Camera::Camera(Rectf bounds, const IScene& scene):m_bounds(bounds), m_scene(scene){}
+Camera::Camera(Rectf bounds, IScene& scene):m_bounds(bounds), m_scene(scene){}
 
-const IScene& Camera::getScene() const{return m_scene;}
+IScene& Camera::getScene() {return m_scene;}
 
-const Rectf Camera::getBounds() const{return m_bounds;}
+Rectf Camera::getBounds(){return m_bounds;}
+
+void Camera::setBounds(Rectf bounds){m_bounds = bounds;}

@@ -8,7 +8,7 @@ class IViewport
 public:
    virtual ~IViewport(){}
 
-   virtual const ICamera& getCamera()=0;
+   virtual ICamera& getCamera()=0;
    virtual Rectf getBounds()=0;
 
 
