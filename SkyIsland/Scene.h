@@ -14,6 +14,6 @@ public:
    Float2 getSize();
    void addEntity(Entity &entity);
 
-   EntityList *getEntities();
-   EntityList *getEntities(const Rectf bounds);
+   EntityList &getEntities();
+   EntityList &getEntities(const Rectf bounds);
 };

@@ -14,8 +14,8 @@ public:
    virtual Float2 getSize() = 0;
    virtual void addEntity(Entity &entity)=0;
 
-   virtual EntityList *getEntities()=0;
-   virtual EntityList *getEntities(const Rectf bounds)=0;
+   virtual EntityList &getEntities()=0;
+   virtual EntityList &getEntities(const Rectf bounds)=0;
 
 
 };

@@ -37,7 +37,7 @@ class SkyApp : public Application
    //   return glfwGetPrimaryMonitor();
    //}
 
-   std::unique_ptr<Scene> scene, UIScene;
+   std::shared_ptr<Scene> scene, UIScene;
    std::shared_ptr<Camera> camera, camera2, UICamera;
    std::unique_ptr<CharacterController> cc;
    std::shared_ptr<Viewport> viewport, viewport2, UIViewport;
@@ -129,15 +129,15 @@ class SkyApp : public Application
       m_frameRate = 60.0f;
 
       UIScene.reset(new Scene(Float2(100, 100)));
-      UICamera.reset(new Camera(Rectf(0, 0, 100, 100), *UIScene));
-      UIViewport.reset(new Viewport(Rectf(25, 25, 210, 210), *UICamera));
+      UICamera.reset(new Camera(Rectf(0, 0, 100, 100), UIScene));
+      UIViewport.reset(new Viewport(Rectf(25, 25, 210, 210), UICamera));
 
       scene.reset(new Scene(Float2(10000, 10000)));
-      camera.reset(new Camera(Rectf(0, 0, 1440, 810), *scene));      
-      viewport.reset(new Viewport(Rectf(0, 0, 1440, 810), *camera));
+      camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
+      viewport.reset(new Viewport(Rectf(0, 0, 1440, 810), camera));
 
-      camera2.reset(new Camera(Rectf(0, 0, 700, 700), *scene));
-      viewport2.reset(new Viewport(Rectf(30, 30, 200, 200), *camera2));
+      camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
+      viewport2.reset(new Viewport(Rectf(30, 30, 200, 200), camera2));
 
       m_window->addViewport(viewport);
       m_window->addViewport(UIViewport);
@@ -174,20 +174,35 @@ class SkyApp : public Application
       //IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), std::move(left));
    }
 
+   void updateViewportPhysics(IViewport &vp)
+   {
+      Physics::updateWorldPhsyics((IScene&)vp.getCamera()->getScene(), vp.getCamera()->getBounds());
+      
+      for(auto &child : vp.getChildren())
+         updateViewportPhysics(child);
+   }
+
+   void updateViewportGraphics(IViewport &vp)
+   {
+      IOC.resolve<RenderManager>().renderViewport(vp);
+
+      for(auto &child : vp.getChildren())
+         updateViewportGraphics(child);
+   }
+
    void onStep()
    {
       auto vps = m_window->getViewports();
       auto &rm = IOC.resolve<RenderManager>();
 
-      for(auto vp : vps)
-         Physics::updateWorldPhsyics((IScene&)vp->getCamera().getScene(), vp->getCamera().getBounds());
-      
+      for(auto &vp : vps)
+         updateViewportPhysics(*vp);
+         
       camControl->updateCamera();
       camControl2->updateCamera();
 
-      for(auto vp : vps)
-         rm.renderViewport(*vp);
-
+      for(auto &vp : vps)
+         updateViewportGraphics(*vp);
 
       rm.finalizeRender();
       m_window->swapBuffers();

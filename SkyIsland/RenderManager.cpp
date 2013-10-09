@@ -14,12 +14,12 @@ RenderManager::RenderManager()
 
 void RenderManager::renderViewport(IViewport &vp)
 {
-   ICamera *camera = (ICamera*)&vp.getCamera();
-   IScene *scene = (IScene *)&camera->getScene();
+   auto &camera = vp.getCamera();
+   auto &scene = camera->getScene();
 
    m_renderer->newScene(vp, *camera);
 
-   for(auto &ent : *scene->getEntities(camera->getBounds()))
+   for(auto &ent : scene.getEntities(camera->getBounds()))
    {
       if(ent.hasComponent<MeshComponent>())
          buildMeshRenderable(ent)->render(*m_renderer); 

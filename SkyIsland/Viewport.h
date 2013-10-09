@@ -6,12 +6,15 @@
 class Viewport : public IViewport
 {
    Rectf m_bounds;
-   Camera &m_camera;
+   std::shared_ptr<ICamera> m_camera;
 
+   ViewportList m_children;
 
 public:
-   Viewport(Rectf bounds, Camera &camera);
+   Viewport(Rectf bounds, std::shared_ptr<ICamera> camera);
 
-   ICamera& getCamera();
+   std::shared_ptr<ICamera> getCamera();
    Rectf getBounds();
+
+   ViewportList &getChildren();
 };

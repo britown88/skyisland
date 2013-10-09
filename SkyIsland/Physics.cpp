@@ -17,7 +17,7 @@ void Physics::updateWorldPhsyics(IScene &world, Rectf viewBounds)
    double deltaTime = app.getTime() - updateTimestamp;
    float dt = deltaTime / (app.frameTime() / 1000.0);
 
-   for(auto &ent : *world.getEntities())
+   for(auto &ent : world.getEntities())
    {
       if(ent.hasComponent<IPositionComponent>())
       {
