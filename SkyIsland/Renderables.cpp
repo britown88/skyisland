@@ -1,5 +1,6 @@
 #include "Renderables.h"
 #include "IPositionComponent.h"
+#include "GraphicComponents.h"
 #include "MeshComponent.h"
 #include "Transform.h"
 
@@ -20,9 +21,23 @@ public:
          auto &mc = entity.getComponent<MeshComponent>();
          auto &pc = entity.getComponent<IPositionComponent>();
          Float2 pos = pc.getPosition();
+         Float2 size = Float2(1.0f, 1.0f);
+         Float2 center = Float2();
+
+         if(entity.hasComponent<GraphicalBoundsComponent>())
+         {
+            auto &gb = entity.getComponent<GraphicalBoundsComponent>();
+            size = gb.size;
+            center = gb.center;
+         }
 
          for(auto &v : mc.vertices())
-            m_vertices.push_back(Vertex(v.position + pos, v.r, v.g, v.b));
+         {
+            float newX = v.position.x * size.x - center.x * size.x + pos.x;
+            float newY = v.position.y * size.y - center.y * size.y + pos.y;
+            m_vertices.push_back(Vertex(Float2(newX, newY), v.r, v.g, v.b));
+         }
+            
 
          for(int i : mc.faces())
             m_faces.push_back(i);

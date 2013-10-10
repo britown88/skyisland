@@ -57,15 +57,15 @@ class SkyApp : public Application
       std::vector<int> indices;
 
       vertices.push_back(Vertex(Float2(0.0, 0.0f), 1.0f, 0.0f, 0.0f));
-      vertices.push_back(Vertex(Float2(size.x, 0.0f), 1.0f, 0.0f, 0.0f));
-      vertices.push_back(Vertex(Float2(size.x, size.y), 1.0f, 1.0f, 1.0f));
-      vertices.push_back(Vertex(Float2(0.0f, size.y), 1.0f, 1.0f, 1.0f));
+      vertices.push_back(Vertex(Float2(1.0f, 0.0f), 1.0f, 0.0f, 0.0f));
+      vertices.push_back(Vertex(Float2(1.0f, 1.0f), 1.0f, 1.0f, 1.0f));
+      vertices.push_back(Vertex(Float2(0.0f, 1.0f), 1.0f, 1.0f, 1.0f));
 
       indices.push_back(0);indices.push_back(1);indices.push_back(3);
       indices.push_back(1);indices.push_back(3);indices.push_back(2);
 
       e->addComponent<MeshComponent>(new MeshComponent(vertices, indices));
-      e->addComponent<GraphicalBoundsComponent>(new GraphicalBoundsComponent(size));
+      e->addComponent<GraphicalBoundsComponent>(new GraphicalBoundsComponent(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(new PositionComponent(position));
       e->addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(new FrictionComponent(0.0f));
@@ -167,7 +167,6 @@ class SkyApp : public Application
 
       eIndex = -1;
       nextEntity();
-
 
       tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
       IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);

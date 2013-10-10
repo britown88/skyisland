@@ -19,16 +19,8 @@ void CameraController::targetEntity()
 {
    //if following an entity
    if(auto e = m_entity.lock())
-   {
       if(e->hasComponent<IPositionComponent>())
-      {
          m_targetPos = e->getComponent<IPositionComponent>().getPosition();
-
-         //center
-         if(e->hasComponent<GraphicalBoundsComponent>())
-            m_targetPos += e->getComponent<GraphicalBoundsComponent>().size * 0.5f;
-      }
-   }
 }
 
 void CameraController::updateCamera()
