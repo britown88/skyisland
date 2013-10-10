@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Vector.h"
+#include "Color.h"
 
 struct Vertex
 {
-   Vertex(Float2 _pos, float _r, float _g, float _b):position(_pos), r(_r), g(_g), b(_b){}
+   Vertex(Float2 _pos, Colorf c):position(_pos), color(c){}
    Float2 position;
-   float r, g, b;
+   Colorf color;
 };

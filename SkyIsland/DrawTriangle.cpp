@@ -17,7 +17,7 @@ void DrawTriangle::draw()
          for(int face : m_faces)
          {
             auto &v = m_vertices[face];
-            glColor3f(v.r, v.g, v.b);
+            glColor3f(v.color.r, v.color.g, v.color.b);
             glVertex3f(v.position.x, v.position.y, 0.0f);
          }
       glEnd();

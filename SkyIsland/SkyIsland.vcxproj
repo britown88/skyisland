@@ -77,6 +77,7 @@
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CameraStrategies.cpp" />
     <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="ComponentHelpers.cpp" />
     <ClCompile Include="DrawScene.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
@@ -97,6 +98,8 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CameraStrategies.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="ComponentHelpers.h" />
     <ClInclude Include="DrawScene.h" />
     <ClInclude Include="DrawTriangle.h" />
     <ClInclude Include="EntityBuilders.h" />

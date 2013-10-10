@@ -129,6 +129,9 @@
     <ClCompile Include="CameraStrategies.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -259,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentHelpers.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

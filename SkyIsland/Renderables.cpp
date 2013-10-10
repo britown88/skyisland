@@ -35,7 +35,7 @@ public:
          {
             float newX = v.position.x * size.x - center.x * size.x + pos.x;
             float newY = v.position.y * size.y - center.y * size.y + pos.y;
-            m_vertices.push_back(Vertex(Float2(newX, newY), v.r, v.g, v.b));
+            m_vertices.push_back(Vertex(Float2(newX, newY), v.color));
          }
             
 

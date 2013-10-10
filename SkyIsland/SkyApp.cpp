@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "RenderManager.h"
+#include "Color.h"
 
 #include "MeshComponent.h"
 #include "PositionComponent.h"
@@ -18,6 +19,8 @@
 #include "CharacterController.h"
 #include "CameraController.h"
 #include "CameraStrategies.h"
+
+#include "ComponentHelpers.h"
 
 
 class SkyApp : public Application
@@ -53,18 +56,9 @@ class SkyApp : public Application
    {
       auto e = std::make_shared<Entity>();
 
-      std::vector<Vertex> vertices;
-      std::vector<int> indices;
+      
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
 
-      vertices.push_back(Vertex(Float2(0.0, 0.0f), 1.0f, 0.0f, 0.0f));
-      vertices.push_back(Vertex(Float2(1.0f, 0.0f), 1.0f, 0.0f, 0.0f));
-      vertices.push_back(Vertex(Float2(1.0f, 1.0f), 1.0f, 1.0f, 1.0f));
-      vertices.push_back(Vertex(Float2(0.0f, 1.0f), 1.0f, 1.0f, 1.0f));
-
-      indices.push_back(0);indices.push_back(1);indices.push_back(3);
-      indices.push_back(1);indices.push_back(3);indices.push_back(2);
-
-      e->addComponent<MeshComponent>(new MeshComponent(vertices, indices));
       e->addComponent<GraphicalBoundsComponent>(new GraphicalBoundsComponent(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(new PositionComponent(position));
       e->addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
@@ -81,18 +75,7 @@ class SkyApp : public Application
    {
       auto e = std::make_shared<Entity>();
 
-      std::vector<Vertex> vertices;
-      std::vector<int> indices;
-
-      vertices.push_back(Vertex(Float2(0.0, 0.0f), 1.0f, 1.0f, 1.0f));
-      vertices.push_back(Vertex(Float2(100.0f, 0.0f), 1.0f, 1.0f, 1.0f));
-      vertices.push_back(Vertex(Float2(100.0f, 100.0f), 1.0f, 1.0f, 1.0f));
-      vertices.push_back(Vertex(Float2(0.0f, 100.0f), 1.0f, 1.0f, 1.0f));
-
-      indices.push_back(0);indices.push_back(1);indices.push_back(3);
-      indices.push_back(1);indices.push_back(3);indices.push_back(2);
-
-      e->addComponent<MeshComponent>(new MeshComponent(vertices, indices));
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 100, 100), Colorf(1.0f, 1.0f, 1.0f));
       e->addComponent<IPositionComponent>(new PositionComponent(Float2()));
       UIScene->addEntity(*e);
 
@@ -104,8 +87,8 @@ class SkyApp : public Application
       if(eIndex >= 0)
       {
          auto &m = eList[eIndex]->getComponent<MeshComponent>();
-         m.vertices()[0].r = 1.0f; m.vertices()[0].g = 0.0f;
-         m.vertices()[1].r = 1.0f; m.vertices()[1].g = 0.0f;
+         m.vertices()[0].color.r = 1.0f; m.vertices()[0].color.g = 0.0f;
+         m.vertices()[1].color.r = 1.0f; m.vertices()[1].color.g = 0.0f;
 
          eList[eIndex]->getComponent<FrictionComponent>().friction = 10.0f;
          eList[eIndex]->getComponent<AccelerationComponent>().acceleration = 0.0f;
@@ -117,8 +100,8 @@ class SkyApp : public Application
          eIndex = 0;
 
       auto &m = eList[eIndex]->getComponent<MeshComponent>();
-      m.vertices()[0].r = 0.0f; m.vertices()[0].g = 1.0f;
-      m.vertices()[1].r = 0.0f; m.vertices()[1].g = 1.0f;
+      m.vertices()[0].color.r = 0.0f; m.vertices()[0].color.g = 1.0f;
+      m.vertices()[1].color.r = 0.0f; m.vertices()[1].color.g = 1.0f;
 
       cc.reset();
       cc = std::unique_ptr<CharacterController>(new CharacterController(eList[eIndex]));
