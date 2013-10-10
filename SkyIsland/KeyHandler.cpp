@@ -1,18 +1,13 @@
 #include "KeyHandler.h"
 
-void KeyHandler::registerEvent(Keystroke key, std::function<void()> e)
+void KeyHandler::registerEvent(Keystroke key, KeyEvent *e)
 {
-   m_events[key.hash()] = e;
-}
-
-void KeyHandler::unregisterEvent(Keystroke key)
-{
-   if(m_events.find(key.hash()) != m_events.end())
-      m_events.erase(key.hash());
+   m_events[key.hash()].push_back(e);
 }
 
 void KeyHandler::runEvent(Keystroke key)
 {
    if(m_events.find(key.hash()) != m_events.end())
-      m_events[key.hash()]();
+      for(auto &e : m_events[key.hash()])
+         e.fn();
 }

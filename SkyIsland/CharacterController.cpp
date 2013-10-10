@@ -1,8 +1,9 @@
 #include <GLFW/glfw3.h>
+
 #include "CharacterController.h"
 
 #include "IOCContainer.h"
-#include "KeyHandler.h"
+
 #include "PhysicsComponents.h"
 
 
@@ -19,28 +20,22 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    leftPressed = false;
    rightPressed = false;
 
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), [&](){this->onRightPress();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_RELEASE, 0), [&](){this->onRightRelease();});   
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_LEFT, GLFW_PRESS, 0), [&](){this->onLeftPress();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_LEFT, GLFW_RELEASE, 0), [&](){this->onLeftRelease();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_UP, GLFW_PRESS, 0), [&](){this->onUpPress();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_UP, GLFW_RELEASE, 0), [&](){this->onUpRelease();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_DOWN, GLFW_PRESS, 0), [&](){this->onDownPress();});
-   IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0), [&](){this->onDownRelease();});
+   
+   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), KeyEvent([&](){this->onRightPress();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_RELEASE, 0), KeyEvent([&](){this->onRightRelease();}));   
+   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, GLFW_PRESS, 0), KeyEvent([&](){this->onLeftPress();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, GLFW_RELEASE, 0), KeyEvent([&](){this->onLeftRelease();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_UP, GLFW_PRESS, 0), KeyEvent([&](){this->onUpPress();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_UP, GLFW_RELEASE, 0), KeyEvent([&](){this->onUpRelease();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_PRESS, 0), KeyEvent([&](){this->onDownPress();}));
+   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0), KeyEvent([&](){this->onDownRelease();}));
 
 }
 
-CharacterController::~CharacterController()
+void CharacterController::registerKeyEvent(Keystroke k, KeyEvent e)
 {
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_RELEASE, 0));   
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_LEFT, GLFW_PRESS, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_LEFT, GLFW_RELEASE, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_UP, GLFW_PRESS, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_UP, GLFW_RELEASE, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_DOWN, GLFW_PRESS, 0));
-   IOC.resolve<KeyHandler>().unregisterEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0));
-
+   m_events.push_back(std::move(e));
+   IOC.resolve<KeyHandler>().registerEvent(k, &m_events[m_events.size()-1]);
 }
 
 void CharacterController::onUpPress()

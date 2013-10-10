@@ -47,6 +47,8 @@ class SkyApp : public Application
 
    int eIndex;
 
+   KeyEvent tabEvent;
+
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
    {
       auto e = std::make_shared<Entity>();
@@ -167,11 +169,9 @@ class SkyApp : public Application
       nextEntity();
 
 
+      tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
+      IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
 
-      IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), [&](){this->nextEntity();});
-
-      //auto left = std::unique_ptr<IKeyEvent>(new MoveEntityRight(test));
-      //IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), std::move(left));
    }
 
    void updateViewportPhysics(IViewport &vp)
