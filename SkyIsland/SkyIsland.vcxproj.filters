@@ -73,6 +73,12 @@
     <Filter Include="Header Files\Concretes\Game">
       <UniqueIdentifier>{89227e98-33ab-40a4-a449-e14c2e370580}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ABC\UI">
+      <UniqueIdentifier>{d529d66c-3f9e-4833-a80a-9651394e3ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{da33a58e-d4c5-4520-ad78-af04549eb341}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="ComponentHelpers.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UISystem.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="ComponentHelpers.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UISystem.h">
+      <Filter>Header Files\ABC\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

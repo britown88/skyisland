@@ -2,4 +2,4 @@
 
 #include "Application.h"
 
-std::unique_ptr<Application> getSkyApp();
+std::shared_ptr<Application> getSkyApp();

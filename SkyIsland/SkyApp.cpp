@@ -59,12 +59,12 @@ class SkyApp : public Application
       
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
 
-      e->addComponent<GraphicalBoundsComponent>(new GraphicalBoundsComponent(size, Float2(0.5f, 0.5f)));
-      e->addComponent<IPositionComponent>(new PositionComponent(position));
-      e->addComponent<VelocityComponent>(new VelocityComponent(Float2(0.0f, 0.0f)));
-      e->addComponent<FrictionComponent>(new FrictionComponent(0.0f));
-      e->addComponent<AccelerationComponent>(new AccelerationComponent(0.0f, 0.0f, 25.0f));
-      //test.addComponent<RotationComponent>(new RotationComponent(90.0f, Float2(50.0f, 50.0f)));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
+      e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
+      e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
+      e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
+      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 25.0f));
+      //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
       scene->addEntity(*e);
 
@@ -76,7 +76,7 @@ class SkyApp : public Application
       auto e = std::make_shared<Entity>();
 
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 100, 100), Colorf(1.0f, 1.0f, 1.0f));
-      e->addComponent<IPositionComponent>(new PositionComponent(Float2()));
+      e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(Float2()));
       UIScene->addEntity(*e);
 
       return e;
@@ -197,7 +197,7 @@ class SkyApp : public Application
 };
 
 
-std::unique_ptr<Application> getSkyApp()
+std::shared_ptr<Application> getSkyApp()
 {
-   return std::unique_ptr<Application>(new SkyApp());
+   return std::make_shared<SkyApp>();
 }

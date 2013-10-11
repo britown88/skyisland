@@ -7,6 +7,8 @@
 #include <vector>
 #include <memory>
 
+#include "IOCContainer.h"
+
 class IScene
 {
 public:

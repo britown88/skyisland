@@ -23,13 +23,11 @@ void Application::start()
    else
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
-   RenderManager *rManager = new RenderManager();
-   IOC.add(rManager);
 
-   KeyHandler *kHandler = new KeyHandler();
-   IOC.add(kHandler);
+   IOC.add<RenderManager>(std::make_shared<RenderManager>());
+   IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
+   IOC.add<Application>(getptr());
 
-   IOC.add(this);
 
    onAppStart();
 
@@ -62,9 +60,6 @@ void Application::step()
 void Application::terminate()
 {
    onTerminate();
-
-   delete &IOC.resolve<RenderManager>();
-   delete &IOC.resolve<KeyHandler>();
 }
 
 bool Application::isRunning()

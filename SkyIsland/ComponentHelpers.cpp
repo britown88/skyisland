@@ -23,7 +23,7 @@ void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf c1, Colorf c2, Colo
    indices.push_back(0);indices.push_back(1);indices.push_back(3);
    indices.push_back(1);indices.push_back(3);indices.push_back(2);
 
-   e.addComponent<MeshComponent>(new MeshComponent(vertices, indices));
+   e.addComponent<MeshComponent>(std::make_shared<MeshComponent>(vertices, indices));
 }
 
 }

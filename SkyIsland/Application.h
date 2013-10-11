@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h> 
 
-class Application
+class Application : std::enable_shared_from_this<Application>
 {
 public:
    void start();
@@ -17,6 +17,8 @@ public:
    double frameTime();
 
    int rand(int lower, int upper);
+
+   std::shared_ptr<Application> getptr() {return shared_from_this();}
 
 protected:
    std::unique_ptr<GLWindow> m_window;

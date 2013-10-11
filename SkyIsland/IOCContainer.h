@@ -3,17 +3,17 @@
 #include <map>
 #include <typeinfo>
 #include <string>
-#include "Singleton.h"
+#include <memory>
 
 class IOCContainer
 {
-   std::map<std::string, void*> m_typeInstanceMap;
+   std::map<std::string, std::shared_ptr<void>> m_typeInstanceMap;
 
 public:
    template<typename T>
    T& resolve()
    {
-      return *(T*)m_typeInstanceMap[typeid(T).name()];
+      return *std::static_pointer_cast<T>(m_typeInstanceMap[typeid(T).name()]);
    }
 
    template<typename T>
@@ -29,9 +29,9 @@ public:
    }
 
    template<typename T>
-   void add(T* obj)
+   void add(std::shared_ptr<T> obj)
    {
-      m_typeInstanceMap[typeid(T).name()] = (void*)obj;
+      m_typeInstanceMap[typeid(T).name()] = obj;
    }
 };
 

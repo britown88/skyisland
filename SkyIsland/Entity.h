@@ -12,9 +12,9 @@ public:
    IntrusiveListHook hook;
 
    template<typename T>
-   void addComponent(T *comp)
+   void addComponent(std::shared_ptr<T> comp)
    {
-      components.add<T>(comp);
+      components.add<T>(std::move(comp));
    }
 
    template<typename T>
