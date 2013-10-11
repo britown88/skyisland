@@ -1,10 +1,12 @@
 #include <GLFW/glfw3.h>
 #include "GLWindow.h"
 #include "KeyHandler.h"
+#include "MouseHandler.h"
 
 void GLWindow::registerCallbacks()
 {
    glfwSetKeyCallback(m_window, keyCallback);
+   glfwSetMouseButtonCallback(m_window, mouseCallback);
 }
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)
@@ -90,7 +92,20 @@ Int2 GLWindow::getSize()
    return m_windowSize;
 }
 
+Float2 GLWindow::getMousePosition()
+{
+   double x, y;
+   glfwGetCursorPos(m_window, &x, &y);
+
+   return Float2(x, y);
+}
+
 void GLWindow::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
    IOC.resolve<KeyHandler>().runEvent(Keystroke(key, action, mode));
+}
+
+void GLWindow::mouseCallback(GLFWwindow *window, int button, int action, int mode)
+{
+   IOC.resolve<MouseHandler>().runEvent(Keystroke(button, action, mode));
 }

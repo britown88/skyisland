@@ -81,6 +81,7 @@
     <ClCompile Include="DrawScene.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
+    <ClCompile Include="MouseHandler.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Renderables.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="IntrusiveLinkedList.h" />
     <ClInclude Include="IPositionComponent.h" />
+    <ClInclude Include="MouseHandler.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Renderables.h" />

@@ -22,6 +22,7 @@ class GLWindow
    ViewportList m_viewports;
 
    static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
+   static void mouseCallback(GLFWwindow *window, int button, int action, int mode);
 
 public:
    
@@ -42,5 +43,6 @@ public:
    int shouldClose();
 
    Int2 getSize();
+   Float2 getMousePosition();
 
 };

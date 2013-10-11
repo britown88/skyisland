@@ -4,6 +4,7 @@
 #include "RenderManager.h"
 #include "KeyHandler.h"
 #include "IOCContainer.h"
+#include "MouseHandler.h"
 
 IOCContainer IOC;
 
@@ -23,9 +24,11 @@ void Application::start()
    else
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
+   //global systems
    IOC.add<GLWindow>(m_window);
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
+   IOC.add<MouseHandler>(std::make_shared<MouseHandler>());
    IOC.add<Application>(getptr());
 
 

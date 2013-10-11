@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.h"
+
 template<typename T>
 class Rect2
 {
@@ -10,6 +12,11 @@ public:
 
    T width(){return right - left;}
    T height(){return bottom - top;}
+
+   bool contains(Vector2<T> pos)
+   {
+      return pos.x >= left && pos.x < right && pos.y >= top && pos.y < bottom;
+   }
 };
 
 typedef Rect2<int> Recti;

@@ -144,6 +144,9 @@
     <ClCompile Include="RenderThread.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="MouseHandler.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="UISystem.h">
       <Filter>Header Files\ABC\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseHandler.h">
+      <Filter>Header Files\Concretes\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

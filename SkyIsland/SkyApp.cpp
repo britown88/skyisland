@@ -15,6 +15,7 @@
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
+#include "MouseHandler.h"
 
 #include "CharacterController.h"
 #include "CameraController.h"
@@ -51,6 +52,7 @@ class SkyApp : public Application
    int eIndex;
 
    KeyEvent tabEvent;
+   MouseEvent clickEvent;
 
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
    {
@@ -154,6 +156,17 @@ class SkyApp : public Application
       tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
       IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
 
+
+      clickEvent = std::move(MouseEvent([&](Float2 pos)
+      {
+         auto cb = camera->getBounds();
+         auto &posComp = eList[eIndex]->getComponent<IPositionComponent>();
+
+         posComp.setPosition(pos + Float2(cb.left, cb.top));
+
+      }, std::make_shared<Rectf>(0, 0, getWindowSize().x, getWindowSize().y)));
+
+      IOC.resolve<MouseHandler>().registerEvent(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
    }
 
    void updateViewportPhysics(IViewport &vp)
