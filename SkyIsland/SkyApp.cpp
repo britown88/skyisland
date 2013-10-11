@@ -187,8 +187,6 @@ class SkyApp : public Application
          updateViewportGraphics(*vp);
 
       rm.finalizeRender();
-      m_window->swapBuffers();
-
       
       m_window->pollEvents();
       

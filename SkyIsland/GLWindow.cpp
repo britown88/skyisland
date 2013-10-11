@@ -9,28 +9,41 @@ void GLWindow::registerCallbacks()
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)
 {
+   glfwWindowHint( GLFW_VISIBLE, GL_FALSE );
+   m_threadWin = glfwCreateWindow( 1, 1, "Thread Window", NULL, NULL );
+
+   glfwWindowHint( GLFW_VISIBLE, GL_TRUE );
    glfwWindowHint(GLFW_RESIZABLE, 0);
-   m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), NULL, NULL);
+   m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), NULL, m_threadWin);
 
    if(!m_window)
       throw std::exception("Window failed to create");
 
    glfwGetFramebufferSize(m_window, &m_windowSize.x, &m_windowSize.y);
-   glfwMakeContextCurrent(m_window);
+   glfwMakeContextCurrent(m_threadWin);
 
    m_fullscreen = false;
    registerCallbacks();
 }
 
+void GLWindow::makeContextCurrent()
+{
+   glfwMakeContextCurrent(m_window);
+}
+
 GLWindow::GLWindow(Int2 winSize, std::string windowName, GLFWmonitor *monitor)
 {
-   m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), monitor, NULL);
+   glfwWindowHint( GLFW_VISIBLE, GL_FALSE );
+   m_threadWin = glfwCreateWindow( 1, 1, "Thread Window", NULL, NULL );
+
+   glfwWindowHint( GLFW_VISIBLE, GL_TRUE );
+   m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), monitor, m_threadWin);
 
    if(!m_window)
       throw std::exception("Window failed to create");
 
    glfwGetFramebufferSize(m_window, &m_windowSize.x, &m_windowSize.y);
-   glfwMakeContextCurrent(m_window);
+   glfwMakeContextCurrent(m_threadWin);
 
    m_fullscreen = true;
    registerCallbacks();
@@ -38,6 +51,7 @@ GLWindow::GLWindow(Int2 winSize, std::string windowName, GLFWmonitor *monitor)
 
 GLWindow::~GLWindow()
 {
+   glfwDestroyWindow(m_threadWin);
    glfwDestroyWindow(m_window);
    glfwTerminate();
 }

@@ -10,6 +10,13 @@
 RenderManager::RenderManager()
 {
    m_renderer.reset(new Renderer());
+   m_renderThread.reset(new RenderThread());
+   m_renderThread->start();
+}
+
+RenderManager::~RenderManager()
+{
+   m_renderThread->stop();
 }
 
 void RenderManager::renderViewport(IViewport &vp)
@@ -28,13 +35,7 @@ void RenderManager::renderViewport(IViewport &vp)
 
 void RenderManager::finalizeRender()
 {
-   auto &queue = m_renderer->drawQueue();
-   
-   glClear(GL_COLOR_BUFFER_BIT);
-   
-   for(auto& scene : queue)
-      scene->draw();      
+   m_renderThread->resetQueue(std::move(m_renderer->drawQueue()));     
 
-   m_renderer->clearQueue();
 }
 

@@ -85,6 +85,7 @@
     <ClCompile Include="Renderables.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="RenderThread.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />

@@ -23,7 +23,7 @@ void Application::start()
    else
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
-
+   IOC.add<GLWindow>(m_window);
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
    IOC.add<Application>(getptr());

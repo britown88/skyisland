@@ -13,7 +13,7 @@ class GLWindow
 {
    typedef std::vector<std::shared_ptr<IViewport> > ViewportList;
 
-   GLFWwindow* m_window;
+   GLFWwindow* m_window, *m_threadWin;
    Int2 m_windowSize;   
    bool m_fullscreen;
 
@@ -34,6 +34,8 @@ public:
    const ViewportList &getViewports();
 
    void toggleFullscreen();
+
+   void makeContextCurrent();
 
    void pollEvents();
    void swapBuffers();

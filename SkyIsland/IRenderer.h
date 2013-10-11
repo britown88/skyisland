@@ -11,14 +11,13 @@ class IRenderer
 {
 public:
    typedef std::unique_ptr<DrawScene> DScenePtr;
-
+   typedef std::unique_ptr<std::vector<DScenePtr>> SceneList;
+   
    virtual ~IRenderer(){}
 
    virtual void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const=0;
 
-   //clears the drawobject queue
-   virtual void clearQueue()=0;
-   virtual std::vector<DScenePtr> &drawQueue()=0;
+   virtual SceneList drawQueue()=0;
    virtual void newScene(IViewport &vp, ICamera &cam)=0;
 
 };

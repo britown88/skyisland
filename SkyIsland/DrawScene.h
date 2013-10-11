@@ -14,8 +14,8 @@ public:
 
 private:
    DrawQueue m_drawQueue;
-   IViewport &m_viewport;
-   ICamera &m_camera;
+   Rectf m_vpBounds;
+   Rectf m_camBounds;
 
 public:
    typedef std::vector<std::unique_ptr<IDrawObject> > DrawQueue;

@@ -21,7 +21,7 @@ public:
    std::shared_ptr<Application> getptr() {return shared_from_this();}
 
 protected:
-   std::unique_ptr<GLWindow> m_window;
+   std::shared_ptr<GLWindow> m_window;
    bool m_appRunning;
 
    double m_frameRate;

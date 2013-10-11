@@ -9,12 +9,13 @@
 
 class Renderer : public IRenderer
 {
-   std::vector<DScenePtr> m_drawQueue;
+   SceneList m_drawQueue;
 
 public:
+   Renderer();
+
    void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const;
 
-   std::vector<DScenePtr> &drawQueue();
-   void clearQueue();
+   SceneList drawQueue();
    void newScene(IViewport &vp, ICamera &cam);
 };
