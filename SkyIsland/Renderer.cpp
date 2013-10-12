@@ -34,6 +34,7 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
       if(db.contains(vb))
       {
          Rectf i = db.intersection(vb);
+         Rectf correctedBounds = Rectf(i.left, winSize.y - i.bottom, i.width(), i.height());
          vp.setDrawnBounds(i);
 
          if(i.width() == vb.width() && i.height() == vb.height())
@@ -45,7 +46,7 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
          else
          {
             //vp intersects with parents, set scissor rect
-            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam, i)));
+            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam, correctedBounds)));
             return true;
          }
 

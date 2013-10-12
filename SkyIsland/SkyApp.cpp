@@ -126,7 +126,7 @@ class SkyApp : public Application
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
 
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
-      viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
+      viewport2.reset(new Viewport(Float2(130, 130), Float2(200, 200), Float2(), camera2));
 
       viewport->addChild(UIViewport);
       UIViewport->addChild(viewport2);
