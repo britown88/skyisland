@@ -7,7 +7,8 @@
 
 class Viewport : public IViewport
 {
-   Rectf m_bounds, m_drawnBounds;
+   Float2 m_size, m_pos, m_center;
+   Rectf m_drawnBounds;
    std::shared_ptr<ICamera> m_camera;
 
    ViewportList m_children;
@@ -16,7 +17,7 @@ class Viewport : public IViewport
    std::weak_ptr<IViewport> m_parent;
 
 public:
-   Viewport(Rectf bounds, std::shared_ptr<ICamera> camera);
+   Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera);
    std::weak_ptr<IViewport> getParent();
    void setParent(std::weak_ptr<IViewport> parent);
    std::shared_ptr<ICamera> getCamera();

@@ -2,10 +2,21 @@
 
 #include "Application.h"
 
-Viewport::Viewport(Rectf bounds, std::shared_ptr<ICamera> camera):m_bounds(bounds), m_camera(camera){}
+Viewport::Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera):
+   m_pos(position), m_size(size), m_center(center), m_camera(camera){}
 std::weak_ptr<IViewport> Viewport::getParent(){return m_parent;}
 std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
-Rectf Viewport::getBounds(){return m_bounds;}
+
+Rectf Viewport::getBounds()
+{
+   auto &winSize = IOC.resolve<Application>().windowSize();
+   Rectf bounds = getWindowBounds();
+   return Rectf(
+      bounds.left,
+      winSize.y - bounds.bottom,
+      bounds.width(),
+      bounds.height());
+}
 
 void Viewport::setParent(std::weak_ptr<IViewport> parent)
 {
@@ -14,12 +25,13 @@ void Viewport::setParent(std::weak_ptr<IViewport> parent)
 
 Rectf Viewport::getWindowBounds()
 {
-   auto &winSize = IOC.resolve<Application>().windowSize();
-   return Rectf(
-      m_bounds.left,
-      winSize.y - m_bounds.top - m_bounds.bottom,
-      m_bounds.left + m_bounds.right,
-      winSize.y - m_bounds.top);
+   Rectf newBounds;
+   newBounds.left = m_pos.x - m_size.x * m_center.x;
+   newBounds.top = m_pos.y - m_size.y * m_center.y;
+   newBounds.right = newBounds.left + m_size.x;
+   newBounds.bottom = newBounds.top + m_size.y;
+
+   return newBounds;
 }
 Rectf Viewport::getDrawnBounds(){return m_drawnBounds;}
 void Viewport::setDrawnBounds(Rectf bounds){m_drawnBounds = bounds;}

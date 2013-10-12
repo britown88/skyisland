@@ -27,19 +27,14 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
 
    if(auto &parent = vp.getParent().lock())
    {
-      auto db_ = parent->getDrawnBounds();
-      auto vb_ = vp.getBounds();
-
-      //convert to sensible coordinate system
-      Rectf db = Rectf(db_.left, winSize.y - db_.top - db_.bottom, db_.left + db_.right, winSize.y - db_.top);
-      Rectf vb = Rectf(vb_.left, winSize.y - vb_.top - vb_.bottom, vb_.left + vb_.right, winSize.y - vb_.top);
+      auto db = parent->getDrawnBounds();
+      auto vb = vp.getWindowBounds();
 
       //panel intersects or is within parent
       if(db.contains(vb))
       {
          Rectf i = db.intersection(vb);
-         Rectf correctedBounds = Rectf(i.left, winSize.y - i.bottom, i.width(), i.height());
-         vp.setDrawnBounds(correctedBounds);
+         vp.setDrawnBounds(i);
 
          if(i.width() == vb.width() && i.height() == vb.height())
          {
@@ -50,7 +45,7 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
          else
          {
             //vp intersects with parents, set scissor rect
-            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam, correctedBounds)));
+            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam, i)));
             return true;
          }
 
@@ -61,7 +56,7 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
    }
 
    //vp has no parent, so draw
-   vp.setDrawnBounds(vp.getBounds());
+   vp.setDrawnBounds(vp.getWindowBounds());
    m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam)));
 
    return true;

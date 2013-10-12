@@ -119,14 +119,14 @@ class SkyApp : public Application
 
       UIScene.reset(new Scene(Float2(100, 100)));
       UICamera.reset(new Camera(Rectf(0, 0, 100, 100), UIScene));
-      UIViewport.reset(new Viewport(Rectf(25, 25, 210, 210), UICamera));
+      UIViewport.reset(new Viewport(Float2(25, 25), Float2(210, 210), Float2(), UICamera));
 
       scene.reset(new Scene(Float2(10000, 10000)));
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
-      viewport.reset(new Viewport(Rectf(0, 0, 1440, 810), camera));
+      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
 
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
-      viewport2.reset(new Viewport(Rectf(30, 30, 200, 200), camera2));
+      viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
 
       viewport->addChild(UIViewport);
       UIViewport->addChild(viewport2);
