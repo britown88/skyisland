@@ -2,17 +2,19 @@
 
 #include "Keystroke.h"
 #include "IKeyEvent.h"
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <functional>
 #include "Event.h"
+
+#include "ObjectHash.h"
 
 typedef Event<void()> KeyEvent;
 typedef IntrusiveList<KeyEvent, &KeyEvent::hook> KeyEventList;
 
 class KeyHandler
 {
-   std::map<size_t, KeyEventList> m_events;
+   std::unordered_map<Keystroke, KeyEventList, ObjectHash<Keystroke>> m_events;
 public:
    void registerEvent(Keystroke key, KeyEvent *e);
 

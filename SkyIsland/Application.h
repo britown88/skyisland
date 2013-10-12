@@ -13,6 +13,8 @@ public:
    bool isRunning();
    void step();
 
+   Int2 windowSize();
+
    double getTime();
    double frameTime();
 
@@ -26,7 +28,7 @@ protected:
 
    double m_frameRate;
 
-   virtual Int2 getWindowSize();
+   virtual Int2 getDefaultWindowSize();
    virtual std::string getWindowTitle();
    virtual GLFWmonitor *getWindowMonitor();
 

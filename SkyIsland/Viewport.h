@@ -2,6 +2,8 @@
 
 #include "IViewport.h"
 #include "Camera.h"
+#include "ObjectHash.h"
+#include <unordered_map>
 
 class Viewport : public IViewport
 {
@@ -10,11 +12,20 @@ class Viewport : public IViewport
 
    ViewportList m_children;
 
+   std::unordered_map<Keystroke, MouseEventList, ObjectHash<Keystroke>> m_mouseCallbacks;
+
 public:
    Viewport(Rectf bounds, std::shared_ptr<ICamera> camera);
 
    std::shared_ptr<ICamera> getCamera();
    Rectf getBounds();
+   Rectf getWindowBounds();
+
+   void update();
 
    ViewportList &getChildren();
+
+   bool hasMouseCallback(Keystroke k);
+   void registerMouseCallback(Keystroke k, MouseEvent *e);
+   void runMouseCallback(Keystroke k, Float2 pos);
 };

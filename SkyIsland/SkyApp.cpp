@@ -31,7 +31,7 @@ class SkyApp : public Application
       return "Square Island Gaem";
    }
 
-   Int2 getWindowSize()
+   Int2 getDefaultWindowSize()
    {
       return Int2(1440, 810);
    }
@@ -164,9 +164,11 @@ class SkyApp : public Application
 
          posComp.setPosition(pos + Float2(cb.left, cb.top));
 
-      }, std::make_shared<Rectf>(0, 0, getWindowSize().x, getWindowSize().y)));
+      }));
 
-      IOC.resolve<MouseHandler>().registerEvent(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
+      viewport->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
+
+      //IOC.resolve<MouseHandler>().registerEvent(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
    }
 
    void updateViewportPhysics(IViewport &vp)

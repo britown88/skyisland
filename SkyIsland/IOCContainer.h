@@ -1,13 +1,13 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <typeinfo>
 #include <string>
 #include <memory>
 
 class IOCContainer
 {
-   std::map<std::string, std::shared_ptr<void>> m_typeInstanceMap;
+   std::unordered_map<std::string, std::shared_ptr<void>> m_typeInstanceMap;
 
 public:
    template<typename T>

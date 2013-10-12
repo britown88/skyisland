@@ -92,7 +92,6 @@
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UISystem.cpp" />
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +115,7 @@
     <ClInclude Include="IntrusiveLinkedList.h" />
     <ClInclude Include="IPositionComponent.h" />
     <ClInclude Include="MouseHandler.h" />
+    <ClInclude Include="ObjectHash.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Renderables.h" />
@@ -138,7 +138,6 @@
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Trig.h" />
-    <ClInclude Include="UISystem.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="PhysicsComponents.h" />
     <ClInclude Include="Vertex.h" />

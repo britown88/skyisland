@@ -138,9 +138,6 @@
     <ClCompile Include="ComponentHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UISystem.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
     <ClCompile Include="RenderThread.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -284,11 +281,11 @@
     <ClInclude Include="ComponentHelpers.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="UISystem.h">
-      <Filter>Header Files\ABC\UI</Filter>
-    </ClInclude>
     <ClInclude Include="MouseHandler.h">
       <Filter>Header Files\Concretes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectHash.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

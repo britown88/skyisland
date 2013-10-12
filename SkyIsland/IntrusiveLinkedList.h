@@ -2,6 +2,21 @@
 
 #include <iterator>
 
+namespace std
+{
+   template<typename T>
+   T begin(const std::pair<T, T> &p){return p.first;}
+
+   template<typename T>
+   T end(const std::pair<T, T> &p){return p.second;}
+}
+
+template<typename T>
+std::pair<typename T::reverse_iterator, typename T::reverse_iterator> reversed_view(T &ref)
+{
+   return std::make_pair(ref.rbegin(), ref.rend());
+}
+
 
 template<class Parent, class Member>
 inline ptrdiff_t offset_from_pointer_to_member(const Member Parent::* ptr_to_member)
@@ -275,6 +290,8 @@ class IntrusiveList
 public:
    typedef IntrusiveListIterator<T, hookMember> iterator;
    typedef IntrusiveListConstIterator<T, hookMember> const_iterator;
+   typedef std::reverse_iterator<iterator> reverse_iterator;
+   typedef std::reverse_iterator<const_iterator> reverse_const_iterator;
    IntrusiveList()
    {
       dummyFirst.next = &dummyLast;
@@ -332,6 +349,14 @@ public:
    iterator end()
    {
       return iterator(&dummyLast);
+   }
+   reverse_iterator rbegin()
+   {
+      return reverse_iterator(end());
+   }
+   reverse_iterator rend()
+   {
+      return reverse_iterator(begin());
    }
    const_iterator begin() const
    {

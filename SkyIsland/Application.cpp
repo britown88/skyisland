@@ -15,7 +15,7 @@ void Application::start()
    if(!glfwInit())
       throw std::exception("GLFW Failed to initialize");
 
-   auto winSize = getWindowSize();
+   auto winSize = getDefaultWindowSize();
    auto winTitle = getWindowTitle();
    auto winMonitor = getWindowMonitor();
 
@@ -35,6 +35,11 @@ void Application::start()
    onAppStart();
 
    m_appRunning = true;   
+}
+
+Int2 Application::windowSize()
+{
+   return m_window->getSize();
 }
 
 double Application::getTime()
@@ -70,7 +75,7 @@ bool Application::isRunning()
    return m_appRunning;
 }
 
-Int2 Application::getWindowSize()
+Int2 Application::getDefaultWindowSize()
 {
    return Int2(800, 600);
 }

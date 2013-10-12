@@ -6,7 +6,12 @@ struct Keystroke
 
    Keystroke(int key, int action, int mods):key(key), action(action), mods(mods){}
 
-   size_t hash()
+   bool operator==(const Keystroke &rhs)const
+   {
+      return key == rhs.key && action == rhs.action && mods == rhs.mods;
+   }
+
+   size_t hash() const
    {
       //FUCK YOU, SEAN
       size_t returnValueOutHashSizeT = 5381;
