@@ -13,7 +13,7 @@ bool MouseHandler::_runCallback(Keystroke key, IViewport &vp, Float2 mPos)
       if(!child.getChildren().empty() && _runCallback(key, child, mPos))
          return true;
 
-      auto wb = child.getWindowBounds();
+      auto wb = child.getDrawnBounds();
       if(child.hasMouseCallback(key) && wb.contains(mPos))
       {
          child.runMouseCallback(key, mPos - Float2(wb.left, wb.top));
@@ -21,7 +21,7 @@ bool MouseHandler::_runCallback(Keystroke key, IViewport &vp, Float2 mPos)
       }      
    }
 
-   auto wb = vp.getWindowBounds();
+   auto wb = vp.getDrawnBounds();
    if(vp.hasMouseCallback(key) && wb.contains(mPos))
    {
       vp.runMouseCallback(key, mPos - Float2(wb.left, wb.top));

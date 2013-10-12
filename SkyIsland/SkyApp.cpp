@@ -54,7 +54,7 @@ class SkyApp : public Application
    int eIndex;
 
    KeyEvent tabEvent;
-   MouseEvent clickEvent;
+   MouseEvent clickEvent, click2;
 
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
    {
@@ -126,7 +126,7 @@ class SkyApp : public Application
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
 
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
-      viewport2.reset(new Viewport(Float2(130, 130), Float2(200, 200), Float2(), camera2));
+      viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
 
       viewport->addChild(UIViewport);
       UIViewport->addChild(viewport2);
@@ -172,6 +172,19 @@ class SkyApp : public Application
       }));
 
       viewport->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
+   
+      click2 = std::move(MouseEvent([&](Float2 pos)
+      {
+         auto cb = camera2->getBounds();
+         auto vp = viewport2->getWindowBounds();
+
+         auto &posComp = eList[eIndex]->getComponent<IPositionComponent>();
+
+         posComp.setPosition(Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top));
+      }));
+
+      viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
+   
    }
 
    void updatePhysics()
