@@ -10,7 +10,7 @@ class Camera : public ICamera
 public:
    Camera(Rectf bounds, std::shared_ptr<IScene> scene);
 
-   IScene& getScene();
+   std::shared_ptr<IScene> getScene();
 
    Rectf getBounds();
    void setBounds(Rectf bounds);

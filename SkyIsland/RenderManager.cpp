@@ -26,7 +26,7 @@ void RenderManager::renderViewport(IViewport &vp)
 
    m_renderer->newScene(vp, *camera);
 
-   for(auto &ent : scene.getEntities(camera->getBounds()))
+   for(auto &ent : scene->getEntities(camera->getBounds()))
    {
       if(ent.hasComponent<MeshComponent>())
          buildMeshRenderable(ent)->render(*m_renderer); 

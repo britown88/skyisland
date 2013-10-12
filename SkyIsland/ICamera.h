@@ -6,7 +6,7 @@ class ICamera
 {
 public:
    virtual ~ICamera(){}
-   virtual IScene& getScene()=0;
+   virtual std::shared_ptr<IScene> getScene()=0;
 
    virtual Rectf getBounds()=0;
    virtual void setBounds(Rectf bounds)=0;

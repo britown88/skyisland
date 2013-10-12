@@ -12,7 +12,6 @@ class MovingCameraMove : public ICameraMoveStrategy
 {
    Float2 m_velocity;
    float m_speed;
-   double m_lastUpdated;
 public:
    MovingCameraMove(float speed);
 

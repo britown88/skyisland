@@ -31,29 +31,21 @@ void CameraController::updateCamera()
    //update positiona ccording to strategy
    m_pos = m_strategy->moveCamera(m_pos, m_targetPos);
 
-   //clip to world
-   if(m_clipToScene)
-   {
-      if(m_pos.x - (m_camera->getBounds().width() * m_center.x) < 0.0f)
-         m_pos.x = m_camera->getBounds().width() * m_center.x;
-
-      if(m_pos.x + (m_camera->getBounds().width() * (1.0f - m_center.x)) >= m_camera->getScene().getSize().x)
-         m_pos.x = m_camera->getScene().getSize().x - m_camera->getBounds().width() * (1.0f - m_center.x);
-      
-      if(m_pos.y - (m_camera->getBounds().height() * m_center.y) < 0.0f)
-         m_pos.y = m_camera->getBounds().height() * m_center.y;
-
-      if(m_pos.y + (m_camera->getBounds().height() * (1.0f - m_center.y)) >= m_camera->getScene().getSize().y)
-         m_pos.y = m_camera->getScene().getSize().y - m_camera->getBounds().height() * (1.0f - m_center.y);
-   
-   }
-
    //set camera bounds
    Rectf newBounds;
    newBounds.left = m_pos.x - m_camera->getBounds().width() * m_center.x;
    newBounds.top = m_pos.y - m_camera->getBounds().height() * m_center.y;
    newBounds.right = newBounds.left + m_camera->getBounds().width();
    newBounds.bottom = newBounds.top + m_camera->getBounds().height();
+
+   //clip to world
+   if(m_clipToScene)
+   {
+      if(newBounds.left < 0) newBounds.offset(Float2(-newBounds.left, 0.0f));
+      if(newBounds.top < 0) newBounds.offset(Float2(0.0f, -newBounds.top));
+      if(newBounds.right >= m_camera->getScene()->getSize().x) newBounds.offset(Float2(-(newBounds.right - m_camera->getScene()->getSize().x), 0.0f));
+      if(newBounds.bottom >= m_camera->getScene()->getSize().y) newBounds.offset(Float2(0.0f, -(newBounds.bottom - m_camera->getScene()->getSize().y)));
+   }
 
    m_camera->setBounds(newBounds);
 }

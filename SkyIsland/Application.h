@@ -17,6 +17,7 @@ public:
 
    double getTime();
    double frameTime();
+   double dt();
 
    int rand(int lower, int upper);
 
@@ -26,7 +27,7 @@ protected:
    std::shared_ptr<GLWindow> m_window;
    bool m_appRunning;
 
-   double m_frameRate;
+   double m_frameRate, m_dt, m_lastUpdated;
 
    virtual Int2 getDefaultWindowSize();
    virtual std::string getWindowTitle();

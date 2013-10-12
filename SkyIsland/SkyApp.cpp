@@ -23,6 +23,8 @@
 
 #include "ComponentHelpers.h"
 
+#include <unordered_map>
+
 
 class SkyApp : public Application
 {
@@ -171,12 +173,34 @@ class SkyApp : public Application
       //IOC.resolve<MouseHandler>().registerEvent(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
    }
 
-   void updateViewportPhysics(IViewport &vp)
+   void updatePhysics()
    {
-      Physics::updateWorldPhsyics((IScene&)vp.getCamera()->getScene(), vp.getCamera()->getBounds());
+      std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> sceneList;
+      auto vpList = m_window->getViewports();
+
+      for(auto &vp : vpList)
+         getScenesFromVP(vp.get(), sceneList);
+
+      for(auto &pair : sceneList)
+      {
+         //insert special 'only update whats visible here'
+
+         Physics::updateWorldPhsyics(*pair.first, Rectf());
+   
+      }
+
+   }
+
+   void getScenesFromVP(IViewport *vp, std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> &sceneList)
+   {
+      auto scene = vp->getCamera()->getScene();
+      if(sceneList.find(vp->getCamera()->getScene()) == sceneList.end())
+         sceneList[scene] = std::vector<IViewport*>();
+
+      sceneList[scene].push_back(vp);
       
-      for(auto &child : vp.getChildren())
-         updateViewportPhysics(child);
+      for(auto &child : vp->getChildren())
+         getScenesFromVP(&child, sceneList);
    }
 
    void updateViewportGraphics(IViewport &vp)
@@ -192,8 +216,9 @@ class SkyApp : public Application
       auto vps = m_window->getViewports();
       auto &rm = IOC.resolve<RenderManager>();
 
-      for(auto &vp : vps)
-         updateViewportPhysics(*vp);
+      std::unordered_map<std::shared_ptr<IScene>, std::vector<std::shared_ptr<IViewport>>> sceneList;
+
+      updatePhysics();
          
       camControl->updateCamera();
       camControl2->updateCamera();

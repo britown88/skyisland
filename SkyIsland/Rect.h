@@ -17,6 +17,14 @@ public:
    {
       return pos.x >= left && pos.x < right && pos.y >= top && pos.y < bottom;
    }
+
+   void offset(Vector2<T> offset)
+   {
+      top += offset.y;
+      bottom += offset.y;
+      left += offset.x;
+      right += offset.x;
+   }
 };
 
 typedef Rect2<int> Recti;

@@ -13,10 +13,11 @@ class Viewport : public IViewport
    ViewportList m_children;
 
    std::unordered_map<Keystroke, MouseEventList, ObjectHash<Keystroke>> m_mouseCallbacks;
+   std::weak_ptr<IViewport> m_parent;
 
 public:
    Viewport(Rectf bounds, std::shared_ptr<ICamera> camera);
-
+   std::weak_ptr<IViewport> getParent();
    std::shared_ptr<ICamera> getCamera();
    Rectf getBounds();
    Rectf getWindowBounds();

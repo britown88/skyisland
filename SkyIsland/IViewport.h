@@ -16,6 +16,8 @@ public:
    IntrusiveListHook hook;
    virtual ~IViewport(){}   
 
+   virtual std::weak_ptr<IViewport> getParent()=0;
+
    virtual std::shared_ptr<ICamera> getCamera()=0;
    virtual Rectf getBounds()=0;
    virtual Rectf getWindowBounds()=0;

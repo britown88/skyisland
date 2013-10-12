@@ -3,7 +3,7 @@
 #include "Application.h"
 
 Viewport::Viewport(Rectf bounds, std::shared_ptr<ICamera> camera):m_bounds(bounds), m_camera(camera){}
-
+std::weak_ptr<IViewport> Viewport::getParent(){return m_parent;}
 std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
 Rectf Viewport::getBounds(){return m_bounds;}
 
