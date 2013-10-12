@@ -17,5 +17,5 @@ public:
    void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const;
 
    SceneList drawQueue();
-   void newScene(IViewport &vp, ICamera &cam);
+   bool newScene(IViewport &vp, ICamera &cam);
 };

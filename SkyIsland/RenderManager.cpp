@@ -19,18 +19,21 @@ RenderManager::~RenderManager()
    m_renderThread->stop();
 }
 
-void RenderManager::renderViewport(IViewport &vp)
+bool RenderManager::renderViewport(IViewport &vp)
 {
    auto &camera = vp.getCamera();
    auto &scene = camera->getScene();
 
-   m_renderer->newScene(vp, *camera);
+   if(!m_renderer->newScene(vp, *camera))
+      return false;
 
    for(auto &ent : scene->getEntities(camera->getBounds()))
    {
       if(ent.hasComponent<MeshComponent>())
          buildMeshRenderable(ent)->render(*m_renderer); 
    }
+
+   return true;
 }
 
 void RenderManager::finalizeRender()

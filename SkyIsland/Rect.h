@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.h"
+#include <algorithm>
 
 template<typename T>
 class Rect2
@@ -18,13 +19,28 @@ public:
       return pos.x >= left && pos.x < right && pos.y >= top && pos.y < bottom;
    }
 
+   bool contains(Rect2<T> rect)
+   {
+      return !((rect.left > right || rect.right < left) && (rect.top > bottom || rect.bottom < top));
+   }
+
+   Rect2<T> intersection(Rect2<T> rect)
+   {
+      return Rect2<T>(
+         std::max(left, rect.left),
+         std::max(top, rect.top),
+         std::min(right, rect.right),
+         std::min(bottom, rect.bottom)
+         );
+   }
+
    void offset(Vector2<T> offset)
    {
       top += offset.y;
       bottom += offset.y;
       left += offset.x;
       right += offset.x;
-   }
+   }   
 };
 
 typedef Rect2<int> Recti;

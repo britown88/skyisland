@@ -7,7 +7,7 @@
 
 class Viewport : public IViewport
 {
-   Rectf m_bounds;
+   Rectf m_bounds, m_drawnBounds;
    std::shared_ptr<ICamera> m_camera;
 
    ViewportList m_children;
@@ -18,13 +18,17 @@ class Viewport : public IViewport
 public:
    Viewport(Rectf bounds, std::shared_ptr<ICamera> camera);
    std::weak_ptr<IViewport> getParent();
+   void setParent(std::weak_ptr<IViewport> parent);
    std::shared_ptr<ICamera> getCamera();
    Rectf getBounds();
    Rectf getWindowBounds();
+   Rectf getDrawnBounds();
+   void setDrawnBounds(Rectf bounds);
 
    void update();
 
    ViewportList &getChildren();
+   void addChild(std::shared_ptr<IViewport> vp);
 
    bool hasMouseCallback(Keystroke k);
    void registerMouseCallback(Keystroke k, MouseEvent *e);

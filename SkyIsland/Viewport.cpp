@@ -7,6 +7,11 @@ std::weak_ptr<IViewport> Viewport::getParent(){return m_parent;}
 std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
 Rectf Viewport::getBounds(){return m_bounds;}
 
+void Viewport::setParent(std::weak_ptr<IViewport> parent)
+{
+   m_parent = parent;
+}
+
 Rectf Viewport::getWindowBounds()
 {
    auto &winSize = IOC.resolve<Application>().windowSize();
@@ -16,8 +21,16 @@ Rectf Viewport::getWindowBounds()
       m_bounds.left + m_bounds.right,
       winSize.y - m_bounds.top);
 }
+Rectf Viewport::getDrawnBounds(){return m_drawnBounds;}
+void Viewport::setDrawnBounds(Rectf bounds){m_drawnBounds = bounds;}
 
 void Viewport::update() {}
+
+void Viewport::addChild(std::shared_ptr<IViewport> vp)
+{
+   m_children.push_back(vp.get());
+   vp->setParent(getptr());
+}
 
 ViewportList &Viewport::getChildren(){return m_children;}
 

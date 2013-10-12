@@ -14,6 +14,6 @@ public:
    ~RenderManager();
    
    void finalizeRender();
-   void renderViewport(IViewport &vp);
+   bool renderViewport(IViewport &vp); //returns whether VP will be drawn
 
 };

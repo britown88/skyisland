@@ -128,9 +128,12 @@ class SkyApp : public Application
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
       viewport2.reset(new Viewport(Rectf(30, 30, 200, 200), camera2));
 
+      viewport->addChild(UIViewport);
+      UIViewport->addChild(viewport2);
+
       m_window->addViewport(viewport);
-      m_window->addViewport(UIViewport);
-      m_window->addViewport(viewport2);
+      //m_window->addViewport(UIViewport);
+      //m_window->addViewport(viewport2);
 
       for(int i = 0; i < 100; ++i)
       {
@@ -169,26 +172,21 @@ class SkyApp : public Application
       }));
 
       viewport->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
-
-      //IOC.resolve<MouseHandler>().registerEvent(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
    }
 
    void updatePhysics()
    {
       std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> sceneList;
-      auto vpList = m_window->getViewports();
 
-      for(auto &vp : vpList)
+      for(auto &vp : m_window->getViewports())
          getScenesFromVP(vp.get(), sceneList);
 
       for(auto &pair : sceneList)
       {
-         //insert special 'only update whats visible here'
+         //insert special 'only update whats visible' here
 
-         Physics::updateWorldPhsyics(*pair.first, Rectf());
-   
+         Physics::updateWorldPhsyics(*pair.first, Rectf());   
       }
-
    }
 
    void getScenesFromVP(IViewport *vp, std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> &sceneList)
@@ -205,33 +203,27 @@ class SkyApp : public Application
 
    void updateViewportGraphics(IViewport &vp)
    {
-      IOC.resolve<RenderManager>().renderViewport(vp);
-
-      for(auto &child : vp.getChildren())
-         updateViewportGraphics(child);
+      if(IOC.resolve<RenderManager>().renderViewport(vp))
+         for(auto &child : vp.getChildren())
+            updateViewportGraphics(child);
    }
 
    void onStep()
    {
-      auto vps = m_window->getViewports();
-      auto &rm = IOC.resolve<RenderManager>();
-
-      std::unordered_map<std::shared_ptr<IScene>, std::vector<std::shared_ptr<IViewport>>> sceneList;
-
       updatePhysics();
          
       camControl->updateCamera();
       camControl2->updateCamera();
 
-      for(auto &vp : vps)
+      for(auto &vp : m_window->getViewports())
+      {
+         vp->update();
          updateViewportGraphics(*vp);
+      }        
 
-      rm.finalizeRender();
-      
-      m_window->pollEvents();
-      
+      IOC.resolve<RenderManager>().finalizeRender();      
+      m_window->pollEvents();      
    }
-
 };
 
 
