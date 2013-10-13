@@ -15,10 +15,10 @@ void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf c1, Colorf c2, Colo
    std::vector<Vertex> vertices;
    std::vector<int> indices;
 
-   vertices.push_back(Vertex(Float2(rect.left, rect.top), c1));
-   vertices.push_back(Vertex(Float2(rect.right, rect.top), c2));
-   vertices.push_back(Vertex(Float2(rect.right, rect.bottom), c3));
-   vertices.push_back(Vertex(Float2(rect.left, rect.bottom), c4));
+   vertices.push_back(Vertex(Float2(rect.left, rect.top), Float2(0, 1), c1));
+   vertices.push_back(Vertex(Float2(rect.right, rect.top), Float2(1, 1), c2));
+   vertices.push_back(Vertex(Float2(rect.right, rect.bottom), Float2(1, 0), c3));
+   vertices.push_back(Vertex(Float2(rect.left, rect.bottom), Float2(0, 0), c4));
 
    indices.push_back(0);indices.push_back(1);indices.push_back(3);
    indices.push_back(1);indices.push_back(3);indices.push_back(2);

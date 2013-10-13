@@ -25,6 +25,8 @@
 
 #include <unordered_map>
 
+#include "IL\ilut.h"
+
 
 class SkyApp : public Application
 {

@@ -5,6 +5,7 @@
 #include "KeyHandler.h"
 #include "IOCContainer.h"
 #include "MouseHandler.h"
+#include "TextureManager.h"
 
 IOCContainer IOC;
 
@@ -30,6 +31,7 @@ void Application::start()
    IOC.add<GLWindow>(m_window);
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
+   IOC.add<TextureManager>(std::make_shared<TextureManager>(100000));
    IOC.add<Application>(getptr());
 
 

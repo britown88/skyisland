@@ -3,10 +3,19 @@
 #include "KeyHandler.h"
 #include "MouseHandler.h"
 
+#include "IL\il.h"
+#include "IL\ilu.h"
+#include "IL\ilut.h"
+
 void GLWindow::registerCallbacks()
 {
    glfwSetKeyCallback(m_window, keyCallback);
    glfwSetMouseButtonCallback(m_window, mouseCallback);
+
+   ilInit();
+   iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
 }
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)
@@ -56,6 +65,7 @@ GLWindow::~GLWindow()
    glfwDestroyWindow(m_threadWin);
    glfwDestroyWindow(m_window);
    glfwTerminate();
+   ilShutDown();
 }
 
 void GLWindow::addViewport(std::shared_ptr<IViewport> vPort)
