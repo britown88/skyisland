@@ -16,6 +16,7 @@ public:
    virtual ~IRenderer(){}
 
    virtual void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const=0;
+   virtual void drawTexture(std::string texture, const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const=0;
 
    virtual SceneList drawQueue()=0;
    virtual bool newScene(IViewport &vp, ICamera &cam)=0; //returns whether new scene will be drawn

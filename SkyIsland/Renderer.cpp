@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "IOCContainer.h"
 #include "Application.h"
+#include "DrawTexture.h"
 
 Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
 {   
@@ -10,6 +11,11 @@ Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
 void Renderer::drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTriangle(vertices, faces, transform)));
+}
+
+void Renderer::drawTexture(std::string texture, const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform) const
+{
+   m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, vertices, faces, transform)));
 }
 
 Renderer::SceneList Renderer::drawQueue()

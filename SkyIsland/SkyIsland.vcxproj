@@ -79,6 +79,7 @@
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="ComponentHelpers.cpp" />
     <ClCompile Include="DrawScene.cpp" />
+    <ClCompile Include="DrawTexture.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="MouseHandler.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="ComponentHelpers.h" />
     <ClInclude Include="DrawScene.h" />
+    <ClInclude Include="DrawTexture.h" />
     <ClInclude Include="DrawTriangle.h" />
     <ClInclude Include="EntityBuilders.h" />
     <ClInclude Include="Event.h" />
@@ -140,6 +142,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Trig.h" />

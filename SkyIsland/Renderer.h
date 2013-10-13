@@ -15,6 +15,7 @@ public:
    Renderer();
 
    void drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const;
+   void drawTexture(std::string texture, const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform = Transform()) const;
 
    SceneList drawQueue();
    bool newScene(IViewport &vp, ICamera &cam);

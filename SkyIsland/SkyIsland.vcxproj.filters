@@ -150,6 +150,9 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DrawTexture.cpp">
+      <Filter>Source Files\Graphics\DrawObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -301,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawTexture.h">
+      <Filter>Header Files\Concretes\Graphics\DrawObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
