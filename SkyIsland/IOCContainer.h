@@ -19,7 +19,7 @@ public:
    template<typename T>
    bool exists()
    {
-      return m_typeInstanceMap.find(typeid(T).name()) != m_typeInstanceMap.end();
+      return !m_typeInstanceMap.empty() && m_typeInstanceMap.find(typeid(T).name()) != m_typeInstanceMap.end();
    }
 
    template<typename T>

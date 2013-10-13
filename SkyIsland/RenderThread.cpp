@@ -9,6 +9,9 @@ RenderThread::RenderThread():
    m_queueFilling(Renderer::SceneList(new std::vector<Renderer::DScenePtr>()))
 {
    m_isRunning = false;
+
+   m_texManager = std::make_shared<TextureManager>(100000);
+   IOC.add(m_texManager);
 }
 
 void RenderThread::_run()
@@ -36,9 +39,6 @@ void RenderThread::_run()
       if(!m_isRunning)
          break;
    }
-
-   //because std::thread is fucked
-   m_isRunning = true;
 }
 
 void RenderThread::start()
@@ -50,8 +50,7 @@ void RenderThread::start()
 void RenderThread::stop()
 {
    m_isRunning = false;
-   m_thread.detach();
-   while(!m_isRunning){}//kill me
+   m_thread.join();
 }
 
 void RenderThread::resetQueue(Renderer::SceneList queue)

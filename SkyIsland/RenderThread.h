@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Renderer.h"
+#include "TextureManager.h"
+#include <memory>
 #include <vector>
 #include <mutex>
 #include <thread>
@@ -13,6 +15,8 @@ class RenderThread
    Renderer::SceneList m_queueFilling, m_queueCurrent;
    bool m_queueUpdated;
    std::atomic_bool m_isRunning;
+
+   std::shared_ptr<TextureManager> m_texManager;
 
    void _run();
 public:

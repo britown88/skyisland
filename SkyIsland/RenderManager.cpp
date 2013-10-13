@@ -17,6 +17,11 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
+   
+}
+
+void RenderManager::terminate()
+{
    m_renderThread->stop();
 }
 

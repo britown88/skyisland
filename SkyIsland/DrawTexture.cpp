@@ -16,7 +16,8 @@ void DrawTexture::draw()
 
       applyGLTransformation(m_transform);
 
-      GLint tex = IOC.resolve<TextureManager>().getTexture(m_texture);
+      GLint tex = 0;
+      tex = IOC.resolve<TextureManager>().getTexture(m_texture);
 
       glBindTexture(GL_TEXTURE_2D, tex);
 

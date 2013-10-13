@@ -15,5 +15,6 @@ public:
    
    void finalizeRender();
    bool renderViewport(IViewport &vp); //returns whether VP will be drawn
+   void terminate();
 
 };
