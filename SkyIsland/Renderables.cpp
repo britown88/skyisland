@@ -4,6 +4,7 @@
 #include "TextureComponent.h"
 #include "MeshComponent.h"
 #include "Transform.h"
+#include "Application.h"
 
 #include "TextureManager.h"
 
@@ -51,7 +52,15 @@ public:
       m_transform = buildTransformation(entity);
 
       if(entity.hasComponent<TextureComponent>())
+      {
          m_texture = entity.getComponent<TextureComponent>().texture;
+
+         if(entity.hasComponent<SpriteComponent>())
+         {
+            auto &spr = entity.getComponent<SpriteComponent>();
+            m_texture = spr.sprite->getTexture(spr.face, IOC.resolve<Application>().getTime() - spr.startTime);
+         }
+      }         
       else
          m_texture = "";
    }

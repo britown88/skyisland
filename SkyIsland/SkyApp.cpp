@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "RenderManager.h"
+#include "SpriteFactory.h"
 #include "Color.h"
 
 #include "MeshComponent.h"
@@ -66,7 +67,7 @@ class SkyApp : public Application
       
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
 
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>("assets/guy/00.png"));
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(""));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
@@ -74,6 +75,9 @@ class SkyApp : public Application
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 25.0f));
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
+      auto sprite = IOC.resolve<SpriteFactory>().buildSprite("assets/guy", 0.25f);
+      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), "run_right"));
+      
       scene->addEntity(*e);
 
       return e;
@@ -146,7 +150,7 @@ class SkyApp : public Application
       for(int i = 0; i < 100; ++i)
       {
          int s = rand(50, 500);
-         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(s, s)));
+         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(100, 100)));
       }
 
       UIEntity = buildUIEntity();
@@ -193,7 +197,11 @@ class SkyApp : public Application
 
       viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
    
+
+      
    }
+
+
 
    void updatePhysics()
    {
