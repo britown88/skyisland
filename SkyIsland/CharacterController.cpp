@@ -3,8 +3,10 @@
 #include "CharacterController.h"
 
 #include "IOCContainer.h"
+#include "Application.h"
 
 #include "PhysicsComponents.h"
+#include "GraphicComponents.h"
 
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
@@ -13,7 +15,7 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_accel = 1.0f;
    m_runAccel = 1.0f;
    m_maxVelocity = 10.0f;
-   m_friction = 0.5f;
+   m_friction = 1.0f;
 
    upPressed = false;
    downPressed = false;
@@ -45,6 +47,8 @@ void CharacterController::onUpPress()
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
 
+      e->getComponent<SpriteComponent>().face = "run_up";
+
       a.acceleration = m_accel;
 
       a.direction = 90.0f;
@@ -67,13 +71,21 @@ void CharacterController::onUpRelease()
       auto &a = e->getComponent<AccelerationComponent>();
       upPressed = false;
       if(leftPressed)
+      {
          a.direction = 180.0f; 
+         e->getComponent<SpriteComponent>().face = "run_left";
+      }         
       else if(rightPressed)
+      {
          a.direction = 0.0f;
+         e->getComponent<SpriteComponent>().face = "run_right";
+      }         
       else
       {
          a.acceleration = 0.0f;
          e->getComponent<FrictionComponent>().friction = m_friction;
+
+         e->getComponent<SpriteComponent>().face = "stand_up";
       }
          
    }
@@ -90,6 +102,8 @@ void CharacterController::onLeftPress()
       a.direction = 180.0f;
       leftPressed = true;
       rightPressed = false;
+
+      e->getComponent<SpriteComponent>().face = "run_left";
       
       if(upPressed)
          a.direction = 135.0f; 
@@ -107,13 +121,21 @@ void CharacterController::onLeftRelease()
       auto &a = e->getComponent<AccelerationComponent>();
       leftPressed = false;
       if(upPressed)
+      {
          a.direction = 90.0f; 
+         e->getComponent<SpriteComponent>().face = "run_up";
+      }         
       else if(downPressed)
+      {
          a.direction = 270.0f;
+         e->getComponent<SpriteComponent>().face = "run_down";
+      }         
       else
       {
          a.acceleration = 0.0f;
          e->getComponent<FrictionComponent>().friction = m_friction;
+
+         e->getComponent<SpriteComponent>().face = "stand_left";
       }
    }
 }
@@ -124,6 +146,9 @@ void CharacterController::onDownPress()
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
+
+      e->getComponent<SpriteComponent>().face = "run_down";
+
 
       a.acceleration = m_accel;
       a.direction = 270.0f;
@@ -146,13 +171,21 @@ void CharacterController::onDownRelease()
       auto &a = e->getComponent<AccelerationComponent>();
       downPressed = false;
       if(leftPressed)
+      {
          a.direction = 180.0f; 
+         e->getComponent<SpriteComponent>().face = "run_left";
+      }         
       else if(rightPressed)
+      {
          a.direction = 0.0f;
+         e->getComponent<SpriteComponent>().face = "run_right";
+      }         
       else
       {
          a.acceleration = 0.0f;
          e->getComponent<FrictionComponent>().friction = m_friction;
+
+         e->getComponent<SpriteComponent>().face = "stand_down";
       }
    }
 }
@@ -163,6 +196,8 @@ void CharacterController::onRightPress()
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
+
+      e->getComponent<SpriteComponent>().face = "run_right";
 
       a.acceleration = m_accel;
       a.direction = 0.0f;
@@ -185,13 +220,20 @@ void CharacterController::onRightRelease()
 
       rightPressed = false;
       if(upPressed)
+      {
          a.direction = 90.0f; 
+         e->getComponent<SpriteComponent>().face = "run_up";
+      }         
       else if(downPressed)
+      {
          a.direction = 270.0f;
+         e->getComponent<SpriteComponent>().face = "run_down";
+      }         
       else
       {
          a.acceleration = 0.0f;
          e->getComponent<FrictionComponent>().friction = m_friction;
+         e->getComponent<SpriteComponent>().face = "stand_right";
       }
    }
 }

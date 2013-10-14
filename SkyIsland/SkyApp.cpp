@@ -75,8 +75,26 @@ class SkyApp : public Application
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 25.0f));
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
-      auto sprite = IOC.resolve<SpriteFactory>().buildSprite("assets/guy", 0.25f);
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), "run_right"));
+      auto sprite = IOC.resolve<SpriteFactory>().buildSprite("assets/guy", 0.1f);
+
+      std::string face = "";
+      switch(rand(0, 4))
+      {
+      case 0:
+         face = "stand_left";
+         break;
+      case 1:
+         face = "stand_up";
+         break;
+      case 2:
+         face = "stand_right";
+         break;
+      case 3:
+         face = "stand_down";
+         break;
+      }
+
+      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), face));
       
       scene->addEntity(*e);
 
@@ -150,7 +168,7 @@ class SkyApp : public Application
       for(int i = 0; i < 100; ++i)
       {
          int s = rand(50, 500);
-         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(100, 100)));
+         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(200, 200)));
       }
 
       UIEntity = buildUIEntity();
