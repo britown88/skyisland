@@ -1,6 +1,7 @@
 #include "Renderables.h"
 #include "IPositionComponent.h"
 #include "GraphicComponents.h"
+#include "TextureComponent.h"
 #include "MeshComponent.h"
 #include "Transform.h"
 
@@ -13,6 +14,7 @@ class MeshRenderable : public IRenderable
    std::vector<int> m_faces;
 
    Transform m_transform;
+   std::string m_texture;
 
 public:
 
@@ -41,18 +43,25 @@ public:
             
             vpos.x = vpos.x * size.x - center.x * size.x + pos.x;
             vpos.y = vpos.y * size.y - center.y * size.y + pos.y;
-         }            
+         }
 
-         for(int i : mc.faces())
-            m_faces.push_back(i);
+         m_faces = mc.faces();
       }
 
       m_transform = buildTransformation(entity);
+
+      if(entity.hasComponent<TextureComponent>())
+         m_texture = entity.getComponent<TextureComponent>().texture;
+      else
+         m_texture = "";
    }
 
    void render(const IRenderer &renderer) const
    {
-      renderer.drawTriangles(*m_vertices, m_faces, m_transform);
+      if(m_texture.size() > 0)
+         renderer.drawTexture(m_texture, std::move(*m_vertices), std::move(m_faces), m_transform);
+      else
+         renderer.drawTriangles(std::move(*m_vertices), std::move(m_faces), m_transform);
    }
 };
 

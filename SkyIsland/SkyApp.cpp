@@ -11,6 +11,7 @@
 #include "RotationComponent.h"
 #include "PhysicsComponents.h"
 #include "GraphicComponents.h"
+#include "TextureComponent.h"
 #include "Physics.h"
 
 #include "IKeyEvent.h"
@@ -65,6 +66,7 @@ class SkyApp : public Application
       
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
 
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>("assets/guy/00.png"));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));

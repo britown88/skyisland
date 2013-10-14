@@ -148,6 +148,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Trig.h" />

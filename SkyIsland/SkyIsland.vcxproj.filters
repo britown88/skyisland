@@ -326,5 +326,8 @@
     <ClInclude Include="Animations.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="TextureComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
