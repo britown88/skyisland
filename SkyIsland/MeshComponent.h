@@ -6,14 +6,14 @@
 
 class MeshComponent : public IComponent
 {
-   std::vector<Vertex> m_vertices;
+   VertexList m_vertices;
    std::vector<int> m_faces;
 
 public:
-   MeshComponent(std::vector<Vertex> vertices, std::vector<int> faces):
+   MeshComponent(VertexList vertices, std::vector<int> faces):
       m_vertices(std::move(vertices)), m_faces(std::move(faces)){}
 
-   std::vector<Vertex> &vertices(){return m_vertices;}
+   VertexList &vertices(){return m_vertices;}
    std::vector<int> &faces(){return m_faces;}
 
 };

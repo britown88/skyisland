@@ -8,12 +8,12 @@ Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
 {   
 }
 
-void Renderer::drawTriangles(const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform) const
+void Renderer::drawTriangles(const VertexList &vertices, const std::vector<int> &faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTriangle(vertices, faces, transform)));
 }
 
-void Renderer::drawTexture(std::string texture, const std::vector<Vertex> & vertices, const std::vector<int> &faces, Transform transform) const
+void Renderer::drawTexture(std::string texture, const VertexList & vertices, const std::vector<int> &faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, vertices, faces, transform)));
 }

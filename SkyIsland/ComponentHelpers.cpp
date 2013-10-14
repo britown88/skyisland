@@ -1,6 +1,5 @@
 #include "ComponentHelpers.h"
 #include "MeshComponent.h"
-#include "TextureComponent.h"
 
 #include <vector>
 namespace CompHelpers
@@ -13,39 +12,28 @@ void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf color)
 
 void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf c1, Colorf c2, Colorf c3, Colorf c4)
 {
-   std::vector<Vertex> vertices;
+   auto vertices = createVertexList().with(VertexComponent::Position).with(VertexComponent::Color).build();
    std::vector<int> indices;
 
-   vertices.push_back(Vertex(Float2(rect.left, rect.top), c1));
-   vertices.push_back(Vertex(Float2(rect.right, rect.top), c2));
-   vertices.push_back(Vertex(Float2(rect.right, rect.bottom), c3));
-   vertices.push_back(Vertex(Float2(rect.left, rect.bottom), c4));
+   vertices.addVertex()
+      .with<VertexComponent::Position>(Float2(rect.left, rect.top))
+      .with<VertexComponent::Color>(c1);
+
+   vertices.addVertex()
+      .with<VertexComponent::Position>(Float2(rect.right, rect.top))
+      .with<VertexComponent::Color>(c2);
+
+   vertices.addVertex()
+      .with<VertexComponent::Position>(Float2(rect.right, rect.bottom))
+      .with<VertexComponent::Color>(c3);
+
+   vertices.addVertex()
+      .with<VertexComponent::Position>(Float2(rect.left, rect.bottom))
+      .with<VertexComponent::Color>(c4);
 
    indices.push_back(0);indices.push_back(1);indices.push_back(3);
    indices.push_back(1);indices.push_back(3);indices.push_back(2);
 
    e.addComponent<MeshComponent>(std::make_shared<MeshComponent>(vertices, indices));
 }
-
-void addRectangleTextureComponent(Entity &e, std::string texPath, Rectf rect, Colorf color)
-{
-   addRectangleTextureComponent(e, texPath, rect, color, color, color, color);
-}
-
-void addRectangleTextureComponent(Entity &e, std::string texPath, Rectf rect, Colorf c1, Colorf c2, Colorf c3, Colorf c4)
-{
-   std::vector<Vertex> vertices;
-   std::vector<int> indices;
-
-   vertices.push_back(Vertex(Float2(rect.left, rect.top), Float2(0, 1), c1));
-   vertices.push_back(Vertex(Float2(rect.right, rect.top), Float2(1, 1), c2));
-   vertices.push_back(Vertex(Float2(rect.right, rect.bottom), Float2(1, 0), c3));
-   vertices.push_back(Vertex(Float2(rect.left, rect.bottom), Float2(0, 0), c4));
-
-   indices.push_back(0);indices.push_back(1);indices.push_back(3);
-   indices.push_back(1);indices.push_back(3);indices.push_back(2);
-
-   e.addComponent<TextureComponent>(std::make_shared<TextureComponent>(vertices, indices, texPath));
-}
-
 }

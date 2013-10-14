@@ -8,13 +8,13 @@
 
 class DrawTriangle : public IDrawObject
 {
-   std::vector<Vertex>  m_vertices;
+   VertexList  m_vertices;
    std::vector<int> m_faces;
 
    Transform m_transform;
 
 public:
-   DrawTriangle(std::vector<Vertex> vertices, std::vector<int> faces, Transform transform=Transform());
+   DrawTriangle(VertexList vertices, std::vector<int> faces, Transform transform=Transform());
 
    void draw();
 

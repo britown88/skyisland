@@ -7,7 +7,6 @@
 #include "Color.h"
 
 #include "MeshComponent.h"
-#include "TextureComponent.h"
 #include "PositionComponent.h"
 #include "RotationComponent.h"
 #include "PhysicsComponents.h"
@@ -64,7 +63,7 @@ class SkyApp : public Application
       auto e = std::make_shared<Entity>();
 
       
-      CompHelpers::addRectangleTextureComponent(*e, "assets/test.png", Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
 
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
@@ -94,8 +93,10 @@ class SkyApp : public Application
       if(eIndex >= 0)
       {
          auto &m = eList[eIndex]->getComponent<MeshComponent>();
-         m.vertices()[0].color.r = 1.0f; m.vertices()[0].color.g = 0.0f;
-         m.vertices()[1].color.r = 1.0f; m.vertices()[1].color.g = 0.0f;
+         auto c = m.vertices()[0].get<VertexComponent::Color>();
+         c->r = 1.0f; c->g = 0.0f;
+         c = m.vertices()[1].get<VertexComponent::Color>();
+         c->r = 1.0f; c->g = 0.0f;
 
          eList[eIndex]->getComponent<FrictionComponent>().friction = 10.0f;
          eList[eIndex]->getComponent<AccelerationComponent>().acceleration = 0.0f;
@@ -106,9 +107,11 @@ class SkyApp : public Application
       if(eIndex >= eList.size())
          eIndex = 0;
 
-      auto &m = eList[eIndex]->getComponent<TextureComponent>();
-      m.vertices()[0].color.r = 0.0f; m.vertices()[0].color.g = 1.0f;
-      m.vertices()[1].color.r = 0.0f; m.vertices()[1].color.g = 1.0f;
+      auto &m = eList[eIndex]->getComponent<MeshComponent>();
+      auto c = m.vertices()[0].get<VertexComponent::Color>();
+      c->r = 0.0f; c->g = 1.0f;
+      c = m.vertices()[1].get<VertexComponent::Color>();
+      c->r = 0.0f; c->g = 1.0f;
 
       cc.reset();
       cc = std::unique_ptr<CharacterController>(new CharacterController(eList[eIndex]));

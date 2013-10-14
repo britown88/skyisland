@@ -153,6 +153,12 @@
     <ClCompile Include="DrawTexture.cpp">
       <Filter>Source Files\Graphics\DrawObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteFactory.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -305,11 +311,20 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextureComponent.h">
-      <Filter>Header Files\Concretes\Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="DrawTexture.h">
       <Filter>Header Files\Concretes\Graphics\DrawObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimation.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteFactory.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

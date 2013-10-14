@@ -92,12 +92,15 @@
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpriteFactory.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animations.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
@@ -112,6 +115,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="GraphicComponents.h" />
+    <ClInclude Include="IAnimation.h" />
     <ClInclude Include="IKeyEvent.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="KeyHandler.h" />
@@ -141,8 +145,9 @@
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkyApp.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteFactory.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Trig.h" />

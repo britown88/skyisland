@@ -8,7 +8,7 @@
 
 class DrawTexture : public IDrawObject
 {
-   std::vector<Vertex>  m_vertices;
+   VertexList m_vertices;
    std::vector<int> m_faces;
 
    Transform m_transform;
@@ -16,7 +16,7 @@ class DrawTexture : public IDrawObject
    std::string m_texture;
 
 public:
-   DrawTexture(std::string texture, std::vector<Vertex> vertices, std::vector<int> faces, Transform transform=Transform());
+   DrawTexture(std::string texture, VertexList vertices, std::vector<int> faces, Transform transform=Transform());
 
    void draw();
 

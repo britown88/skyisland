@@ -3,7 +3,6 @@
 #include "RenderManager.h"
 #include "PositionComponent.h"
 #include "MeshComponent.h"
-#include "TextureComponent.h"
 #include "Renderables.h"
 
 #include "Renderer.h"
@@ -37,9 +36,6 @@ bool RenderManager::renderViewport(IViewport &vp)
    {
       if(ent.hasComponent<MeshComponent>())
          buildMeshRenderable(ent)->render(*m_renderer); 
-
-      if(ent.hasComponent<TextureComponent>())
-         buildTextureRenderable(ent)->render(*m_renderer); 
    }
 
    return true;
