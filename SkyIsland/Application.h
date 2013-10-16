@@ -5,8 +5,17 @@
 #include <stdlib.h>
 #include <time.h> 
 
+enum class EntityTag
+{
+   PlayerControlled,
+   COUNT
+};
+
+
 class Application : std::enable_shared_from_this<Application>
 {
+   std::shared_ptr<Entity> m_taggedEntites[EntityTag::COUNT];
+
 public:
    void start();
    void terminate();
@@ -23,7 +32,12 @@ public:
 
    std::shared_ptr<Application> getptr() {return shared_from_this();}
 
+   std::shared_ptr<Entity> getTag(EntityTag tag);
+   void setTag(EntityTag tag, std::shared_ptr<Entity> entity); 
+
 protected:
+   
+
    std::shared_ptr<GLWindow> m_window;
    bool m_appRunning;
 

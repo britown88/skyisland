@@ -34,18 +34,18 @@ class SkyApp : public Application
 {
    std::string getWindowTitle()
    {
-      return "Square Island Gaem";
+      return "Arq: Legend of Shumpf Guy";
    }
 
    Int2 getDefaultWindowSize()
    {
-      return Int2(1440, 810);
+      return Int2(1920, 1080);
    }
 
-   //GLFWmonitor *getWindowMonitor()
-   //{
-   //   return glfwGetPrimaryMonitor();
-   //}
+   GLFWmonitor *getWindowMonitor()
+   {
+      return glfwGetPrimaryMonitor();
+   }
 
    std::shared_ptr<Scene> scene, UIScene;
    std::shared_ptr<Camera> camera, camera2, UICamera;
@@ -63,16 +63,15 @@ class SkyApp : public Application
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
    {
       auto e = std::make_shared<Entity>();
-
       
-      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 0.0f, 0.0f), Colorf(1.0f, 1.0f, 1.0f), Colorf(1.0f, 1.0f, 1.0f));
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
 
       e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(""));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
       e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
-      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 25.0f));
+      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 10.0f));
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
       auto sprite = IOC.resolve<SpriteFactory>().buildSprite("assets/guy", 0.1f);
@@ -117,10 +116,10 @@ class SkyApp : public Application
       if(eIndex >= 0)
       {
          auto &m = eList[eIndex]->getComponent<MeshComponent>();
-         auto c = m.vertices()[0].get<VertexComponent::Color>();
-         c->r = 1.0f; c->g = 0.0f;
-         c = m.vertices()[1].get<VertexComponent::Color>();
-         c->r = 1.0f; c->g = 0.0f;
+         //auto c = m.vertices()[0].get<VertexComponent::Color>();
+         //c->r = 1.0f; c->g = 0.0f;
+         //c = m.vertices()[1].get<VertexComponent::Color>();
+         //c->r = 1.0f; c->g = 0.0f;
 
          eList[eIndex]->getComponent<FrictionComponent>().friction = 10.0f;
          eList[eIndex]->getComponent<AccelerationComponent>().acceleration = 0.0f;
@@ -132,15 +131,17 @@ class SkyApp : public Application
          eIndex = 0;
 
       auto &m = eList[eIndex]->getComponent<MeshComponent>();
-      auto c = m.vertices()[0].get<VertexComponent::Color>();
-      c->r = 0.0f; c->g = 1.0f;
-      c = m.vertices()[1].get<VertexComponent::Color>();
-      c->r = 0.0f; c->g = 1.0f;
+      //auto c = m.vertices()[0].get<VertexComponent::Color>();
+      //c->r = 0.0f; c->g = 1.0f;
+      //c = m.vertices()[1].get<VertexComponent::Color>();
+      //c->r = 0.0f; c->g = 1.0f;
 
-      cc.reset();
-      cc = std::unique_ptr<CharacterController>(new CharacterController(eList[eIndex]));
+      //cc.reset();
+      //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[eIndex]));
       camControl->followEntity(eList[eIndex]);
       camControl2->followEntity(eList[eIndex]);
+
+      setTag(EntityTag::PlayerControlled, eList[eIndex]);
    }
 
    void onAppStart()
@@ -153,7 +154,7 @@ class SkyApp : public Application
 
       scene.reset(new Scene(Float2(10000, 10000)));
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
-      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
+      viewport.reset(new Viewport(Float2(), Float2(1920, 1080), Float2(), camera));      
 
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
@@ -165,15 +166,13 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 100; ++i)
+      for(int i = 0; i < 1000; ++i)
       {
          int s = rand(50, 500);
-         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(200, 200)));
+         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
       }
 
       UIEntity = buildUIEntity();
-
-      
          
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[0]));
 
@@ -184,6 +183,8 @@ class SkyApp : public Application
       camControl2.reset(new CameraController(camera2, 
          std::unique_ptr<ICameraMoveStrategy>(new BasicCameraMove())));
       camControl2->setCameraCenter(Float2(0.5f, 0.5f));
+
+      cc = std::unique_ptr<CharacterController>(new CharacterController());
 
       eIndex = -1;
       nextEntity();

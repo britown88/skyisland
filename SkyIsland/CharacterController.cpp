@@ -9,8 +9,7 @@
 #include "GraphicComponents.h"
 
 
-CharacterController::CharacterController(std::weak_ptr<Entity> entity):
-   m_entity(entity)
+CharacterController::CharacterController()
 {
    m_accel = 1.0f;
    m_runAccel = 1.0f;
@@ -42,7 +41,7 @@ void CharacterController::registerKeyEvent(Keystroke k, KeyEvent e)
 
 void CharacterController::onUpPress()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
@@ -65,7 +64,7 @@ void CharacterController::onUpPress()
 
 void CharacterController::onUpRelease()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    if(upPressed)
    {
       auto &a = e->getComponent<AccelerationComponent>();
@@ -93,7 +92,7 @@ void CharacterController::onUpRelease()
 
 void CharacterController::onLeftPress()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
@@ -115,7 +114,7 @@ void CharacterController::onLeftPress()
 
 void CharacterController::onLeftRelease()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    if(leftPressed)
    {
       auto &a = e->getComponent<AccelerationComponent>();
@@ -142,7 +141,7 @@ void CharacterController::onLeftRelease()
 
 void CharacterController::onDownPress()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
@@ -165,7 +164,7 @@ void CharacterController::onDownPress()
 
 void CharacterController::onDownRelease()
 {   
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    if(downPressed)
    {
       auto &a = e->getComponent<AccelerationComponent>();
@@ -192,7 +191,7 @@ void CharacterController::onDownRelease()
 
 void CharacterController::onRightPress()
 {
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    {
       auto &a = e->getComponent<AccelerationComponent>();
       e->getComponent<FrictionComponent>().friction = m_friction / 2.0f;
@@ -213,7 +212,7 @@ void CharacterController::onRightPress()
 
 void CharacterController::onRightRelease()
 {   
-   if(auto e = m_entity.lock())
+   if(auto e = IOC.resolve<Application>().getTag(EntityTag::PlayerControlled))
    if(rightPressed)
    {
       auto &a = e->getComponent<AccelerationComponent>();

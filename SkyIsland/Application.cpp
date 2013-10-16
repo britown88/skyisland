@@ -80,6 +80,20 @@ void Application::step()
    m_dt = deltaTime / (frameTime() / 1000.0);
 }
 
+std::shared_ptr<Entity> Application::getTag(EntityTag tag)
+{
+   if(tag < EntityTag::COUNT)
+      return m_taggedEntites[(int)tag];
+   
+   return nullptr;
+}
+
+void Application::setTag(EntityTag tag, std::shared_ptr<Entity> entity)
+{
+   if(tag < EntityTag::COUNT)
+      m_taggedEntites[(int)tag] = std::move(entity);
+} 
+
 void Application::terminate()
 {
    IOC.resolve<RenderManager>().terminate();

@@ -8,7 +8,6 @@
 
 class CharacterController
 {
-   std::weak_ptr<Entity> m_entity;
    std::vector<KeyEvent> m_events;
 
    bool m_running;
@@ -28,5 +27,5 @@ class CharacterController
    void onRightRelease();   
 
 public:
-   CharacterController(std::weak_ptr<Entity> entity);
+   CharacterController();
 };
