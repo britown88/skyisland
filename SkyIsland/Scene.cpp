@@ -1,6 +1,9 @@
 #include "Scene.h"
 #include "PositionComponent.h"
 #include "GraphicComponents.h"
+#include "IOCContainer.h"
+#include "Application.h"
+#include "ComponentHelpers.h"
 
 Scene::Scene(Float2 size, int sqrtPartitionCount):
    m_size(size), m_pCount(sqrtPartitionCount)
@@ -8,34 +11,19 @@ Scene::Scene(Float2 size, int sqrtPartitionCount):
    m_partSize = Float2(m_size.x / m_pCount, m_size.y / m_pCount);
 
    for(int i = 0; i < m_pCount*m_pCount; ++i)
-      m_partitions.push_back(ScenePartition());
-}
-
-Rectf getEntityBounds(Entity& e)
-{
-   Rectf eBounds;
-   if(auto pc = e.getComponent<PositionComponent>())
    {
-      eBounds = Rectf(pc->pos.x, pc->pos.y, pc->pos.x, pc->pos.y);
-
-      if(auto gb = e.getComponent<GraphicalBoundsComponent>())
-      {
-         eBounds = Rectf(
-            pc->pos.x - (gb->size.x * gb->center.x),
-            pc->pos.y - (gb->size.y * gb->center.y),
-            pc->pos.x + (gb->size.x * gb->center.x),
-            pc->pos.y + (gb->size.y * gb->center.y)
-         );
-      }
+      m_partitions.push_back(ScenePartition());
+      m_partitions.back().lastUpdatedTimestamp = (10.0 / (m_pCount*m_pCount)) * i;
    }
-
-   return eBounds;
+      
 }
+
+
 
 Float2 Scene::getSize(){return m_size;}
 void Scene::addEntity(std::shared_ptr<Entity> entity)
 {
-   Rectf eBounds = getEntityBounds(*entity);
+   Rectf eBounds = CompHelpers::getEntityBounds(*entity);
    PartitionedEntity pe = PartitionedEntity(entity, eBounds);
 
    Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(eBounds);  
@@ -79,6 +67,7 @@ void Scene::update()
 {
    std::unordered_set<std::shared_ptr<Entity>> updatedEntities;
    std::vector<PartitionedEntity> movedEntities;
+   auto app = IOC.resolve<Application>();
 
    for(auto &p : m_partitions)
    {
@@ -103,6 +92,35 @@ void Scene::update()
                }
             }            
          }  
+      }
+      else
+      {         
+         //not visible
+         double dt = app->getTime() - p.lastUpdatedTimestamp;
+         if(dt > 1.0)
+         {            
+            p.lastUpdatedTimestamp += dt;
+            for(auto &pe : p.entities)
+            {
+               auto e = pe.first;
+               if(updatedEntities.find(e) == updatedEntities.end())
+               {
+                  for(auto em : m_entityManagers)
+                     if(!em->onlyUpdateVisible())
+                        em->updateOffScreenEntity(*e);
+
+                  updatedEntities.insert(e);
+                  if(auto pc = e->getComponent<PositionComponent>())
+                  {
+                     if(pc->oldPos != pc->pos)
+                     {
+                        pc->oldPos = pc->pos;
+                        movedEntities.push_back(pe.second);
+                     }
+                  }
+               }            
+            }
+         }         
       }
    }
    

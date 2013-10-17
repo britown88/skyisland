@@ -166,7 +166,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 1000; ++i)
+      for(int i = 0; i < 10000; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));

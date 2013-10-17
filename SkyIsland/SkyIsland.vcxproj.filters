@@ -329,5 +329,8 @@
     <ClInclude Include="PhysicsManager.h">
       <Filter>Header Files\Concretes\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="SeanSort.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

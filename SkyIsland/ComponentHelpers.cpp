@@ -1,9 +1,32 @@
 #include "ComponentHelpers.h"
 #include "MeshComponent.h"
+#include "PositionComponent.h"
+#include "GraphicComponents.h"
 
 #include <vector>
 namespace CompHelpers
 {
+
+Rectf getEntityBounds(Entity& e)
+{
+   Rectf eBounds;
+   if(auto pc = e.getComponent<PositionComponent>())
+   {
+      eBounds = Rectf(pc->pos.x, pc->pos.y, pc->pos.x, pc->pos.y);
+
+      if(auto gb = e.getComponent<GraphicalBoundsComponent>())
+      {
+         eBounds = Rectf(
+            pc->pos.x - (gb->size.x * gb->center.x),
+            pc->pos.y - (gb->size.y * gb->center.y),
+            pc->pos.x + (gb->size.x * gb->center.x),
+            pc->pos.y + (gb->size.y * gb->center.y)
+         );
+      }
+   }
+
+   return eBounds;
+}
 
 void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf color)
 {

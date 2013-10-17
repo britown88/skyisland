@@ -6,6 +6,8 @@
 #include "Renderables.h"
 
 #include "Renderer.h"
+#include "ComponentHelpers.h"
+#include "SeanSort.h"
 
 RenderManager::RenderManager()
 {
@@ -32,11 +34,25 @@ bool RenderManager::renderViewport(IViewport &vp)
    if(!m_renderer->newScene(vp, *camera))
       return false;
 
-   for(auto ent : scene->getEntities(camera->getBounds()))
+   auto eList = scene->getEntities(camera->getBounds());
+   eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
    {
-      if(auto mc = ent->getComponent<MeshComponent>())
+      auto bot1 = CompHelpers::getEntityBounds(*e1).bottom;
+      auto bot2 = CompHelpers::getEntityBounds(*e2).bottom;
+      if(bot1 < bot2) 
+         return true;
+      if(bot1 > bot2) 
+         return false;
+      
+      return e1 < e2;
+   });
+
+   for(auto ent : eList)
+   {
+      if(camera->getBounds().contains(CompHelpers::getEntityBounds(*ent)))
       {
-         buildMeshRenderable(*ent)->render(*m_renderer); 
+         if(auto mc = ent->getComponent<MeshComponent>())
+            buildMeshRenderable(*ent)->render(*m_renderer); 
       }
    }
 

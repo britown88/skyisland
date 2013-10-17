@@ -143,6 +143,7 @@
     <ClInclude Include="IViewport.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderThread.h" />
+    <ClInclude Include="SeanSort.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Sprite.h" />
