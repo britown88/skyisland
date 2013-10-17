@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "Application.h"
 #include "RenderManager.h"
+#include "PhysicsManager.h"
 #include "KeyHandler.h"
 #include "IOCContainer.h"
 #include "MouseHandler.h"
@@ -33,7 +34,6 @@ void Application::start()
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
-   //IOC.add<TextureManager>(std::make_shared<TextureManager>(100000));
    IOC.add<Application>(getptr());
 
 

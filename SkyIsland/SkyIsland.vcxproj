@@ -83,7 +83,7 @@
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="MouseHandler.cpp" />
-    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Renderables.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderManager.cpp" />
@@ -116,16 +116,16 @@
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="GraphicComponents.h" />
     <ClInclude Include="IAnimation.h" />
+    <ClInclude Include="IEntityManager.h" />
     <ClInclude Include="IKeyEvent.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="KeyHandler.h" />
     <ClInclude Include="Keystroke.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="IntrusiveLinkedList.h" />
-    <ClInclude Include="IPositionComponent.h" />
     <ClInclude Include="MouseHandler.h" />
     <ClInclude Include="ObjectHash.h" />
-    <ClInclude Include="Physics.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Renderables.h" />
     <ClInclude Include="Renderer.h" />

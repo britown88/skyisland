@@ -32,11 +32,11 @@ bool RenderManager::renderViewport(IViewport &vp)
    if(!m_renderer->newScene(vp, *camera))
       return false;
 
-   for(auto &ent : scene->getEntities(camera->getBounds()))
+   for(auto ent : scene->getEntities(camera->getBounds()))
    {
-      if(ent.hasComponent<MeshComponent>())
+      if(ent->hasComponent<MeshComponent>())
       {
-         buildMeshRenderable(ent)->render(*m_renderer); 
+         buildMeshRenderable(*ent)->render(*m_renderer); 
       }
    }
 

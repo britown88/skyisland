@@ -13,7 +13,7 @@
 #include "PhysicsComponents.h"
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
-#include "Physics.h"
+#include "PhysicsManager.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
@@ -27,9 +27,6 @@
 
 #include <unordered_map>
 
-#include "IL\ilut.h"
-
-
 class SkyApp : public Application
 {
    std::string getWindowTitle()
@@ -39,13 +36,13 @@ class SkyApp : public Application
 
    Int2 getDefaultWindowSize()
    {
-      return Int2(1920, 1080);
+      return Int2(1440, 810);
    }
 
-   GLFWmonitor *getWindowMonitor()
-   {
-      return glfwGetPrimaryMonitor();
-   }
+   //GLFWmonitor *getWindowMonitor()
+   //{
+   //   return glfwGetPrimaryMonitor();
+   //}
 
    std::shared_ptr<Scene> scene, UIScene;
    std::shared_ptr<Camera> camera, camera2, UICamera;
@@ -68,7 +65,7 @@ class SkyApp : public Application
 
       e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(""));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
-      e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(position));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 10.0f));
@@ -95,7 +92,7 @@ class SkyApp : public Application
 
       e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), face));
       
-      scene->addEntity(*e);
+      scene->addEntity(e);
 
       return e;
    }
@@ -105,8 +102,8 @@ class SkyApp : public Application
       auto e = std::make_shared<Entity>();
 
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 100, 100), Colorf(1.0f, 1.0f, 1.0f));
-      e->addComponent<IPositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      UIScene->addEntity(*e);
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      UIScene->addEntity(e);
 
       return e;
    }
@@ -148,13 +145,16 @@ class SkyApp : public Application
    {
       m_frameRate = 60.0f;
 
-      UIScene.reset(new Scene(Float2(100, 100)));
+      UIScene.reset(new Scene(Float2(100, 100), 1));
       UICamera.reset(new Camera(Rectf(0, 0, 100, 100), UIScene));
       UIViewport.reset(new Viewport(Float2(25, 25), Float2(210, 210), Float2(), UICamera));
 
-      scene.reset(new Scene(Float2(10000, 10000)));
+      scene.reset(new Scene(Float2(10000, 10000), 10));
+      scene->registerEntityManager(std::make_shared<PhysicsManager>());
+
+
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
-      viewport.reset(new Viewport(Float2(), Float2(1920, 1080), Float2(), camera));      
+      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
 
       camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
@@ -166,7 +166,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 1000; ++i)
+      for(int i = 0; i < 100; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
@@ -196,9 +196,9 @@ class SkyApp : public Application
       clickEvent = std::move(MouseEvent([&](Float2 pos)
       {
          auto cb = camera->getBounds();
-         auto &posComp = eList[eIndex]->getComponent<IPositionComponent>();
+         auto &posComp = eList[eIndex]->getComponent<PositionComponent>();
 
-         posComp.setPosition(pos + Float2(cb.left, cb.top));
+         posComp.pos = pos + Float2(cb.left, cb.top);
 
       }));
 
@@ -209,20 +209,16 @@ class SkyApp : public Application
          auto cb = camera2->getBounds();
          auto vp = viewport2->getWindowBounds();
 
-         auto &posComp = eList[eIndex]->getComponent<IPositionComponent>();
+         auto &posComp = eList[eIndex]->getComponent<PositionComponent>();
 
-         posComp.setPosition(Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top));
+         posComp.pos = Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top);
       }));
 
       viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
    
-
-      
    }
-
-
-
-   void updatePhysics()
+   
+   void updateVisibleScenes()
    {
       std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> sceneList;
 
@@ -231,9 +227,12 @@ class SkyApp : public Application
 
       for(auto &pair : sceneList)
       {
-         //insert special 'only update whats visible' here
+         std::vector<Rectf> visRects;
+         for(auto &vp : pair.second)
+            visRects.push_back(vp->getCamera()->getBounds());
 
-         Physics::updateWorldPhsyics(*pair.first, Rectf());   
+         pair.first->setVisibleRects(std::move(visRects));
+         pair.first->update();  
       }
    }
 
@@ -258,7 +257,7 @@ class SkyApp : public Application
 
    void onStep()
    {
-      updatePhysics();
+      updateVisibleScenes();
          
       camControl->updateCamera();
       camControl2->updateCamera();

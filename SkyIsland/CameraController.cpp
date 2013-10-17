@@ -1,5 +1,5 @@
 #include "CameraController.h"
-#include "IPositionComponent.h"
+#include "PositionComponent.h"
 #include "GraphicComponents.h"
 
 CameraController::CameraController(std::shared_ptr<ICamera> camera, std::unique_ptr<ICameraMoveStrategy> strategy)
@@ -19,8 +19,8 @@ void CameraController::targetEntity()
 {
    //if following an entity
    if(auto e = m_entity.lock())
-      if(e->hasComponent<IPositionComponent>())
-         m_targetPos = e->getComponent<IPositionComponent>().getPosition();
+      if(e->hasComponent<PositionComponent>())
+         m_targetPos = e->getComponent<PositionComponent>().pos;
 }
 
 void CameraController::updateCamera()

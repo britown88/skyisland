@@ -1,14 +1,11 @@
 #pragma once
 
-#include "IPositionComponent.h"
 #include "Vector.h"
 
-class PositionComponent : public IPositionComponent
+class PositionComponent : public IComponent
 {
-   Float2 m_pos;
 public:
-   PositionComponent(Float2 pos):m_pos(pos){}
+   PositionComponent(Float2 pos):pos(pos){}
 
-   Float2 getPosition(){return m_pos;}
-   void setPosition(Float2 pos){m_pos = pos;}
+   Float2 pos, oldPos;
 };

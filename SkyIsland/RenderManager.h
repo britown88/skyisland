@@ -3,6 +3,7 @@
 #include "GLWindow.h"
 #include "IRenderer.h"
 #include "RenderThread.h"
+#include "IEntityManager.h"
 
 class RenderManager
 {

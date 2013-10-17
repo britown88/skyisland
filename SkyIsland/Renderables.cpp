@@ -1,5 +1,5 @@
 #include "Renderables.h"
-#include "IPositionComponent.h"
+#include "PositionComponent.h"
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
 #include "MeshComponent.h"
@@ -21,11 +21,11 @@ public:
 
    MeshRenderable(Entity &entity)
    {
-      if(entity.hasComponent<IPositionComponent>())
+      if(entity.hasComponent<PositionComponent>())
       {
          auto &mc = entity.getComponent<MeshComponent>();
-         auto &pc = entity.getComponent<IPositionComponent>();
-         Float2 pos = pc.getPosition();
+         auto &pc = entity.getComponent<PositionComponent>();
+         Float2 pos = pc.pos;
          Float2 size = Float2(1.0f, 1.0f);
          Float2 center = Float2();
 

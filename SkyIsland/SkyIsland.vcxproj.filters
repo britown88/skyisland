@@ -123,9 +123,6 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,9 +233,6 @@
     <ClInclude Include="Singleton.h">
       <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="IPositionComponent.h">
-      <Filter>Header Files\Interfaces\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="MeshComponent.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
@@ -268,9 +265,6 @@
     </ClInclude>
     <ClInclude Include="Trig.h">
       <Filter>Header Files\Concretes\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Header Files\Concretes\Physics</Filter>
     </ClInclude>
     <ClInclude Include="SkyApp.h">
       <Filter>Header Files\Concretes\Game</Filter>
@@ -328,6 +322,12 @@
     </ClInclude>
     <ClInclude Include="TextureComponent.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntityManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Concretes\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
