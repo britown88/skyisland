@@ -34,15 +34,15 @@ bool MouseHandler::_runCallback(Keystroke key, IViewport &vp, Float2 mPos)
 
 void MouseHandler::runEvent(Keystroke key)
 {
-   auto &win = IOC.resolve<GLWindow>();
-   Float2 mpos = win.getMousePosition();
+   auto win = IOC.resolve<GLWindow>();
+   Float2 mpos = win->getMousePosition();
 
-   for(auto & vp : win.getViewports())
+   for(auto & vp : win->getViewports())
       if(_runCallback(key, *vp, mpos))
          break;
 }
 
 Float2 MouseHandler::mousePos()
 {
-   return IOC.resolve<GLWindow>().getMousePosition();
+   return IOC.resolve<GLWindow>()->getMousePosition();
 }

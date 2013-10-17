@@ -8,12 +8,12 @@ Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
 {   
 }
 
-void Renderer::drawTriangles(VertexList vertices, std::vector<int> faces, Transform transform) const
+void Renderer::drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTriangle(std::move(vertices), std::move(faces), transform)));
 }
 
-void Renderer::drawTexture(std::string texture, VertexList vertices, std::vector<int> faces, Transform transform) const
+void Renderer::drawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
 }
@@ -29,7 +29,7 @@ Renderer::SceneList Renderer::drawQueue()
 
 bool Renderer::newScene(IViewport &vp, ICamera &cam)
 {
-   auto &winSize = IOC.resolve<Application>().windowSize();
+   auto &winSize = IOC.resolve<Application>()->windowSize();
 
    if(auto &parent = vp.getParent().lock())
    {

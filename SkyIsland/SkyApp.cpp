@@ -71,7 +71,7 @@ class SkyApp : public Application
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 10.0f));
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
-      auto sprite = IOC.resolve<SpriteFactory>().buildSprite("assets/guy", 0.1f);
+      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", 0.1f);
 
       std::string face = "";
       switch(rand(0, 4))
@@ -118,8 +118,8 @@ class SkyApp : public Application
          //c = m.vertices()[1].get<VertexComponent::Color>();
          //c->r = 1.0f; c->g = 0.0f;
 
-         eList[eIndex]->getComponent<FrictionComponent>().friction = 10.0f;
-         eList[eIndex]->getComponent<AccelerationComponent>().acceleration = 0.0f;
+         eList[eIndex]->getComponent<FrictionComponent>()->friction = 10.0f;
+         eList[eIndex]->getComponent<AccelerationComponent>()->acceleration = 0.0f;
       }
       
 
@@ -166,7 +166,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 100; ++i)
+      for(int i = 0; i < 1000; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
@@ -190,15 +190,15 @@ class SkyApp : public Application
       nextEntity();
 
       tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
-      IOC.resolve<KeyHandler>().registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
+      IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
 
 
       clickEvent = std::move(MouseEvent([&](Float2 pos)
       {
          auto cb = camera->getBounds();
-         auto &posComp = eList[eIndex]->getComponent<PositionComponent>();
+         auto posComp = eList[eIndex]->getComponent<PositionComponent>();
 
-         posComp.pos = pos + Float2(cb.left, cb.top);
+         posComp->pos = pos + Float2(cb.left, cb.top);
 
       }));
 
@@ -209,9 +209,9 @@ class SkyApp : public Application
          auto cb = camera2->getBounds();
          auto vp = viewport2->getWindowBounds();
 
-         auto &posComp = eList[eIndex]->getComponent<PositionComponent>();
+         auto posComp = eList[eIndex]->getComponent<PositionComponent>();
 
-         posComp.pos = Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top);
+         posComp->pos = Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top);
       }));
 
       viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
@@ -250,7 +250,7 @@ class SkyApp : public Application
 
    void updateViewportGraphics(IViewport &vp)
    {
-      if(IOC.resolve<RenderManager>().renderViewport(vp))
+      if(IOC.resolve<RenderManager>()->renderViewport(vp))
          for(auto &child : vp.getChildren())
             updateViewportGraphics(child);
    }
@@ -268,7 +268,7 @@ class SkyApp : public Application
          updateViewportGraphics(*vp);
       }        
 
-      IOC.resolve<RenderManager>().finalizeRender();      
+      IOC.resolve<RenderManager>()->finalizeRender();      
       m_window->pollEvents();      
    }
 };

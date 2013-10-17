@@ -112,10 +112,10 @@ Float2 GLWindow::getMousePosition()
 
 void GLWindow::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
-   IOC.resolve<KeyHandler>().runEvent(Keystroke(key, action, mode));
+   IOC.resolve<KeyHandler>()->runEvent(Keystroke(key, action, mode));
 }
 
 void GLWindow::mouseCallback(GLFWwindow *window, int button, int action, int mode)
 {
-   IOC.resolve<MouseHandler>().runEvent(Keystroke(button, action, mode));
+   IOC.resolve<MouseHandler>()->runEvent(Keystroke(button, action, mode));
 }

@@ -7,6 +7,7 @@
 class VelocityComponent : public IComponent
 {
 public:
+   static const int ID = 2678353989;
    Float2 velocity;
    VelocityComponent(Float2 velocity):velocity(velocity){}
 };
@@ -14,6 +15,7 @@ public:
 class AccelerationComponent : public IComponent
 {
 public:
+   static const int ID = 2926389175;
    float direction;
    float acceleration;
    float maxVelocity;
@@ -24,6 +26,7 @@ public:
 class FrictionComponent : public IComponent
 {
 public:
+   static const int ID = 3508263007;
    float friction;
    FrictionComponent(float friction):friction(friction){}
 };

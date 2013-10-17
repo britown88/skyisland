@@ -9,7 +9,7 @@ std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
 
 Rectf Viewport::getBounds()
 {
-   auto &winSize = IOC.resolve<Application>().windowSize();
+   auto &winSize = IOC.resolve<Application>()->windowSize();
    Rectf bounds = getWindowBounds();
    return Rectf(
       bounds.left,

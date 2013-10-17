@@ -34,7 +34,7 @@ bool RenderManager::renderViewport(IViewport &vp)
 
    for(auto ent : scene->getEntities(camera->getBounds()))
    {
-      if(ent->hasComponent<MeshComponent>())
+      if(auto mc = ent->getComponent<MeshComponent>())
       {
          buildMeshRenderable(*ent)->render(*m_renderer); 
       }

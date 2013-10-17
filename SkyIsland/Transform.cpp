@@ -5,17 +5,30 @@
 #include "Entity.h"
 
 #include "RotationComponent.h"
+#include "GraphicComponents.h"
+#include "PositionComponent.h"
 
 Transform buildTransformation(Entity &entity)
 {
    Transform t;
 
-   if(entity.hasComponent<RotationComponent>())
+   if(auto p = entity.getComponent<PositionComponent>())
    {
-      auto &rot = entity.getComponent<RotationComponent>();
-      t.rotationAngle = rot.getAngle();
-      t.rotationPoint = rot.getPoint();
+      t.offset = p->pos;
    }
+
+   if(auto rot = entity.getComponent<RotationComponent>())
+   {
+      t.rotationAngle = rot->getAngle();
+      t.rotationPoint = rot->getPoint();
+   }
+
+   if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+   {
+      t.scale = gb->size;
+      t.offset = Float2(t.offset.x - gb->size.x * gb->center.x, t.offset.y - gb->size.y * gb->center.y);
+   }
+
 
    return t;
 }

@@ -12,11 +12,12 @@ enum class EntityTag
 };
 
 
-class Application : std::enable_shared_from_this<Application>
+class Application : public std::enable_shared_from_this<Application>
 {
    std::shared_ptr<Entity> m_taggedEntites[EntityTag::COUNT];
 
 public:
+   static const int ID = 3070040466;
    void start();
    void terminate();
    bool isRunning();

@@ -18,15 +18,9 @@ public:
    }
 
    template<typename T>
-   T &getComponent()
+   std::shared_ptr<T> getComponent()
    {
       return components.resolve<T>();
-   }
-
-   template<typename T>
-   bool hasComponent()
-   {
-      return components.exists<T>();
    }
 
    template<typename T>

@@ -66,7 +66,7 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(std::string filepath, float s
    {
       addFace("", filepath, speed, sprite);           
 
-      for(auto file : iterateDirectory(fs::current_path() / filepath))
+      for(auto &file : iterateDirectory(fs::current_path() / filepath))
       {
          if(fs::is_directory(file))
          {

@@ -6,14 +6,14 @@
 
 class MeshComponent : public IComponent
 {
-   VertexList m_vertices;
-   std::vector<int> m_faces;
-
 public:
-   MeshComponent(VertexList vertices, std::vector<int> faces):
-      m_vertices(std::move(vertices)), m_faces(std::move(faces)){}
+   static const int ID = 3115623613;
 
-   VertexList &vertices(){return m_vertices;}
-   std::vector<int> &faces(){return m_faces;}
+   MeshComponent(VertexList vertices, std::vector<int> faces):
+      vertices(std::make_shared<VertexList>(std::move(vertices))), 
+      faces(std::make_shared<std::vector<int>>(std::move(faces))){}
+
+   std::shared_ptr<VertexList> vertices;
+   std::shared_ptr<std::vector<int>> faces;
 
 };

@@ -8,6 +8,8 @@
 class GraphicalBoundsComponent : public IComponent
 {
 public:
+   static const int ID = 2867340569;
+
    GraphicalBoundsComponent(Float2 size, Float2 center = Float2()):size(size), center(center){}
 
    Float2 size, center;
@@ -16,6 +18,7 @@ public:
 class SpriteComponent : public IComponent
 {
 public:
+   static const int ID = 1102563874;
    std::shared_ptr<Sprite> sprite;
    float startTime;
    std::string face;

@@ -96,7 +96,7 @@ void Application::setTag(EntityTag tag, std::shared_ptr<Entity> entity)
 
 void Application::terminate()
 {
-   IOC.resolve<RenderManager>().terminate();
+   IOC.resolve<RenderManager>()->terminate();
 
    onTerminate();
 }

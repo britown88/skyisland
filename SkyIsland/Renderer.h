@@ -14,8 +14,9 @@ class Renderer : public IRenderer
 public:
    Renderer();
 
-   void drawTriangles(VertexList vertices, std::vector<int> faces, Transform transform = Transform()) const;
-   void drawTexture(std::string texture, VertexList vertices, std::vector<int> faces, Transform transform = Transform()) const;
+   void drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
+   void drawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
+
 
    SceneList drawQueue();
    bool newScene(IViewport &vp, ICamera &cam);

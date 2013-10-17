@@ -16,8 +16,8 @@ RenderThread::RenderThread():
 
 void RenderThread::_run()
 {
-   auto &win = IOC.resolve<GLWindow>();
-   win.makeContextCurrent();
+   auto win = IOC.resolve<GLWindow>();
+   win->makeContextCurrent();
 
    while(true)
    {
@@ -26,7 +26,7 @@ void RenderThread::_run()
       for(auto& scene : *m_queueCurrent)
          scene->draw();
 
-      win.swapBuffers();
+      win->swapBuffers();
 
       m_mutex.lock();
       if(m_queueUpdated)

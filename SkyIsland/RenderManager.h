@@ -11,6 +11,8 @@ class RenderManager
    std::unique_ptr<RenderThread> m_renderThread;
    
 public:
+   static const int ID = 1432355531;
+
    RenderManager();
    ~RenderManager();
    
