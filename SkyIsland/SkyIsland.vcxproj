@@ -72,10 +72,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIManager.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CameraStrategies.cpp" />
+    <ClCompile Include="CharacterAI.cpp" />
     <ClCompile Include="CharacterAnimationManager.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="CharacterInputHandler.cpp" />
@@ -102,11 +104,14 @@
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="AIManager.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CameraStrategies.h" />
+    <ClInclude Include="CharacterAI.h" />
     <ClInclude Include="CharacterAnimationManager.h" />
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterController.h" />
@@ -120,6 +125,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="GraphicComponents.h" />
+    <ClInclude Include="IAITask.h" />
     <ClInclude Include="IAnimation.h" />
     <ClInclude Include="IEntityManager.h" />
     <ClInclude Include="IKeyEvent.h" />
@@ -129,6 +135,7 @@
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="IntrusiveLinkedList.h" />
     <ClInclude Include="MouseHandler.h" />
+    <ClInclude Include="MoveCharacterTask.h" />
     <ClInclude Include="ObjectHash.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PositionComponent.h" />
@@ -153,6 +160,7 @@
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="TaskList.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TextureManager.h" />
@@ -162,6 +170,7 @@
     <ClInclude Include="PhysicsComponents.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Viewport.h" />
+    <ClInclude Include="WaitTask.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

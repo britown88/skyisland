@@ -79,6 +79,15 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{da33a58e-d4c5-4520-ad78-af04549eb341}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interfaces\AI">
+      <UniqueIdentifier>{73e5f6bf-f453-45cd-9f68-67c31d622688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\AI">
+      <UniqueIdentifier>{5c483b9c-6ec4-4f4a-94d9-11c5342911d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concretes\AI\Tasks">
+      <UniqueIdentifier>{82b6d634-618a-411f-8d67-bf6657db36f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -163,6 +172,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CharacterAnimationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -346,6 +361,27 @@
     </ClInclude>
     <ClInclude Include="CharacterAnimationManager.h">
       <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IAITask.h">
+      <Filter>Header Files\Interfaces\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAI.h">
+      <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AIManager.h">
+      <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCharacterTask.h">
+      <Filter>Header Files\Concretes\AI\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitTask.h">
+      <Filter>Header Files\Concretes\AI\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskList.h">
+      <Filter>Header Files\Concretes\AI\Tasks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,9 +10,9 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
 {
    m_accel = 0.5f;
    m_runAccel = 1.0f;
-   m_maxVelocity = 15.0f;
+   m_maxVelocity = 10.0f;
    m_friction = 0.5f;
-   m_minAnimSpeed = 0.1f;
+   m_minAnimSpeed = 0.09f;
    m_maxAnimSpeed = 0.5f;
 }
 
@@ -76,8 +76,8 @@ void CharacterController::updateAnimation()
 
             //now reset anim speed base don velocity
             auto &v = vc->velocity;
-            float mag = sqrt(v.x * v.x + v.y * v.y);
-            float animSpeed = m_minAnimSpeed + (m_maxAnimSpeed - m_minAnimSpeed) * (1.0f - (mag / ac->maxVelocity));
+            float mag = v.x * v.x + v.y * v.y;
+            float animSpeed = m_minAnimSpeed + (m_maxAnimSpeed - m_minAnimSpeed) * (1.0f - (mag / (ac->maxVelocity * ac->maxVelocity)));
             
             auto face = spr->sprite->getFace(spr->face);
             float time = IOC.resolve<Application>()->getTime();

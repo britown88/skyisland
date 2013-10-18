@@ -97,7 +97,7 @@ void Scene::update()
       {         
          //not visible
          double dt = app->getTime() - p.lastUpdatedTimestamp;
-         if(dt > 1.0)
+         if(dt > 1.0);
          {            
             p.lastUpdatedTimestamp += dt;
             for(auto &pe : p.entities)

@@ -16,6 +16,8 @@
 #include "CharacterComponent.h"
 #include "PhysicsManager.h"
 #include "CharacterAnimationManager.h"
+#include "AIManager.h"
+#include "AIComponent.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
@@ -73,28 +75,14 @@ class SkyApp : public Application
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+     
+      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
+      e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
       auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", 0.1f);
 
-      std::string face = "";
-      switch(rand(0, 4))
-      {
-      case 0:
-         face = "stand_left";
-         break;
-      case 1:
-         face = "stand_up";
-         break;
-      case 2:
-         face = "stand_right";
-         break;
-      case 3:
-         face = "stand_down";
-         break;
-      }
-
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), face));
+      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), "stand_down"));
       
       scene->addEntity(e);
 
@@ -114,28 +102,19 @@ class SkyApp : public Application
 
    void nextEntity()
    {
+      //add the AI back in
       if(eIndex >= 0)
-      {
-         auto &m = eList[eIndex]->getComponent<MeshComponent>();
-         //auto c = m.vertices()[0].get<VertexComponent::Color>();
-         //c->r = 1.0f; c->g = 0.0f;
-         //c = m.vertices()[1].get<VertexComponent::Color>();
-         //c->r = 1.0f; c->g = 0.0f;
-
-         eList[eIndex]->getComponent<FrictionComponent>()->friction = 10.0f;
-         eList[eIndex]->getComponent<AccelerationComponent>()->acceleration = 0.0f;
-      }
-      
+         eList[eIndex]->addComponent<AIComponent>(std::make_shared<AIComponent>(eList[eIndex]));
 
       ++eIndex;
       if(eIndex >= eList.size())
          eIndex = 0;
 
-      auto &m = eList[eIndex]->getComponent<MeshComponent>();
-      //auto c = m.vertices()[0].get<VertexComponent::Color>();
-      //c->r = 0.0f; c->g = 1.0f;
-      //c = m.vertices()[1].get<VertexComponent::Color>();
-      //c->r = 0.0f; c->g = 1.0f;
+      //remove the AI and stop moving
+      eList[eIndex]->removeComponent<AIComponent>();
+      eList[eIndex]->getComponent<CharacterComponent>()->controller->stop();
+
+
 
       //cc.reset();
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[eIndex]));
@@ -156,6 +135,7 @@ class SkyApp : public Application
       scene.reset(new Scene(Float2(10000, 10000), 10));
       scene->registerEntityManager(std::make_shared<PhysicsManager>());
       scene->registerEntityManager(std::make_shared<CharacterAnimationManager>());
+      scene->registerEntityManager(std::make_shared<AIManager>());
 
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
