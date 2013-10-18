@@ -13,7 +13,9 @@
 #include "PhysicsComponents.h"
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
+#include "CharacterComponent.h"
 #include "PhysicsManager.h"
+#include "CharacterAnimationManager.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
@@ -69,7 +71,8 @@ class SkyApp : public Application
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
-      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(0.0f, 0.0f, 10.0f));
+      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
+      e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
       auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", 0.1f);
@@ -152,6 +155,7 @@ class SkyApp : public Application
 
       scene.reset(new Scene(Float2(10000, 10000), 10));
       scene->registerEntityManager(std::make_shared<PhysicsManager>());
+      scene->registerEntityManager(std::make_shared<CharacterAnimationManager>());
 
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      

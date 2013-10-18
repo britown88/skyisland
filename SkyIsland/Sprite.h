@@ -23,6 +23,11 @@ public:
       m_faces[name] = std::move(face);
    }
 
+   Face *getFace(std::string name)
+   {
+      return m_faces[name].get();
+   }
+
    std::string getTexture(std::string face, float time)
    {
       if(m_faces.find(face) != m_faces.end())

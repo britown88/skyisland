@@ -17,14 +17,7 @@ class CharacterInputHandler
 
    void registerKeyEvent(Keystroke k, KeyEvent e);
 
-   void onUpPress();
-   void onUpRelease();
-   void onLeftPress();
-   void onLeftRelease();
-   void onDownPress();
-   void onDownRelease();
-   void onRightPress();
-   void onRightRelease();   
+   void sendControllerMovement();
 
 public:
    CharacterInputHandler();

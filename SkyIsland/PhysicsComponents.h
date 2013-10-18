@@ -16,11 +16,11 @@ class AccelerationComponent : public IComponent
 {
 public:
    static const int ID = 2926389175;
-   float direction;
+   Float2 direction;
    float acceleration;
    float maxVelocity;
 
-   AccelerationComponent(float dir, float accel, float maxVelocity):direction(dir), acceleration(accel), maxVelocity(maxVelocity){}
+   AccelerationComponent(Float2 dir, float accel, float maxVelocity):direction(dir), acceleration(accel), maxVelocity(maxVelocity){}
 };
 
 class FrictionComponent : public IComponent

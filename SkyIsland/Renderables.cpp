@@ -27,28 +27,6 @@ public:
             m_vertices = mc->vertices;
             m_faces = mc->faces;
          }
-
-         //Float2 pos = pc->pos;
-         //Float2 size = Float2(1.0f, 1.0f);
-         //Float2 center = Float2();
-
-         //if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
-         //{
-         //   size = gb->size;
-         //   center = gb->center;
-         //}
-
-         //m_vertices.reset(new VertexList(mc->vertices()));
-
-         //for(auto iter = m_vertices->iterate(); iter.hasMore(); iter.moveNext())
-         //{
-         //   auto &vpos = *iter.get<VertexComponent::Position>();
-         //   
-         //   vpos.x = vpos.x * size.x - center.x * size.x + pos.x;
-         //   vpos.y = vpos.y * size.y - center.y * size.y + pos.y;
-         //}
-
-         //m_faces = mc->faces();
       }
 
       m_transform = buildTransformation(entity);

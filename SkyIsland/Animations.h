@@ -13,4 +13,5 @@ public:
    int get(float time){return (int)(time / m_speed) % m_frameCount;}
    float getLength(){return m_speed * m_frameCount;}
    bool isInfinite(){return true;}
+   int getFrameCount(){return m_frameCount;}
 };

@@ -17,9 +17,10 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
       {
          if(auto a = ent.getComponent<AccelerationComponent>())
          {
+            float angle = atan2(a->direction.y, a->direction.x);
             Float2 delta = Float2(
-               cos(a->direction * PI / 180.0f) * a->acceleration, 
-               -(sin(a->direction * PI / 180.0f) * a->acceleration));
+               cos(angle) * a->acceleration, 
+               -(sin(angle) * a->acceleration));
 
             v->velocity += delta * app->dt();
 

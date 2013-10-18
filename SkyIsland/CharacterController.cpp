@@ -1,240 +1,98 @@
-#include <GLFW/glfw3.h>
-
-#include "CharacterInputHandler.h"
-
+#include "CharacterController.h"
+#include "PhysicsComponents.h"
+#include "GraphicComponents.h"
+#include "Animations.h"
 #include "IOCContainer.h"
 #include "Application.h"
 
-#include "PhysicsComponents.h"
-#include "GraphicComponents.h"
-
-
-CharacterInputHandler::CharacterInputHandler()
+CharacterController::CharacterController(std::weak_ptr<Entity> entity):
+   m_entity(std::move(entity))
 {
-   m_accel = 1.0f;
+   m_accel = 0.5f;
    m_runAccel = 1.0f;
-   m_maxVelocity = 10.0f;
-   m_friction = 1.0f;
-
-   upPressed = false;
-   downPressed = false;
-   leftPressed = false;
-   rightPressed = false;
-
-   
-   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), KeyEvent([&](){this->onRightPress();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_RELEASE, 0), KeyEvent([&](){this->onRightRelease();}));   
-   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, GLFW_PRESS, 0), KeyEvent([&](){this->onLeftPress();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, GLFW_RELEASE, 0), KeyEvent([&](){this->onLeftRelease();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_UP, GLFW_PRESS, 0), KeyEvent([&](){this->onUpPress();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_UP, GLFW_RELEASE, 0), KeyEvent([&](){this->onUpRelease();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_PRESS, 0), KeyEvent([&](){this->onDownPress();}));
-   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0), KeyEvent([&](){this->onDownRelease();}));
-
+   m_maxVelocity = 15.0f;
+   m_friction = 0.5f;
+   m_minAnimSpeed = 0.1f;
+   m_maxAnimSpeed = 0.5f;
 }
 
-void CharacterInputHandler::registerKeyEvent(Keystroke k, KeyEvent e)
-{
-   m_events.push_back(std::move(e));
-   IOC.resolve<KeyHandler>()->registerEvent(k, &m_events[m_events.size()-1]);
-}
 
-void CharacterInputHandler::onUpPress()
+void CharacterController::move(Float2 vector)
 {
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
+   if(vector != Float2()) 
+      m_facing = vector;
+
+   if(auto e = m_entity.lock())
    {
-      auto &a = e->getComponent<AccelerationComponent>();
-      e->getComponent<FrictionComponent>()->friction = m_friction / 2.0f;
-
-      e->getComponent<SpriteComponent>()->face = "run_up";
-
-      a->acceleration = m_accel;
-
-      a->direction = 90.0f;
-      upPressed = true;
-      downPressed = false;
-      
-      if(leftPressed)
-         a->direction = 135.0f; 
-      else if(rightPressed)
-         a->direction = 45.0f;   
+      if(auto ac = e->getComponent<AccelerationComponent>())
+      if(auto fc = e->getComponent<FrictionComponent>())
+      {
+         fc->friction = 0.0f;
+         ac->direction = vector;
+         ac->acceleration = m_accel;
+         ac->maxVelocity = m_maxVelocity;
+      }
    }
    
 }
 
-void CharacterInputHandler::onUpRelease()
+void CharacterController::stop()
 {
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   if(upPressed)
+   if(auto e = m_entity.lock())
    {
-      auto &a = e->getComponent<AccelerationComponent>();
-      upPressed = false;
-      if(leftPressed)
+      if(auto ac = e->getComponent<AccelerationComponent>())
+      if(auto fc = e->getComponent<FrictionComponent>())
       {
-         a->direction = 180.0f; 
-         e->getComponent<SpriteComponent>()->face = "run_left";
-      }         
-      else if(rightPressed)
-      {
-         a->direction = 0.0f;
-         e->getComponent<SpriteComponent>()->face = "run_right";
-      }         
-      else
-      {
-         a->acceleration = 0.0f;
-         e->getComponent<FrictionComponent>()->friction = m_friction;
-
-         e->getComponent<SpriteComponent>()->face = "stand_up";
-      }
-         
-   }
-}
-
-void CharacterInputHandler::onLeftPress()
-{
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   {
-      auto &a = e->getComponent<AccelerationComponent>();
-      e->getComponent<FrictionComponent>()->friction = m_friction / 2.0f;
-
-      a->acceleration = m_accel;
-      a->direction = 180.0f;
-      leftPressed = true;
-      rightPressed = false;
-
-      e->getComponent<SpriteComponent>()->face = "run_left";
-      
-      if(upPressed)
-         a->direction = 135.0f; 
-      else if(downPressed)
-         a->direction = 225.0f;   
-   }
-
-}
-
-void CharacterInputHandler::onLeftRelease()
-{
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   if(leftPressed)
-   {
-      auto &a = e->getComponent<AccelerationComponent>();
-      leftPressed = false;
-      if(upPressed)
-      {
-         a->direction = 90.0f; 
-         e->getComponent<SpriteComponent>()->face = "run_up";
-      }         
-      else if(downPressed)
-      {
-         a->direction = 270.0f;
-         e->getComponent<SpriteComponent>()->face = "run_down";
-      }         
-      else
-      {
-         a->acceleration = 0.0f;
-         e->getComponent<FrictionComponent>()->friction = m_friction;
-
-         e->getComponent<SpriteComponent>()->face = "stand_left";
+         fc->friction = m_friction;
+         ac->acceleration = 0.0f;
       }
    }
 }
 
-void CharacterInputHandler::onDownPress()
+void CharacterController::updateAnimation()
 {
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
+   if(auto e = m_entity.lock())
    {
-      auto &a = e->getComponent<AccelerationComponent>();
-      e->getComponent<FrictionComponent>()->friction = m_friction / 2.0f;
-
-      e->getComponent<SpriteComponent>()->face = "run_down";
-
-
-      a->acceleration = m_accel;
-      a->direction = 270.0f;
-      downPressed = true;
-      upPressed = false;
-      
-      if(leftPressed)
-         a->direction = 225.0f; 
-      else if(rightPressed)
-         a->direction = 315.0f; 
-   }
-     
-}
-
-void CharacterInputHandler::onDownRelease()
-{   
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   if(downPressed)
-   {
-      auto &a = e->getComponent<AccelerationComponent>();
-      downPressed = false;
-      if(leftPressed)
+      if(auto ac = e->getComponent<AccelerationComponent>())
+      if(auto fc = e->getComponent<FrictionComponent>())
+      if(auto vc = e->getComponent<VelocityComponent>())
+      if(auto spr = e->getComponent<SpriteComponent>())
       {
-         a->direction = 180.0f; 
-         e->getComponent<SpriteComponent>()->face = "run_left";
-      }         
-      else if(rightPressed)
-      {
-         a->direction = 0.0f;
-         e->getComponent<SpriteComponent>()->face = "run_right";
-      }         
-      else
-      {
-         a->acceleration = 0.0f;
-         e->getComponent<FrictionComponent>()->friction = m_friction;
+         if(vc->velocity == Float2())
+         {
+            //stopped, set face
+            if(fabs(m_facing.x) > fabs(m_facing.y))
+               spr->face = m_facing.x >= 0.0f ? "stand_right" : "stand_left";
+            else
+               spr->face = m_facing.y >= 0.0f ? "stand_up" : "stand_down";
+         }
+         else
+         {
+            //moving, set face
+            if(fabs(vc->velocity.x) > fabs(vc->velocity.y))
+               spr->face = vc->velocity.x >= 0.0f ? "run_right" : "run_left";
+            else
+               spr->face = vc->velocity.y >= 0.0f ? "run_down" : "run_up";
 
-         e->getComponent<SpriteComponent>()->face = "stand_down";
+            //now reset anim speed base don velocity
+            auto &v = vc->velocity;
+            float mag = sqrt(v.x * v.x + v.y * v.y);
+            float animSpeed = m_minAnimSpeed + (m_maxAnimSpeed - m_minAnimSpeed) * (1.0f - (mag / ac->maxVelocity));
+            
+            auto face = spr->sprite->getFace(spr->face);
+            float time = IOC.resolve<Application>()->getTime();
+            float oldAnimSpeed = face->animation->getLength() / face->animation->getFrameCount();
+            int currentFrame = face->animation->get(time - spr->startTime);
+            float midFrameProgress = (time - spr->startTime - (currentFrame * oldAnimSpeed)) / oldAnimSpeed;
+
+            spr->startTime = time - currentFrame * animSpeed - midFrameProgress * animSpeed;
+            face->animation.reset(new BasicAnimation(face->animation->getFrameCount(), animSpeed));
+            
+
+            //get distance through current frame %
+            //set starttime so that it starts at current frame + new distance
+            
+         }
       }
    }
 }
-
-void CharacterInputHandler::onRightPress()
-{
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   {
-      auto &a = e->getComponent<AccelerationComponent>();
-      e->getComponent<FrictionComponent>()->friction = m_friction / 2.0f;
-
-      e->getComponent<SpriteComponent>()->face = "run_right";
-
-      a->acceleration = m_accel;
-      a->direction = 0.0f;
-      rightPressed = true;
-      leftPressed = false;
-      
-      if(upPressed)
-         a->direction = 45.0f; 
-      else if(downPressed)
-         a->direction = 315.0f;  
-   }
-}
-
-void CharacterInputHandler::onRightRelease()
-{   
-   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
-   if(rightPressed)
-   {
-      auto &a = e->getComponent<AccelerationComponent>();
-
-      rightPressed = false;
-      if(upPressed)
-      {
-         a->direction = 90.0f; 
-         e->getComponent<SpriteComponent>()->face = "run_up";
-      }         
-      else if(downPressed)
-      {
-         a->direction = 270.0f;
-         e->getComponent<SpriteComponent>()->face = "run_down";
-      }         
-      else
-      {
-         a->acceleration = 0.0f;
-         e->getComponent<FrictionComponent>()->friction = m_friction;
-         e->getComponent<SpriteComponent>()->face = "stand_right";
-      }
-   }
-}
-
-
