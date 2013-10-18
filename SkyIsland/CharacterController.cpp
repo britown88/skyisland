@@ -1,6 +1,6 @@
 #include <GLFW/glfw3.h>
 
-#include "CharacterController.h"
+#include "CharacterInputHandler.h"
 
 #include "IOCContainer.h"
 #include "Application.h"
@@ -9,7 +9,7 @@
 #include "GraphicComponents.h"
 
 
-CharacterController::CharacterController()
+CharacterInputHandler::CharacterInputHandler()
 {
    m_accel = 1.0f;
    m_runAccel = 1.0f;
@@ -33,13 +33,13 @@ CharacterController::CharacterController()
 
 }
 
-void CharacterController::registerKeyEvent(Keystroke k, KeyEvent e)
+void CharacterInputHandler::registerKeyEvent(Keystroke k, KeyEvent e)
 {
    m_events.push_back(std::move(e));
    IOC.resolve<KeyHandler>()->registerEvent(k, &m_events[m_events.size()-1]);
 }
 
-void CharacterController::onUpPress()
+void CharacterInputHandler::onUpPress()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    {
@@ -62,7 +62,7 @@ void CharacterController::onUpPress()
    
 }
 
-void CharacterController::onUpRelease()
+void CharacterInputHandler::onUpRelease()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    if(upPressed)
@@ -90,7 +90,7 @@ void CharacterController::onUpRelease()
    }
 }
 
-void CharacterController::onLeftPress()
+void CharacterInputHandler::onLeftPress()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    {
@@ -112,7 +112,7 @@ void CharacterController::onLeftPress()
 
 }
 
-void CharacterController::onLeftRelease()
+void CharacterInputHandler::onLeftRelease()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    if(leftPressed)
@@ -139,7 +139,7 @@ void CharacterController::onLeftRelease()
    }
 }
 
-void CharacterController::onDownPress()
+void CharacterInputHandler::onDownPress()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    {
@@ -162,7 +162,7 @@ void CharacterController::onDownPress()
      
 }
 
-void CharacterController::onDownRelease()
+void CharacterInputHandler::onDownRelease()
 {   
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    if(downPressed)
@@ -189,7 +189,7 @@ void CharacterController::onDownRelease()
    }
 }
 
-void CharacterController::onRightPress()
+void CharacterInputHandler::onRightPress()
 {
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    {
@@ -210,7 +210,7 @@ void CharacterController::onRightPress()
    }
 }
 
-void CharacterController::onRightRelease()
+void CharacterInputHandler::onRightRelease()
 {   
    if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
    if(rightPressed)

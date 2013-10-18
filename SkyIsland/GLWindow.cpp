@@ -16,6 +16,8 @@ void GLWindow::registerCallbacks()
    iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
+
+   //glfwSwapInterval(0);
 }
 
 GLWindow::GLWindow(Int2 winSize, std::string windowName)

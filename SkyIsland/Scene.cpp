@@ -106,8 +106,7 @@ void Scene::update()
                if(updatedEntities.find(e) == updatedEntities.end())
                {
                   for(auto em : m_entityManagers)
-                     if(!em->onlyUpdateVisible())
-                        em->updateOffScreenEntity(*e);
+                     em->updateOffScreenEntity(*e);
 
                   updatedEntities.insert(e);
                   if(auto pc = e->getComponent<PositionComponent>())
@@ -155,7 +154,7 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities()
    return std::move(entities);
 }
 
-std::vector<std::shared_ptr<Entity>> Scene::getEntities(const Rectf bounds)
+std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf &bounds)
 {
    Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(bounds);   
    std::vector<std::shared_ptr<Entity>> entities;
@@ -163,8 +162,9 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities(const Rectf bounds)
 
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
       for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
-         for(auto ent : m_partitions[y*m_pCount + x].entities)
-            if(gottenEntities.find(ent.first) == gottenEntities.end())
+         for(auto &ent : m_partitions[y*m_pCount + x].entities)
+            if(gottenEntities.find(ent.first) == gottenEntities.end() &&
+               bounds.contains(CompHelpers::getEntityBounds(*ent.first)))
             {
                entities.push_back(ent.first);
                gottenEntities.insert(ent.first);

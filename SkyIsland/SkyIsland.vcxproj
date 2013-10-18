@@ -106,6 +106,7 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CameraStrategies.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="CharacterInputHandler.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ComponentHelpers.h" />
     <ClInclude Include="DrawScene.h" />

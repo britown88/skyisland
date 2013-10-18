@@ -28,7 +28,7 @@ public:
 
    //retrieve entities
    virtual std::vector<std::shared_ptr<Entity>> getEntities()=0;
-   virtual std::vector<std::shared_ptr<Entity>> getEntities(const Rectf bounds)=0;
+   virtual std::vector<std::shared_ptr<Entity>> getEntities(Rectf &bounds)=0;
 
 
 };

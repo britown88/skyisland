@@ -20,6 +20,7 @@
 #include "MouseHandler.h"
 
 #include "CharacterController.h"
+#include "CharacterInputHandler.h"
 #include "CameraController.h"
 #include "CameraStrategies.h"
 
@@ -46,7 +47,7 @@ class SkyApp : public Application
 
    std::shared_ptr<Scene> scene, UIScene;
    std::shared_ptr<Camera> camera, camera2, UICamera;
-   std::unique_ptr<CharacterController> cc;
+   std::unique_ptr<CharacterInputHandler> cc;
    std::shared_ptr<Viewport> viewport, viewport2, UIViewport;
    std::unique_ptr<CameraController> camControl, camControl2;
    std::vector<std::shared_ptr<Entity>> eList;
@@ -166,7 +167,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 100; ++i)
+      for(int i = 0; i < 10000; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
@@ -184,7 +185,7 @@ class SkyApp : public Application
          std::unique_ptr<ICameraMoveStrategy>(new BasicCameraMove())));
       camControl2->setCameraCenter(Float2(0.5f, 0.5f));
 
-      cc = std::unique_ptr<CharacterController>(new CharacterController());
+      cc = std::unique_ptr<CharacterInputHandler>(new CharacterInputHandler());
 
       eIndex = -1;
       nextEntity();
@@ -269,7 +270,7 @@ class SkyApp : public Application
       }        
 
       IOC.resolve<RenderManager>()->finalizeRender();      
-      m_window->pollEvents();      
+      m_window->pollEvents(); 
    }
 };
 

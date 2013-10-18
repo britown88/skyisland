@@ -48,5 +48,5 @@ public:
    void update();
 
    std::vector<std::shared_ptr<Entity>> getEntities();
-   std::vector<std::shared_ptr<Entity>> getEntities(const Rectf bounds);
+   std::vector<std::shared_ptr<Entity>> getEntities(Rectf &bounds);
 };

@@ -9,6 +9,9 @@
 #include "TextureManager.h"
 #include "SpriteFactory.h"
 
+#include <chrono>
+#include <thread>
+
 IOCContainer IOC;
 
 void Application::start()
@@ -30,11 +33,12 @@ void Application::start()
       m_window.reset(new GLWindow(winSize, winTitle, winMonitor));
 
    //global systems
+   IOC.add<Application>(getptr());
    IOC.add<GLWindow>(m_window);
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
-   IOC.add<Application>(getptr());
+   
 
 
    onAppStart();
@@ -78,6 +82,8 @@ void Application::step()
 
    double deltaTime = getTime() - m_lastUpdated;
    m_dt = deltaTime / (frameTime() / 1000.0);
+   //if(m_dt < 1.0)
+      //std::this_thread::sleep_for(std::chrono::milliseconds((long)(frameTime() * m_dt)));
 }
 
 std::shared_ptr<Entity> Application::getTag(EntityTag tag)

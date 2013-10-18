@@ -49,11 +49,10 @@ bool RenderManager::renderViewport(IViewport &vp)
 
    for(auto ent : eList)
    {
-      if(camera->getBounds().contains(CompHelpers::getEntityBounds(*ent)))
-      {
-         if(auto mc = ent->getComponent<MeshComponent>())
-            buildMeshRenderable(*ent)->render(*m_renderer); 
-      }
+
+      if(auto mc = ent->getComponent<MeshComponent>())
+         buildMeshRenderable(*ent)->render(*m_renderer); 
+
    }
 
    return true;

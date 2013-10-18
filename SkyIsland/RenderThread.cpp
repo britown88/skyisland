@@ -2,6 +2,7 @@
 #include "RenderThread.h"
 #include "IOCContainer.h"
 #include "GLWindow.h"
+#include "Application.h"
 
 RenderThread::RenderThread():
    m_queueUpdated(false),
@@ -12,6 +13,8 @@ RenderThread::RenderThread():
 
    m_texManager = std::make_shared<TextureManager>(100000);
    IOC.add(m_texManager);
+
+   //glfwSwapInterval(0);
 }
 
 void RenderThread::_run()
@@ -19,12 +22,17 @@ void RenderThread::_run()
    auto win = IOC.resolve<GLWindow>();
    win->makeContextCurrent();
 
+   double lastUpdated; 
+
    while(true)
    {
+
       glClear(GL_COLOR_BUFFER_BIT);
    
       for(auto& scene : *m_queueCurrent)
          scene->draw();
+
+      glFinish();
 
       win->swapBuffers();
 

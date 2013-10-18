@@ -332,5 +332,8 @@
     <ClInclude Include="SeanSort.h">
       <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterInputHandler.h">
+      <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
