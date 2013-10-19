@@ -27,25 +27,29 @@ public:
       if(auto gb = e->getComponent<GraphicalBoundsComponent>())
       if(auto vc = e->getComponent<VelocityComponent>())
       {
-         Float2 dir;
-         if(pc->pos.x > m_target.x) dir.x = -1.0f;
-         if(pc->pos.x < m_target.x) dir.x = 1.0f;
-         if(pc->pos.y > m_target.y) dir.y = 1.0f;
-         if(pc->pos.y < m_target.y) dir.y = -1.0f;
-
-         cc->controller->move(dir);
+         
 
          float minDist = std::max(gb->size.x, gb->size.y);
-         minDist *= minDist;
+
          float dist = (pc->pos.x - m_target.x)*(pc->pos.x - m_target.x) +
             (pc->pos.y - m_target.y)*(pc->pos.y - m_target.y);
 
-         if(dist <= minDist)
+         if(dist <= minDist * minDist)
          {
             cc->controller->stop();
 
             if(vc->velocity == Float2())
                m_isDone = true;
+         }
+         else
+         {
+            Float2 dir;
+         if(pc->pos.x > m_target.x + minDist/2) dir.x = -1.0f;
+         if(pc->pos.x < m_target.x - minDist/2) dir.x = 1.0f;
+         if(pc->pos.y > m_target.y + minDist/2) dir.y = 1.0f;
+         if(pc->pos.y < m_target.y - minDist/2) dir.y = -1.0f;
+
+         cc->controller->move(dir);
          }
             
       }
