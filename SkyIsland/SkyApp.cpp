@@ -79,7 +79,7 @@ class SkyApp : public Application
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
      
-      //e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
+      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
@@ -157,7 +157,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 100000; ++i)
+      for(int i = 0; i < 10000; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
