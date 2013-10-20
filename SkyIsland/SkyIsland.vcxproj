@@ -108,6 +108,7 @@
     <ClInclude Include="AIManager.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="CharacterAttackTask.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CameraStrategies.h" />

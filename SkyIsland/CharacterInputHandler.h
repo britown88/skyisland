@@ -18,6 +18,7 @@ class CharacterInputHandler
    void registerKeyEvent(Keystroke k, KeyEvent e);
 
    void sendControllerMovement();
+   void sendControllerAttack();
 
 public:
    CharacterInputHandler();

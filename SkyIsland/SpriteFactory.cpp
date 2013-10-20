@@ -6,15 +6,6 @@
 #include "StringTable.h"
 #include <boost/algorithm/string.hpp>
 
-
-bool endsWith(std::string str, std::string ending)
-{
-   if(str.length() >= ending.length())
-      return str.compare(str.length() - ending.length(), ending.length(), ending) == 0;
-
-   return false;   
-}
-
 namespace fs = boost::filesystem;
 
 std::pair<fs::directory_iterator, fs::directory_iterator> iterateDirectory(fs::path p)

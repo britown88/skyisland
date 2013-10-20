@@ -194,7 +194,7 @@ class SkyApp : public Application
          }
          
       }));
-      IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), &spaceEvent);
+      //IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), &spaceEvent);
 
 
       clickEvent = std::move(MouseEvent([&](Float2 pos)

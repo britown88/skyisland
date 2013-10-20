@@ -392,5 +392,8 @@
     <ClInclude Include="StringTable.h">
       <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterAttackTask.h">
+      <Filter>Header Files\Concretes\AI\Tasks</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

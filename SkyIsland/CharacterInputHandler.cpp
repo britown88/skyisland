@@ -12,13 +12,10 @@
 
 CharacterInputHandler::CharacterInputHandler()
 {
-   
-
    upPressed = false;
    downPressed = false;
    leftPressed = false;
    rightPressed = false;
-
    
    registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_PRESS, 0), KeyEvent([&]()
       {this->rightPressed = true; this->sendControllerMovement();}));
@@ -43,12 +40,25 @@ CharacterInputHandler::CharacterInputHandler()
    
    registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0), KeyEvent([&]()
       {this->downPressed = false; this->sendControllerMovement();}));
+
+   registerKeyEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), KeyEvent([&]()
+      {this->downPressed = false; this->sendControllerAttack();}));
 }
 
 void CharacterInputHandler::registerKeyEvent(Keystroke k, KeyEvent e)
 {
    m_events.push_back(std::move(e));
    IOC.resolve<KeyHandler>()->registerEvent(k, &m_events[m_events.size()-1]);
+}
+
+void CharacterInputHandler::sendControllerAttack()
+{
+   if(auto e = IOC.resolve<Application>()->getTag(EntityTag::PlayerControlled))
+   if(auto cp = e->getComponent<CharacterComponent>())
+   {
+      auto &cc = *cp->controller;
+      cc.attack();
+   }
 }
 
 void CharacterInputHandler::sendControllerMovement()
