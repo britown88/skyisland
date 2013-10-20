@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkyIsland", "SkyIsland\SkyIsland.vcxproj", "{F3FB7F7C-C685-4AB2-82D2-9D5A8BA79570}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Arqsong", "Arqsong\Arqsong.vcxproj", "{37037366-A018-43B3-A9D9-89A6AE7F45DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{F3FB7F7C-C685-4AB2-82D2-9D5A8BA79570}.Debug|Win32.Build.0 = Debug|Win32
 		{F3FB7F7C-C685-4AB2-82D2-9D5A8BA79570}.Release|Win32.ActiveCfg = Release|Win32
 		{F3FB7F7C-C685-4AB2-82D2-9D5A8BA79570}.Release|Win32.Build.0 = Release|Win32
+		{37037366-A018-43B3-A9D9-89A6AE7F45DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{37037366-A018-43B3-A9D9-89A6AE7F45DE}.Debug|Win32.Build.0 = Debug|Win32
+		{37037366-A018-43B3-A9D9-89A6AE7F45DE}.Release|Win32.ActiveCfg = Release|Win32
+		{37037366-A018-43B3-A9D9-89A6AE7F45DE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
