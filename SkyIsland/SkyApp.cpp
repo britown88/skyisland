@@ -60,7 +60,7 @@ class SkyApp : public Application
 
    int eIndex;
 
-   KeyEvent tabEvent;
+   KeyEvent tabEvent, spaceEvent;
    MouseEvent clickEvent, click2;
 
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
@@ -75,6 +75,7 @@ class SkyApp : public Application
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
+      e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
      
       e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
@@ -179,6 +180,17 @@ class SkyApp : public Application
 
       tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
       IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
+
+      spaceEvent = std::move(KeyEvent([&]()
+      {
+         if(auto elev = this->eList[eIndex]->getComponent<ElevationComponent>())
+         {
+            if(elev->elevation == 0.0f)
+               elev->impulse = 20.0f;
+         }
+         
+      }));
+      IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), &spaceEvent);
 
 
       clickEvent = std::move(MouseEvent([&](Float2 pos)

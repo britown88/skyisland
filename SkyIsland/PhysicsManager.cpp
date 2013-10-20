@@ -15,6 +15,21 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
    {
       if(auto v = ent.getComponent<VelocityComponent>())
       {
+         if(auto elev = ent.getComponent<ElevationComponent>())
+         {
+            elev->elevation += elev->impulse * app->dt();
+            
+            if(elev->elevation > 0.0f)
+            {
+               elev->impulse -= elev->gravityStrength * app->dt();
+            }
+            else
+            {
+               elev->impulse = 0.0f;
+               elev->elevation = 0.0f;
+            }
+         }
+
          if(auto a = ent.getComponent<AccelerationComponent>())
          {
             float angle = atan2(a->direction.y, a->direction.x);

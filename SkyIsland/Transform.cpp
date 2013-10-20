@@ -7,6 +7,7 @@
 #include "RotationComponent.h"
 #include "GraphicComponents.h"
 #include "PositionComponent.h"
+#include "PhysicsComponents.h"
 
 Transform buildTransformation(Entity &entity)
 {
@@ -15,6 +16,11 @@ Transform buildTransformation(Entity &entity)
    if(auto p = entity.getComponent<PositionComponent>())
    {
       t.offset = p->pos;
+   }
+
+   if(auto elev = entity.getComponent<ElevationComponent>())
+   {
+      t.offset.y -= elev->elevation;
    }
 
    if(auto rot = entity.getComponent<RotationComponent>())

@@ -30,3 +30,14 @@ public:
    float friction;
    FrictionComponent(float friction):friction(friction){}
 };
+
+class ElevationComponent : public IComponent
+{   
+public:
+   static const int ID = 658737599;
+   float impulse;
+   float elevation;
+   float gravityStrength;
+   ElevationComponent(float gravityStrength):
+      gravityStrength(gravityStrength), impulse(0.0f), elevation(0.0f){}
+};

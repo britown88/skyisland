@@ -1,6 +1,7 @@
 #include "CameraController.h"
 #include "PositionComponent.h"
 #include "GraphicComponents.h"
+#include "PhysicsComponents.h"
 
 CameraController::CameraController(std::shared_ptr<ICamera> camera, std::unique_ptr<ICameraMoveStrategy> strategy)
    :m_camera(camera), m_strategy(std::move(strategy))
@@ -20,7 +21,12 @@ void CameraController::targetEntity()
    //if following an entity
    if(auto e = m_entity.lock())
       if(auto pc = e->getComponent<PositionComponent>())
+      {
          m_targetPos = pc->pos;
+         if(auto elev = e->getComponent<ElevationComponent>())
+            m_targetPos.y -= elev->elevation;
+      }
+         
 }
 
 void CameraController::updateCamera()
