@@ -66,10 +66,11 @@ class SkyApp : public Application
    std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
    {
       auto e = std::make_shared<Entity>();
+      auto st = IOC.resolve<StringTable>();
       
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
 
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(""));
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(position));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
@@ -78,15 +79,16 @@ class SkyApp : public Application
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
      
-      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
+      //e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
+      
 
       CharacterAnimationStrategy animStrat;
-      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", animStrat);
+      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/guy"), animStrat);
 
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), "stand_down"));
+      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("stand_down")));
       
       scene->addEntity(e);
 
@@ -155,7 +157,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 500; ++i)
+      for(int i = 0; i < 100000; ++i)
       {
          int s = rand(50, 500);
          eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));

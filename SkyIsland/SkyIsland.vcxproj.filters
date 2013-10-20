@@ -389,5 +389,8 @@
     <ClInclude Include="CharacterAnimationStrategy.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="StringTable.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

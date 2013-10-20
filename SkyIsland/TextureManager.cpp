@@ -6,7 +6,7 @@ TextureManager::TextureManager(unsigned int textureMemory):
 {
 }
 
-unsigned int TextureManager::getTexture(std::string filename)
+unsigned int TextureManager::getTexture(InternString filename)
 {
    if(m_textures.find(filename) == m_textures.end())
       m_textures[filename] = std::make_shared<Texture>(filename);

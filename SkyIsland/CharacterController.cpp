@@ -4,6 +4,7 @@
 #include "Animations.h"
 #include "IOCContainer.h"
 #include "Application.h"
+#include "StringTable.h"
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
@@ -51,6 +52,8 @@ void CharacterController::stop()
 
 void CharacterController::updateAnimation()
 {
+   auto st = IOC.resolve<StringTable>();
+
    if(auto e = m_entity.lock())
    {
       if(auto ac = e->getComponent<AccelerationComponent>())
@@ -62,17 +65,17 @@ void CharacterController::updateAnimation()
          {
             //stopped, set face
             if(fabs(m_facing.x) > fabs(m_facing.y))
-               spr->face = m_facing.x >= 0.0f ? "stand_right" : "stand_left";
+               spr->face = m_facing.x >= 0.0f ? st->get("stand_right") : st->get("stand_left");
             else
-               spr->face = m_facing.y >= 0.0f ? "stand_up" : "stand_down";
+               spr->face = m_facing.y >= 0.0f ? st->get("stand_up") : st->get("stand_down");
          }
          else
          {
             //moving, set face
             if(fabs(vc->velocity.x) > fabs(vc->velocity.y))
-               spr->face = vc->velocity.x >= 0.0f ? "run_right" : "run_left";
+               spr->face = vc->velocity.x >= 0.0f ? st->get("run_right") : st->get("run_left");
             else
-               spr->face = vc->velocity.y >= 0.0f ? "run_down" : "run_up";
+               spr->face = vc->velocity.y >= 0.0f ? st->get("run_down") : st->get("run_up");
 
             //now reset anim speed base don velocity
             auto &v = vc->velocity;

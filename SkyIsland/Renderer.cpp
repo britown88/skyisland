@@ -13,7 +13,7 @@ void Renderer::drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_p
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTriangle(std::move(vertices), std::move(faces), transform)));
 }
 
-void Renderer::drawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+void Renderer::drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
 }

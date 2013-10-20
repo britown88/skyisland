@@ -8,6 +8,7 @@
 #include "MouseHandler.h"
 #include "TextureManager.h"
 #include "SpriteFactory.h"
+#include "StringTable.h"
 
 #include <chrono>
 #include <thread>
@@ -38,8 +39,7 @@ void Application::start()
    IOC.add<RenderManager>(std::make_shared<RenderManager>());
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
-   
-
+   IOC.add<StringTable>(std::make_shared<StringTable>()); 
 
    onAppStart();
 

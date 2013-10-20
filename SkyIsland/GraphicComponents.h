@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "Vector.h"
 #include "Sprite.h"
+#include "StringTable.h"
 #include <memory>
 
 class GraphicalBoundsComponent : public IComponent
@@ -22,8 +23,8 @@ public:
    std::shared_ptr<Sprite> sprite;
 
    float dtMultiplier, elapsedTime;
-   std::string face;
+   InternString face;
 
-   SpriteComponent(std::shared_ptr<Sprite> sprite, std::string face):
+   SpriteComponent(std::shared_ptr<Sprite> sprite, InternString face):
       sprite(std::move(sprite)), dtMultiplier(1.0f), elapsedTime(0.0f), face(face){}
 };

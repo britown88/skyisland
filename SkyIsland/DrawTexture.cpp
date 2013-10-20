@@ -5,7 +5,7 @@
 #include "IOCContainer.h"
 #include "TextureManager.h"
 
-DrawTexture::DrawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform):
+DrawTexture::DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform):
    m_texture(std::move(texture)), m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transform(transform)
 {
 }

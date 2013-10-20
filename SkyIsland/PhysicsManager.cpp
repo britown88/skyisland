@@ -25,7 +25,9 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
             }
             else
             {
-               elev->impulse = 0.0f;
+               //elev->impulse = -((elev->impulse * 3) / 4);//bouncy
+               //if(elev->impulse < 1.0f)
+                  elev->impulse = 0.0f;
                elev->elevation = 0.0f;
             }
          }

@@ -6,6 +6,7 @@
 #include <memory>
 #include "Vertex.h"
 #include "Transform.h"
+#include "StringTable.h"
 
 class DrawTexture : public IDrawObject
 {
@@ -14,10 +15,10 @@ class DrawTexture : public IDrawObject
 
    Transform m_transform;
 
-   std::string m_texture;
+   InternString m_texture;
 
 public:
-   DrawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
+   DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
 
    void draw();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ITexture.h"
+#include "StringTable.h"
 
 class Texture : public ITexture
 {
@@ -8,15 +9,15 @@ class Texture : public ITexture
    int m_bitsPerPixel;
    unsigned int m_glHandle;
    bool m_isLoaded;
-   std::string m_filename;
+   InternString m_filename;
 
 public:
-   Texture(std::string filePath);
+   Texture(InternString filePath);
 
    Int2 getSize();
    int getBitsPerPixel();
    unsigned int getGLHandle();
-   std::string getFilePath();
+   InternString getFilePath();
 
    void acquire();
    void release();

@@ -162,6 +162,7 @@
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="StringTable.h" />
     <ClInclude Include="TaskList.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureComponent.h" />

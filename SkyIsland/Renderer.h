@@ -3,6 +3,7 @@
 #include "IRenderer.h"
 #include "IDrawObject.h"
 #include "DrawTriangle.h"
+#include "StringTable.h"
 
 #include <vector>
 #include <memory>
@@ -15,7 +16,7 @@ public:
    Renderer();
 
    void drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
-   void drawTexture(std::string texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
+   void drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
 
 
    SceneList drawQueue();
