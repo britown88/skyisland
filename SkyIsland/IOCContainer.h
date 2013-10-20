@@ -5,18 +5,20 @@
 #include <string>
 #include <memory>
 
+#include <boost\optional.hpp>
+
 class IOCContainer
 {
    std::unordered_map<int, std::shared_ptr<void>> m_typeInstanceMap;
 
 public:
    template<typename T>
-   std::shared_ptr<T> resolve()
+   boost::optional<T&> resolve()
    {
       if(!m_typeInstanceMap.empty() && m_typeInstanceMap.find(T::ID) != m_typeInstanceMap.end())
-         return std::static_pointer_cast<T>(m_typeInstanceMap[T::ID]);
+         return *std::static_pointer_cast<T>(m_typeInstanceMap[T::ID]);
       else 
-         return nullptr;
+         return boost::none;
    }
 
    template<typename T>

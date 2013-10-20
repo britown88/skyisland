@@ -10,6 +10,9 @@ class Entity
 
 public:
    IntrusiveListHook hook;
+   bool updated;
+
+   Entity():updated(false){}
 
    template<typename T>
    void addComponent(std::shared_ptr<T> comp)
@@ -18,7 +21,7 @@ public:
    }
 
    template<typename T>
-   std::shared_ptr<T> getComponent()
+   boost::optional<T&> getComponent()
    {
       return components.resolve<T>();
    }

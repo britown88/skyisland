@@ -65,7 +65,7 @@ void Scene::setVisibleRects(std::vector<Rectf> rects)
 //update scene entities
 void Scene::update()
 {
-   std::unordered_set<std::shared_ptr<Entity>> updatedEntities;
+   std::vector<std::shared_ptr<Entity>> updatedEntities;
    std::vector<PartitionedEntity> movedEntities;
    auto app = IOC.resolve<Application>();
 
@@ -76,12 +76,13 @@ void Scene::update()
          for(auto &pe : p.entities)
          {
             auto e = pe.first;
-            if(updatedEntities.find(e) == updatedEntities.end())
+            if(!e->updated)
             {
                for(auto em : m_entityManagers)
                   em->updateOnScreenEntity(*e);
 
-               updatedEntities.insert(e);
+               updatedEntities.push_back(e);
+               e->updated = true;
                if(auto pc = e->getComponent<PositionComponent>())
                {
                   if(pc->oldPos != pc->pos)
@@ -103,12 +104,13 @@ void Scene::update()
             for(auto &pe : p.entities)
             {
                auto e = pe.first;
-               if(updatedEntities.find(e) == updatedEntities.end())
+               if(!e->updated)
                {
                   for(auto em : m_entityManagers)
                      em->updateOffScreenEntity(*e);
 
-                  updatedEntities.insert(e);
+                  updatedEntities.push_back(e);
+                  e->updated = true;
                   if(auto pc = e->getComponent<PositionComponent>())
                   {
                      if(pc->oldPos != pc->pos)
@@ -122,6 +124,9 @@ void Scene::update()
          }         
       }
    }
+
+   for(auto e : updatedEntities)
+      e->updated = false;
    
    for(auto &pe : movedEntities)
    {
@@ -140,16 +145,17 @@ void Scene::update()
 std::vector<std::shared_ptr<Entity>> Scene::getEntities()
 {
    std::vector<std::shared_ptr<Entity>> entities;
-   std::unordered_set<std::shared_ptr<Entity>> gottenEntities;
 
    for(auto &p : m_partitions)
       for(auto &pe : p.entities)
-         if(gottenEntities.find(pe.first) == gottenEntities.end())
+         if(!pe.first->updated)
          {
+            pe.first->updated = true;
             entities.push_back(pe.first);
-            gottenEntities.insert(pe.first);
          }
-         
+   
+   for(auto e : entities)
+      e->updated = false;
 
    return std::move(entities);
 }
@@ -158,17 +164,19 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf &bounds)
 {
    Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(bounds);   
    std::vector<std::shared_ptr<Entity>> entities;
-   std::unordered_set<std::shared_ptr<Entity>> gottenEntities;
 
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
       for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
          for(auto &ent : m_partitions[y*m_pCount + x].entities)
-            if(gottenEntities.find(ent.first) == gottenEntities.end() &&
+            if(!ent.first->updated &&
                bounds.contains(CompHelpers::getEntityBounds(*ent.first)))
             {
                entities.push_back(ent.first);
-               gottenEntities.insert(ent.first);
+               ent.first->updated = true;
             }
+
+   for(auto e : entities)
+      e->updated = false;
 
    return std::move(entities);
 
