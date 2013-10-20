@@ -29,6 +29,7 @@
 #include "CameraStrategies.h"
 
 #include "ComponentHelpers.h"
+#include "CharacterAnimationStrategy.h"
 
 #include <unordered_map>
 
@@ -80,9 +81,11 @@ class SkyApp : public Application
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
       //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
 
-      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", 0.1f);
 
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), getTime(), "stand_down"));
+      CharacterAnimationStrategy animStrat;
+      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite("assets/guy", animStrat);
+
+      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), "stand_down"));
       
       scene->addEntity(e);
 

@@ -20,9 +20,10 @@ class SpriteComponent : public IComponent
 public:
    static const int ID = 1102563874;
    std::shared_ptr<Sprite> sprite;
-   float startTime;
+
+   float dtMultiplier, elapsedTime;
    std::string face;
 
-   SpriteComponent(std::shared_ptr<Sprite> sprite, float startTime, std::string face):
-      sprite(std::move(sprite)), startTime(startTime), face(face){}
+   SpriteComponent(std::shared_ptr<Sprite> sprite, std::string face):
+      sprite(std::move(sprite)), dtMultiplier(1.0f), elapsedTime(0.0f), face(face){}
 };

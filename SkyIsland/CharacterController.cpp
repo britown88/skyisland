@@ -77,20 +77,8 @@ void CharacterController::updateAnimation()
             //now reset anim speed base don velocity
             auto &v = vc->velocity;
             float mag = v.x * v.x + v.y * v.y;
-            float animSpeed = m_minAnimSpeed + (m_maxAnimSpeed - m_minAnimSpeed) * (1.0f - (mag / (ac->maxVelocity * ac->maxVelocity)));
-            
-            auto face = spr->sprite->getFace(spr->face);
-            float time = IOC.resolve<Application>()->getTime();
-            float oldAnimSpeed = face->animation->getLength() / face->animation->getFrameCount();
-            int currentFrame = face->animation->get(time - spr->startTime);
-            float midFrameProgress = (time - spr->startTime - (currentFrame * oldAnimSpeed)) / oldAnimSpeed;
-
-            spr->startTime = time - currentFrame * animSpeed - midFrameProgress * animSpeed;
-            face->animation.reset(new BasicAnimation(face->animation->getFrameCount(), animSpeed));
-            
-
-            //get distance through current frame %
-            //set starttime so that it starts at current frame + new distance
+           
+            spr->dtMultiplier = mag / (ac->maxVelocity * ac->maxVelocity);
             
          }
       }

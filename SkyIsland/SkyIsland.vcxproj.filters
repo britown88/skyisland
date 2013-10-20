@@ -383,5 +383,11 @@
     <ClInclude Include="TaskList.h">
       <Filter>Header Files\Concretes\AI\Tasks</Filter>
     </ClInclude>
+    <ClInclude Include="IAnimationStrategy.h">
+      <Filter>Header Files\Interfaces\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAnimationStrategy.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

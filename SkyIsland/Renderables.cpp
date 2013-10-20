@@ -36,8 +36,11 @@ public:
          m_texture = tc->texture;
 
          if(auto spr = entity.getComponent<SpriteComponent>())
-            m_texture = spr->sprite->getTexture(spr->face, IOC.resolve<Application>()->getTime() - spr->startTime);
+         {
+            
 
+            m_texture = spr->sprite->getTexture(spr->face, spr->elapsedTime);
+         }
       }         
       else
          m_texture = "";

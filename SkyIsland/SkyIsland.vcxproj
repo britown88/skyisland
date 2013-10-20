@@ -113,6 +113,7 @@
     <ClInclude Include="CameraStrategies.h" />
     <ClInclude Include="CharacterAI.h" />
     <ClInclude Include="CharacterAnimationManager.h" />
+    <ClInclude Include="CharacterAnimationStrategy.h" />
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="CharacterInputHandler.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="GraphicComponents.h" />
     <ClInclude Include="IAITask.h" />
     <ClInclude Include="IAnimation.h" />
+    <ClInclude Include="IAnimationStrategy.h" />
     <ClInclude Include="IEntityManager.h" />
     <ClInclude Include="IKeyEvent.h" />
     <ClInclude Include="ITexture.h" />
