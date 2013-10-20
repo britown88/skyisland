@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include <memory>
 #include <stack>
+#include "StringTable.h"
 
 class CharacterState
 {
@@ -34,6 +35,10 @@ class CharacterController
    StatePtr buildAttackState();
 
    bool m_taskDone;
+
+   InternString f_standDown, f_standUp, f_standRight, 
+      f_standLeft, f_runUp, f_runDown, f_runLeft, f_runRight,
+      f_attackLeft, f_attackRight, f_attackUp, f_attackDown;
 public:   
 
    CharacterController(std::weak_ptr<Entity> entity);

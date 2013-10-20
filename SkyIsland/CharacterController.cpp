@@ -4,7 +4,6 @@
 #include "Animations.h"
 #include "IOCContainer.h"
 #include "Application.h"
-#include "StringTable.h"
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
@@ -16,6 +15,21 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_friction = 0.5f;
    m_minAnimSpeed = 0.09f;
    m_maxAnimSpeed = 0.5f;
+
+   auto st = IOC.resolve<StringTable>();
+   f_standDown = st->get("stand_down");
+   f_standUp = st->get("stand_up"); 
+   f_standRight = st->get("stand_right"); 
+   f_standLeft = st->get("stand_left"); 
+   f_runUp = st->get("run_up"); 
+   f_runDown = st->get("run_down"); 
+   f_runLeft = st->get("run_left"); 
+   f_runRight = st->get("run_right");
+   f_attackLeft = st->get("attack_left"); 
+   f_attackRight = st->get("attack_right"); 
+   f_attackUp = st->get("attack_up"); 
+   f_attackDown = st->get("attack_down");
+
 
    setState(buildMoveState());
 }
@@ -62,7 +76,7 @@ StatePtr CharacterController::buildMoveState()
 
       void updateAnimation()
       {
-         auto st = IOC.resolve<StringTable>();
+         
 
          if(auto e = cc.m_entity.lock())
          {
@@ -75,17 +89,17 @@ StatePtr CharacterController::buildMoveState()
                {
                   //stopped, set face
                   if(fabs(cc.m_facing.x) > fabs(cc.m_facing.y))
-                     spr->face = cc.m_facing.x >= 0.0f ? st->get("stand_right") : st->get("stand_left");
+                     spr->face = cc.m_facing.x >= 0.0f ? cc.f_standRight: cc.f_standLeft;
                   else
-                     spr->face = cc.m_facing.y >= 0.0f ? st->get("stand_up") : st->get("stand_down");
+                     spr->face = cc.m_facing.y >= 0.0f ? cc.f_standUp : cc.f_standDown;
                }
                else
                {
                   //moving, set face
                   if(fabs(vc->velocity.x) > fabs(vc->velocity.y))
-                     spr->face = vc->velocity.x >= 0.0f ? st->get("run_right") : st->get("run_left");
+                     spr->face = vc->velocity.x >= 0.0f ? cc.f_runRight : cc.f_runLeft;
                   else
-                     spr->face = vc->velocity.y >= 0.0f ? st->get("run_down") : st->get("run_up");
+                     spr->face = vc->velocity.y >= 0.0f ? cc.f_runDown : cc.f_runUp;
 
                   //now reset anim speed base don velocity
                   auto &v = vc->velocity;
@@ -117,12 +131,10 @@ StatePtr CharacterController::buildAttackState()
 
       void onEnter()
       {
-         auto st = IOC.resolve<StringTable>();
-
          if(auto e = cc.m_entity.lock())
          if(auto spr = e->getComponent<SpriteComponent>())
          {
-            spr->face = st->get("attack_right");
+            spr->face = cc.f_attackRight;
             spr->elapsedTime = 0.0f;
             spr->dtMultiplier = 1.0f;
             cc.m_taskDone = false;
