@@ -4,6 +4,7 @@
 #include "IOCContainer.h"
 #include "Application.h"
 #include "ComponentHelpers.h"
+#include "IEntityManager.h"
 
 Scene::Scene(Float2 size, int sqrtPartitionCount):
    m_size(size), m_pCount(sqrtPartitionCount)
@@ -24,13 +25,24 @@ Float2 Scene::getSize(){return m_size;}
 void Scene::addEntity(std::shared_ptr<Entity> entity)
 {
    Rectf eBounds = CompHelpers::getEntityBounds(*entity);
-   PartitionedEntity pe = PartitionedEntity(entity, eBounds);
+   entity->partitionBounds = eBounds;
 
    Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(eBounds);  
 
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
       for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
-         m_partitions[y*m_pCount + x].entities[entity] = pe;
+         m_partitions[y*m_pCount + x].entities[entity] = entity;
+}
+
+void Scene::removeEntity(std::shared_ptr<Entity> entity)
+{
+   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(entity->partitionBounds);   
+
+   //remove moved entities from partition table
+   for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
+      for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
+         m_partitions[y*m_pCount + x].entities.erase(entity);
+
 }
 
 //add an entitymanager that will get called when the scene is updated
@@ -65,8 +77,7 @@ void Scene::setVisibleRects(std::vector<Rectf> rects)
 //update scene entities
 void Scene::update()
 {
-   std::vector<std::shared_ptr<Entity>> updatedEntities;
-   std::vector<PartitionedEntity> movedEntities;
+   std::vector<std::shared_ptr<Entity>> updatedEntities, movedEntities;
    auto app = IOC.resolve<Application>();
 
    for(auto &p : m_partitions)
@@ -98,7 +109,7 @@ void Scene::update()
       {         
          //not visible
          double dt = app->getTime() - p.lastUpdatedTimestamp;
-         if(dt > 1.0);
+         if(dt > 1.0);//disabled for now
          {            
             p.lastUpdatedTimestamp += dt;
             for(auto &pe : p.entities)
@@ -130,15 +141,11 @@ void Scene::update()
    
    for(auto &pe : movedEntities)
    {
-      Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(pe.oldBounds);   
-
-      //remove moved entities from partition table
-      for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
-         for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
-            m_partitions[y*m_pCount + x].entities.erase(pe.entity);
+      //remove from partiiton table
+      removeEntity(pe);
 
       //reinsert into new locations
-      addEntity(pe.entity);
+      addEntity(pe);
    }
 }
 

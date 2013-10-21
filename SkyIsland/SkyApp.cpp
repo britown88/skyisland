@@ -30,6 +30,7 @@
 
 #include "ComponentHelpers.h"
 #include "CharacterAnimationStrategy.h"
+#include "CharacterEntities.h"
 
 #include <unordered_map>
 
@@ -63,45 +64,13 @@ class SkyApp : public Application
    KeyEvent tabEvent, spaceEvent;
    MouseEvent clickEvent, click2;
 
-   std::shared_ptr<Entity> buildBlockEntity(Float2 position, Float2 size)
-   {
-      auto e = std::make_shared<Entity>();
-      auto st = IOC.resolve<StringTable>();
-      
-      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
-      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, Float2(0.5f, 0.5f)));
-      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(position));
-      e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
-      e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
-      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
-      e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
-      e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
-     
-      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
-      e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
-      //test.addComponent<RotationComponent>(std::make_shared<RotationComponent>(90.0f, Float2(50.0f, 50.0f)));
-
-      
-
-      CharacterAnimationStrategy animStrat;
-      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/guy"), animStrat);
-
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("stand_down")));
-      
-      scene->addEntity(e);
-
-      return e;
-   }
-
    std::shared_ptr<Entity> buildUIEntity()
    {
       auto e = std::make_shared<Entity>();
 
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 100, 100), Colorf(1.0f, 1.0f, 1.0f));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      UIScene->addEntity(e);
+      e->addToScene(UIScene);
 
       return e;
    }
@@ -161,8 +130,12 @@ class SkyApp : public Application
 
       for(int i = 0; i < 500; ++i)
       {
-         int s = rand(50, 500);
-         eList.push_back(buildBlockEntity(Float2(rand(0, 10000), rand(0, 10000)), Float2(150, 150)));
+         auto e = CharacterEntities::buildCharacter();
+         e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
+         e->getComponent<GraphicalBoundsComponent>()->size = Float2(150, 150);
+         e->addToScene(scene);
+
+         eList.push_back(e);
       }
 
       UIEntity = buildUIEntity();

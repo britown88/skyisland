@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.h"
+#include "IComponent.h"
 
 class PositionComponent : public IComponent
 {

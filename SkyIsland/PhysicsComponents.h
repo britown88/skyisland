@@ -41,3 +41,12 @@ public:
    ElevationComponent(float gravityStrength):
       gravityStrength(gravityStrength), impulse(0.0f), elevation(0.0f){}
 };
+
+//used to bind an entities position to taht of another
+class PositionBindComponent : public IComponent
+{
+public:
+   static const int ID = 3545194511;
+   std::weak_ptr<Entity> entity;
+   PositionBindComponent(std::weak_ptr<Entity> entity):entity(entity){}
+};

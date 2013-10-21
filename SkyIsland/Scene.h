@@ -4,24 +4,14 @@
 #include <unordered_set>
 #include <unordered_map>
 
-struct PartitionedEntity;
 
 struct ScenePartition
 {
    ScenePartition():updateDelay(0), lastUpdatedTimestamp(0.0), visible(false){}
-   std::unordered_map<std::shared_ptr<Entity>, PartitionedEntity> entities;
+   std::unordered_map<std::shared_ptr<Entity>, std::shared_ptr<Entity>> entities;
    int updateDelay;
    double lastUpdatedTimestamp;
    bool visible;
-};
-
-struct PartitionedEntity
-{
-   PartitionedEntity(){}
-   PartitionedEntity(std::shared_ptr<Entity> entity, Rectf oldBounds):
-      entity(entity), oldBounds(oldBounds){}
-   Rectf oldBounds;
-   std::shared_ptr<Entity> entity;
 };
 
 class Scene : public IScene
@@ -32,11 +22,14 @@ class Scene : public IScene
    std::vector<ScenePartition> m_partitions;
    std::vector<std::shared_ptr<IEntityManager> > m_entityManagers;
 
+   void addEntity(std::shared_ptr<Entity> entity);
+   void removeEntity(std::shared_ptr<Entity> entity);
+
 public:
    Scene(Float2 size, int sqrtPartitionCount);
 
    Float2 getSize();
-   void addEntity(std::shared_ptr<Entity> entity);
+   
 
    //add an entitymanager that will get called when the scene is updated
    void registerEntityManager(std::shared_ptr<IEntityManager> em);

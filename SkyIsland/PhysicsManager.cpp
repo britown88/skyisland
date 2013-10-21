@@ -13,6 +13,13 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
    auto &app = IOC.resolve<Application>();
    if(auto p = ent.getComponent<PositionComponent>())
    {
+      if(auto bind = ent.getComponent<PositionBindComponent>())
+      {
+         if(auto bindEntity = bind->entity.lock())
+         if(auto bindPos = bindEntity->getComponent<PositionComponent>())
+            p->pos = bindPos->pos;
+      }
+
       if(auto v = ent.getComponent<VelocityComponent>())
       {
          if(auto elev = ent.getComponent<ElevationComponent>())

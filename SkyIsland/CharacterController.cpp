@@ -1,9 +1,11 @@
 #include "CharacterController.h"
 #include "PhysicsComponents.h"
 #include "GraphicComponents.h"
+#include "PositionComponent.h"
 #include "Animations.h"
 #include "IOCContainer.h"
 #include "Application.h"
+#include "CharacterEntities.h"
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
@@ -76,8 +78,6 @@ StatePtr CharacterController::buildMoveState()
 
       void updateAnimation()
       {
-         
-
          if(auto e = cc.m_entity.lock())
          {
             if(auto ac = e->getComponent<AccelerationComponent>())
@@ -126,6 +126,8 @@ StatePtr CharacterController::buildAttackState()
    class AttackState : public CharacterState
    {
       CharacterController &cc;
+
+      std::shared_ptr<Entity> slashEntity;
    public:
       AttackState(CharacterController &cc):cc(cc){}
 
@@ -133,7 +135,16 @@ StatePtr CharacterController::buildAttackState()
       {
          if(auto e = cc.m_entity.lock())
          if(auto spr = e->getComponent<SpriteComponent>())
+         if(auto pos = e->getComponent<PositionComponent>())
+         if(auto gb = e->getComponent<GraphicalBoundsComponent>())
          {
+            ///create sword swipe
+            slashEntity = CharacterEntities::buildSwordAttack();
+            slashEntity->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(cc.m_entity));
+            slashEntity->getComponent<PositionComponent>()->pos = pos->pos;
+            slashEntity->getComponent<GraphicalBoundsComponent>()->size = gb->size;
+            slashEntity->addToScene(cc.m_entity.lock()->getScene());
+
             spr->face = cc.f_attackRight;
             spr->elapsedTime = 0.0f;
             spr->dtMultiplier = 1.0f;
@@ -148,6 +159,7 @@ StatePtr CharacterController::buildAttackState()
          {
             if(spr->elapsedTime > spr->sprite->getFace(spr->face)->animation->getLength())
             {
+               slashEntity->removeFromScene();
                cc.m_taskDone = true;
                cc.revertState();
                

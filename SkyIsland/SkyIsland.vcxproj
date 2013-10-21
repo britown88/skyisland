@@ -80,6 +80,7 @@
     <ClCompile Include="CharacterAI.cpp" />
     <ClCompile Include="CharacterAnimationManager.cpp" />
     <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="CharacterEntities.cpp" />
     <ClCompile Include="CharacterInputHandler.cpp" />
     <ClCompile Include="ComponentHelpers.cpp" />
     <ClCompile Include="DrawScene.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="CharacterAnimationStrategy.h" />
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="CharacterEntities.h" />
     <ClInclude Include="CharacterInputHandler.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ComponentHelpers.h" />

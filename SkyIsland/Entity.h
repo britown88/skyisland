@@ -3,14 +3,21 @@
 #include "IComponent.h"
 #include "IOCContainer.h"
 #include "IntrusiveLinkedList.h"
+#include "IScene.h"
 
-class Entity
+class Entity : public std::enable_shared_from_this<Entity>
 {
    IOCContainer components;
+   std::weak_ptr<IScene> m_scene;
 
 public:
    IntrusiveListHook hook;
    bool updated;
+   Rectf partitionBounds;
+
+   ~Entity(){removeFromScene();}
+
+   std::shared_ptr<Entity> getptr() {return shared_from_this();}
 
    Entity():updated(false){}
 
@@ -30,6 +37,20 @@ public:
    void removeComponent()
    {
       components.remove<T>();
+   }
+
+   std::weak_ptr<IScene> getScene() {return m_scene;}
+
+   void addToScene(std::weak_ptr<IScene> scene)
+   {
+      m_scene = std::move(scene);
+      m_scene.lock()->addEntity(getptr());
+   }
+
+   void removeFromScene()
+   {
+      if(auto scene = m_scene.lock())
+         scene->removeEntity(getptr());
    }
 };
 

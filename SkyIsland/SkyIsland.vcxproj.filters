@@ -180,6 +180,9 @@
     <ClCompile Include="AIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterEntities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="CharacterAttackTask.h">
       <Filter>Header Files\Concretes\AI\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterEntities.h">
+      <Filter>Header Files\Concretes\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
