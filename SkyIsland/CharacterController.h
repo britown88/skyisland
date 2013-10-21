@@ -9,6 +9,8 @@
 class CharacterState
 {
 public:
+   virtual ~CharacterState(){}
+
    virtual void onEnter(){}
    virtual void onExit(){}
 
@@ -16,6 +18,8 @@ public:
    virtual void stop(){}
    virtual void updateAnimation(){}
    virtual void attack(){}
+   virtual void updateOnScreen(){}
+   virtual void updateOffScreen(){}
 };
 
 typedef std::unique_ptr<CharacterState> StatePtr;
@@ -46,6 +50,8 @@ public:
    void stop();
    void updateAnimation();
    void attack();
+   void updateOnScreen();
+   void updateOffScreen();
 
    bool currentTaskDone();
 

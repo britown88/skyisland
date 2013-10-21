@@ -15,8 +15,6 @@ public:
    bool updated;
    Rectf partitionBounds;
 
-   ~Entity(){removeFromScene();}
-
    std::shared_ptr<Entity> getptr() {return shared_from_this();}
 
    Entity():updated(false){}
@@ -51,6 +49,8 @@ public:
    {
       if(auto scene = m_scene.lock())
          scene->removeEntity(getptr());
+
+      //assert(getptr().use_count() == 2 && "Pending references");
    }
 };
 

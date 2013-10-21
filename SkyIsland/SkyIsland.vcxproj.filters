@@ -183,6 +183,12 @@
     <ClCompile Include="CharacterEntities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -400,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="CharacterEntities.h">
       <Filter>Header Files\Concretes\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterManager.h">
+      <Filter>Header Files\Concretes\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

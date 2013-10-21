@@ -27,4 +27,8 @@ public:
 
    SpriteComponent(std::shared_ptr<Sprite> sprite, InternString face):
       sprite(std::move(sprite)), dtMultiplier(1.0f), elapsedTime(0.0f), face(face){}
+
+   void updateTime();
+   
+   
 };

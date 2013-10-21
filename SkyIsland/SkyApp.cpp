@@ -16,6 +16,7 @@
 #include "CharacterComponent.h"
 #include "PhysicsManager.h"
 #include "CharacterAnimationManager.h"
+#include "CharacterManager.h"
 #include "AIManager.h"
 #include "AIComponent.h"
 
@@ -113,6 +114,7 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<PhysicsManager>());
       scene->registerEntityManager(std::make_shared<CharacterAnimationManager>());
       scene->registerEntityManager(std::make_shared<AIManager>());
+      scene->registerEntityManager(std::make_shared<CharacterManager>());
 
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      

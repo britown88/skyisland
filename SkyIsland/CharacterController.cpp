@@ -128,8 +128,25 @@ StatePtr CharacterController::buildAttackState()
       CharacterController &cc;
 
       std::shared_ptr<Entity> slashEntity;
+
+      
+
+      void checkForEnd(SpriteComponent &spr)
+      {
+         if(spr.elapsedTime > spr.sprite->getFace(spr.face)->animation->getLength())
+         {
+            cc.m_taskDone = true;
+            cc.revertState();               
+         }
+      }
+
    public:
       AttackState(CharacterController &cc):cc(cc){}
+
+      ~AttackState()
+      {
+         slashEntity->removeFromScene();
+      }
 
       void onEnter()
       {
@@ -138,6 +155,8 @@ StatePtr CharacterController::buildAttackState()
          if(auto pos = e->getComponent<PositionComponent>())
          if(auto gb = e->getComponent<GraphicalBoundsComponent>())
          {
+
+
             ///create sword swipe
             slashEntity = CharacterEntities::buildSwordAttack();
             slashEntity->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(cc.m_entity));
@@ -152,18 +171,22 @@ StatePtr CharacterController::buildAttackState()
          }
       }
 
-      void updateAnimation()
+      void updateOnScreen()
       {
          if(auto e = cc.m_entity.lock())
          if(auto spr = e->getComponent<SpriteComponent>())
          {
-            if(spr->elapsedTime > spr->sprite->getFace(spr->face)->animation->getLength())
-            {
-               slashEntity->removeFromScene();
-               cc.m_taskDone = true;
-               cc.revertState();
-               
-            }
+            checkForEnd(*spr);
+         }
+      }
+
+      void updateOffScreen()
+      {
+         if(auto e = cc.m_entity.lock())
+         if(auto spr = e->getComponent<SpriteComponent>())
+         {
+            spr->updateTime();
+            checkForEnd(*spr);
          }
       }
    };
@@ -213,4 +236,16 @@ void CharacterController::attack()
 {
    if(!m_states.empty())
       m_states.top()->attack();
+}
+
+void CharacterController::updateOnScreen()
+{
+   if(!m_states.empty())
+      m_states.top()->updateOnScreen();
+}
+
+void CharacterController::updateOffScreen()
+{
+   if(!m_states.empty())
+      m_states.top()->updateOffScreen();
 }

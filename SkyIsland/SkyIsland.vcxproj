@@ -82,6 +82,7 @@
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="CharacterEntities.cpp" />
     <ClCompile Include="CharacterInputHandler.cpp" />
+    <ClCompile Include="CharacterManager.cpp" />
     <ClCompile Include="ComponentHelpers.cpp" />
     <ClCompile Include="DrawScene.cpp" />
     <ClCompile Include="DrawTexture.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -120,6 +122,7 @@
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="CharacterEntities.h" />
     <ClInclude Include="CharacterInputHandler.h" />
+    <ClInclude Include="CharacterManager.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ComponentHelpers.h" />
     <ClInclude Include="DrawScene.h" />

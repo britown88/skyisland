@@ -7,12 +7,7 @@
 void CharacterAnimationManager::updateOnScreenEntity(Entity &e)
 {
    if(auto spr = e.getComponent<SpriteComponent>())
-   {
-      auto app = IOC.resolve<Application>();
-      float time = app->dt() * (app->frameTime() / 1000.0f) * spr->dtMultiplier;
-      spr->elapsedTime += time;
-   }
-   
+      spr->updateTime();
 
    if(auto cc = e.getComponent<CharacterComponent>())
       cc->controller->updateAnimation();
