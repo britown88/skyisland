@@ -159,7 +159,7 @@ StatePtr CharacterController::buildAttackState()
 
             ///create sword swipe
             slashEntity = CharacterEntities::buildSwordAttack();
-            slashEntity->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(cc.m_entity));
+            slashEntity->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(cc.m_entity, Float2(0.0f, 0.1f)));
             slashEntity->getComponent<PositionComponent>()->pos = pos->pos;
             slashEntity->getComponent<GraphicalBoundsComponent>()->size = gb->size;
             slashEntity->addToScene(cc.m_entity.lock()->getScene());

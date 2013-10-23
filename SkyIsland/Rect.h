@@ -14,6 +14,11 @@ public:
    T width(){return right - left;}
    T height(){return bottom - top;}
 
+   Rect2<T> operator*(Rect2<T> &rhs)
+   {
+      return Rect2<T>(rhs.left*left, rhs.top*top, rhs.right*right, rhs.bottom*bottom);
+   }
+
    bool contains(Vector2<T> pos)
    {
       return pos.x >= left && pos.x < right && pos.y >= top && pos.y < bottom;
@@ -21,7 +26,11 @@ public:
 
    bool contains(Rect2<T> rect)
    {
-      return !((rect.left > right || rect.right < left) && (rect.top > bottom || rect.bottom < top));
+      if (left > rect.right ||
+         top > rect.bottom ||
+         rect.left > right ||
+         rect.top > bottom) return false;
+      return true;
    }
 
    Rect2<T> intersection(Rect2<T> rect)

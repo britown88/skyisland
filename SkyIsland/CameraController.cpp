@@ -23,8 +23,6 @@ void CameraController::targetEntity()
       if(auto pc = e->getComponent<PositionComponent>())
       {
          m_targetPos = pc->pos;
-         if(auto elev = e->getComponent<ElevationComponent>())
-            m_targetPos.y -= elev->elevation;
       }
          
 }

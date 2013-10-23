@@ -48,5 +48,16 @@ class PositionBindComponent : public IComponent
 public:
    static const int ID = 3545194511;
    std::weak_ptr<Entity> entity;
-   PositionBindComponent(std::weak_ptr<Entity> entity):entity(entity){}
+   Float2 offset;
+   PositionBindComponent(std::weak_ptr<Entity> entity, Float2 offset):
+      entity(entity), offset(offset){}
+};
+
+class CollisionAreaComponent : public IComponent
+{
+public:
+   static const int ID = 2877756257;
+
+   Rectf area;
+   CollisionAreaComponent(Rectf area):area(area){}
 };

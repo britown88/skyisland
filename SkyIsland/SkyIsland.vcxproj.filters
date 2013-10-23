@@ -189,6 +189,9 @@
     <ClCompile Include="SpriteComponent.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="AttackManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -409,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="CharacterManager.h">
       <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackManager.h">
+      <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

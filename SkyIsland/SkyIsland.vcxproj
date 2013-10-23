@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AttackManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="CameraStrategies.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="AIManager.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AttackManager.h" />
     <ClInclude Include="CharacterAttackTask.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
@@ -130,6 +132,7 @@
     <ClInclude Include="DrawTriangle.h" />
     <ClInclude Include="EntityBuilders.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="GameComponents.h" />
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="GraphicComponents.h" />
     <ClInclude Include="IAITask.h" />

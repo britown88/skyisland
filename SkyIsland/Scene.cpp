@@ -176,19 +176,21 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf &bounds)
 {
    Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(bounds);   
    std::vector<std::shared_ptr<Entity>> entities;
+   std::unordered_set<std::shared_ptr<Entity>> updatedEntities;
 
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
       for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
          for(auto &ent : m_partitions[y*m_pCount + x].entities)
-            if(!ent.first->updated &&
+            if(updatedEntities.find(ent.first) == updatedEntities.end() &&
                bounds.contains(CompHelpers::getEntityBounds(*ent.first)))
             {
                entities.push_back(ent.first);
-               ent.first->updated = true;
+               updatedEntities.insert(ent.first);
+               //ent.first->updated = true;
             }
 
-   for(auto e : entities)
-      e->updated = false;
+   //for(auto e : entities)
+      //e->updated = false;
 
    return std::move(entities);
 

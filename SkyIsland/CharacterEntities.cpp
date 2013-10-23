@@ -11,6 +11,7 @@
 #include "AIComponent.h"
 #include "CharacterAnimationStrategy.h"
 #include "SpriteFactory.h"
+#include "GameComponents.h"
 
 namespace CharacterEntities
 {
@@ -31,11 +32,13 @@ namespace CharacterEntities
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
      
       e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
-      e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
+      //e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
       
       CharacterAnimationStrategy animStrat;
       auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/guy"), animStrat);
       e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("stand_down")));
+      
+      e->addComponent<CollisionAreaComponent>(std::make_shared<CollisionAreaComponent>(Rectf(0, 0, 1, 1)));
       
       return e;
    }
@@ -53,6 +56,9 @@ namespace CharacterEntities
       CharacterAnimationStrategy animStrat;
       auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/attacks/sword"), animStrat);
       e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("swing_right")));
+
+      e->addComponent<CollisionAreaComponent>(std::make_shared<CollisionAreaComponent>(Rectf(0, 0, 1, 1)));
+      e->addComponent<AttackComponent>(std::make_shared<AttackComponent>(Float2()));
 
       return e;
    }

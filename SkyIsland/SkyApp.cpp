@@ -19,6 +19,7 @@
 #include "CharacterManager.h"
 #include "AIManager.h"
 #include "AIComponent.h"
+#include "AttackManager.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
@@ -58,7 +59,7 @@ class SkyApp : public Application
    std::shared_ptr<Viewport> viewport, viewport2, UIViewport;
    std::unique_ptr<CameraController> camControl, camControl2;
    std::vector<std::shared_ptr<Entity>> eList;
-   std::shared_ptr<Entity> UIEntity;
+   std::shared_ptr<Entity> UIEntity, target;
 
    int eIndex;
 
@@ -89,6 +90,7 @@ class SkyApp : public Application
       //remove the AI and stop moving
       eList[eIndex]->removeComponent<AIComponent>();
       eList[eIndex]->getComponent<CharacterComponent>()->controller->stop();
+      target->getComponent<PositionBindComponent>()->entity = eList[eIndex];
 
 
 
@@ -115,7 +117,7 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<CharacterAnimationManager>());
       scene->registerEntityManager(std::make_shared<AIManager>());
       scene->registerEntityManager(std::make_shared<CharacterManager>());
-
+      scene->registerEntityManager(std::make_shared<AttackManager>());
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
@@ -141,6 +143,9 @@ class SkyApp : public Application
       }
 
       UIEntity = buildUIEntity();
+
+      
+
          
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[0]));
 
@@ -153,6 +158,19 @@ class SkyApp : public Application
       camControl2->setCameraCenter(Float2(0.5f, 0.5f));
 
       cc = std::unique_ptr<CharacterInputHandler>(new CharacterInputHandler());
+
+      
+
+      auto st = IOC.resolve<StringTable>();
+
+      target = std::make_shared<Entity>();
+      CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
+      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
+      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2(0.0f, -0.5f)));
+
+      target->addToScene(scene);
 
       eIndex = -1;
       nextEntity();

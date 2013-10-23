@@ -17,7 +17,7 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
       {
          if(auto bindEntity = bind->entity.lock())
          if(auto bindPos = bindEntity->getComponent<PositionComponent>())
-            p->pos = bindPos->pos;
+            p->pos = bindPos->pos + bind->offset;
       }
 
       if(auto v = ent.getComponent<VelocityComponent>())
