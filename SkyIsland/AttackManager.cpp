@@ -27,6 +27,7 @@ void AttackManager::updateOnScreenEntity(Entity &e)
 
       for(auto &collidingEntity : eList)
       {
+         if(collidingEntity != ac->attacker.lock())
          if(auto cc2 = collidingEntity->getComponent<CollisionAreaComponent>())
          {
             Rectf bounds2 = getCollisionFromBounds(CompHelpers::getEntityBounds(*collidingEntity), cc2->area);

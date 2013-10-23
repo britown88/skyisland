@@ -267,6 +267,7 @@ class SkyApp : public Application
 
       IOC.resolve<RenderManager>()->finalizeRender();      
       m_window->pollEvents(); 
+      IOC.resolve<KeyHandler>()->updateKeySteps();
    }
 };
 

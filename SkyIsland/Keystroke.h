@@ -1,5 +1,7 @@
 #pragma once
 
+#define INPUT_STEP 3
+
 struct Keystroke
 {
    int key, action, mods;

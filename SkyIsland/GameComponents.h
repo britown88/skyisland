@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "Vector.h"
+#include "Entity.h"
 
 class AttackComponent : public IComponent
 {
@@ -10,5 +11,7 @@ public:
    //to contain:  attack type, damage, affects, etc
    //for now just a direction the attack is heading in
    Float2 attackDirection;
-   AttackComponent(Float2 attackDirection):attackDirection(attackDirection){}
+   std::weak_ptr<Entity> attacker;
+   AttackComponent(std::weak_ptr<Entity> attacker, Float2 attackDirection):
+      attacker(std::move(attacker)), attackDirection(attackDirection){}
 };
