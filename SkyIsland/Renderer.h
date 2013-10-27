@@ -17,7 +17,7 @@ public:
 
    void drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
    void drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
-
+   void drawText(std::shared_ptr<TextString> text, Transform transform=Transform()) const;
 
    SceneList drawQueue();
    bool newScene(IViewport &vp, ICamera &cam);

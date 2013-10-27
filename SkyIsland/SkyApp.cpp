@@ -122,8 +122,9 @@ class SkyApp : public Application
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
 
-      camera2.reset(new Camera(Rectf(0, 0, 700, 700), scene));
+      camera2.reset(new Camera(Rectf(0, 0, 150, 150), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
+
 
       viewport->addChild(UIViewport);
       UIViewport->addChild(viewport2);
@@ -143,9 +144,6 @@ class SkyApp : public Application
       }
 
       UIEntity = buildUIEntity();
-
-      
-
          
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[0]));
 
@@ -168,7 +166,7 @@ class SkyApp : public Application
       target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
       target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
       target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2(0.0f, -0.5f)));
+      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2(0.0f, -1.0f)));
 
       target->addToScene(scene);
 

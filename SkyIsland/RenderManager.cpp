@@ -8,6 +8,8 @@
 #include "Renderer.h"
 #include "ComponentHelpers.h"
 #include "SeanSort.h"
+#include "PhysicsComponents.h"
+#include "TextComponent.h"
 
 RenderManager::RenderManager()
 {
@@ -49,9 +51,21 @@ bool RenderManager::renderViewport(IViewport &vp)
 
    for(auto ent : eList)
    {
+      if(auto p = ent->getComponent<PositionComponent>())
+      if(auto bind = ent->getComponent<PositionBindComponent>())
+      if(auto bindEntity = bind->entity.lock())
+      if(auto bindPos = bindEntity->getComponent<PositionComponent>())
+      {
+         p->pos = bindPos->pos + bind->offset;
+         if(auto elev = bindEntity->getComponent<ElevationComponent>())
+            p->pos.y -= elev->elevation;
+      }
 
       if(auto mc = ent->getComponent<MeshComponent>())
          buildMeshRenderable(*ent)->render(*m_renderer); 
+
+      if(auto tc = ent->getComponent<TextComponent>())
+         buildTextRenderable(*ent)->render(*m_renderer);
 
    }
 

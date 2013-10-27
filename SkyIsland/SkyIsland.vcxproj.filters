@@ -192,6 +192,12 @@
     <ClCompile Include="AttackManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawText.cpp">
+      <Filter>Source Files\Graphics\DrawObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -418,6 +424,15 @@
     </ClInclude>
     <ClInclude Include="GameComponents.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawText.h">
+      <Filter>Header Files\Concretes\Graphics\DrawObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

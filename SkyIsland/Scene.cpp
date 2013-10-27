@@ -77,7 +77,7 @@ void Scene::setVisibleRects(std::vector<Rectf> rects)
 //update scene entities
 void Scene::update()
 {
-   std::vector<std::weak_ptr<Entity>> updatedEntities, movedEntities;
+   std::vector<std::weak_ptr<Entity>> updatedEntities, movedEntities, deletedEntities;
    auto app = IOC.resolve<Application>();
 
    for(auto &p : m_partitions)
@@ -94,6 +94,10 @@ void Scene::update()
 
                updatedEntities.push_back(e);
                e->updated = true;
+
+               if(e->markedForDeletion)
+                  deletedEntities.push_back(e);
+
                if(auto pc = e->getComponent<PositionComponent>())
                {
                   if(pc->oldPos != pc->pos)
@@ -122,6 +126,10 @@ void Scene::update()
 
                   updatedEntities.push_back(e);
                   e->updated = true;
+
+                  if(e->markedForDeletion)
+                     deletedEntities.push_back(e);
+
                   if(auto pc = e->getComponent<PositionComponent>())
                   {
                      if(pc->oldPos != pc->pos)
@@ -139,6 +147,10 @@ void Scene::update()
    for(auto e : updatedEntities)
       if(auto p = e.lock())
          p->updated = false;
+
+   for(auto e : deletedEntities)
+      if(auto p = e.lock())
+         removeEntity(p);
    
    for(auto &pe : movedEntities)
    {

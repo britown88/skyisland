@@ -12,6 +12,7 @@
 #include "CharacterAnimationStrategy.h"
 #include "SpriteFactory.h"
 #include "GameComponents.h"
+#include "TextComponent.h"
 
 namespace CharacterEntities
 {
@@ -30,6 +31,14 @@ namespace CharacterEntities
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+
+      //std::string str, Float2 drawPos, std::shared_ptr<TextFont> font, Colorf color)
+      e->addComponent<TextComponent>(std::make_shared<TextComponent>(
+         "What does walking MEAN",
+         Float2(),
+         std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12),
+         Colorf(1, 1, 1)
+         ));
      
       e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());

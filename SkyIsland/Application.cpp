@@ -9,6 +9,7 @@
 #include "TextureManager.h"
 #include "SpriteFactory.h"
 #include "StringTable.h"
+#include "Text.h"
 
 #include <chrono>
 #include <thread>
@@ -41,6 +42,7 @@ void Application::start()
    IOC.add<MouseHandler>(std::make_shared<MouseHandler>());
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
    IOC.add<StringTable>(std::make_shared<StringTable>()); 
+   IOC.add<FontEngine>(std::make_shared<FontEngine>());
 
    onAppStart();
 

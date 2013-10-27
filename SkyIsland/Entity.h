@@ -12,12 +12,12 @@ class Entity : public std::enable_shared_from_this<Entity>
 
 public:
    IntrusiveListHook hook;
-   bool updated;
+   bool updated, markedForDeletion;
    Rectf partitionBounds;
 
    std::shared_ptr<Entity> getptr() {return shared_from_this();}
 
-   Entity():updated(false){}
+   Entity():updated(false), markedForDeletion(false){}
 
    template<typename T>
    void addComponent(std::shared_ptr<T> comp)
@@ -43,14 +43,6 @@ public:
    {
       m_scene = std::move(scene);
       m_scene.lock()->addEntity(getptr());
-   }
-
-   void removeFromScene()
-   {
-      if(auto scene = m_scene.lock())
-         scene->removeEntity(getptr());
-
-      //assert(getptr().use_count() == 2 && "Pending references");
    }
 };
 

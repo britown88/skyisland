@@ -2,11 +2,52 @@
 #include "PositionComponent.h"
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
+#include "TextComponent.h"
 #include "MeshComponent.h"
 #include "Transform.h"
 #include "Application.h"
 
 #include "TextureManager.h"
+
+class TextRenderable : public IRenderable
+{
+   std::shared_ptr<TextString> m_string;
+   Transform m_transform;
+
+public:
+   TextRenderable(Entity &entity)
+   {
+      if(auto tc = entity.getComponent<TextComponent>())
+      {
+         //m_transform = buildTransformation(entity);
+         Float2 pos = tc->drawPos;
+
+         if(auto pc = entity.getComponent<PositionComponent>())
+         {
+            pos += pc->pos;
+            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+            {
+               pos.x -= gb->size.x * gb->center.x;
+               pos.y -= gb->size.y * gb->center.y;
+            }
+         }
+
+         m_string = std::make_shared<TextString>(pos, tc->str, tc->color, tc->font);
+      }
+      
+
+   }
+   void render(const IRenderer &renderer) const
+   {
+      renderer.drawText(m_string, m_transform);
+   }
+};
+
+std::unique_ptr<IRenderable> buildTextRenderable(Entity &entity)
+{
+   return std::unique_ptr<IRenderable>(new TextRenderable(entity));
+}
+
 
 
 class MeshRenderable : public IRenderable

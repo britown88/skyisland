@@ -3,6 +3,7 @@
 #include "IOCContainer.h"
 #include "Application.h"
 #include "DrawTexture.h"
+#include "DrawText.h"
 
 Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
 {   
@@ -16,6 +17,11 @@ void Renderer::drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_p
 void Renderer::drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
    m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
+}
+
+void Renderer::drawText(std::shared_ptr<TextString> text, Transform transform) const
+{
+   m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawText(text, transform)));
 }
 
 Renderer::SceneList Renderer::drawQueue()

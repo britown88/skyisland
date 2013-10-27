@@ -145,7 +145,7 @@ StatePtr CharacterController::buildAttackState()
 
       ~AttackState()
       {
-         slashEntity->removeFromScene();
+         slashEntity->markedForDeletion = true;
       }
 
       void onEnter()
