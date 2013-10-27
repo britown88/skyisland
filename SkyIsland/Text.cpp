@@ -130,7 +130,7 @@ void buildDisplayList(FT_Face face, char ch, GLuint list_base, GLuint * tex_base
       // Bitmap Extends Past The Bottom Of The Line
       // This Is Only True For Characters Like 'g' Or 'y'.
       //glTranslatef(0,-((float)bitmap_glyph->top - bitmap.rows),0);
-      glTranslatef(0,height - (float)bitmap_glyph->top,0);
+      glTranslatef(0,glyph->advance.y - (float)bitmap_glyph->top,0);
 
       // Now We Need To Account For The Fact That Many Of
       // Our Textures Are Filled With Empty Padding Space.
