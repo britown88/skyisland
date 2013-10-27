@@ -5,6 +5,7 @@
 #include <memory>
 #include <stack>
 #include "StringTable.h"
+#include "GameComponents.h"
 
 class CharacterState
 {
@@ -18,6 +19,7 @@ public:
    virtual void stop(){}
    virtual void updateAnimation(){}
    virtual void attack(){}
+   virtual void damage(const AttackComponent &ac){}
    virtual void updateOnScreen(){}
    virtual void updateOffScreen(){}
 };
@@ -33,10 +35,12 @@ class CharacterController
    std::stack<StatePtr> m_states;
 
    void setState(StatePtr state);
+   void replaceState(StatePtr state);//replaces current state on stack
    void revertState();
 
    StatePtr buildMoveState();
    StatePtr buildAttackState();
+   StatePtr buildDamagedState(const AttackComponent &ac);
 
    bool m_taskDone;
 
@@ -50,6 +54,7 @@ public:
    void stop();
    void updateAnimation();
    void attack();
+   void damage(const AttackComponent &ac);
    void updateOnScreen();
    void updateOffScreen();
 

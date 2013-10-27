@@ -34,7 +34,7 @@ namespace CharacterEntities
 
       //std::string str, Float2 drawPos, std::shared_ptr<TextFont> font, Colorf color)
       e->addComponent<TextComponent>(std::make_shared<TextComponent>(
-         "What does walking MEAN",
+         "wow. such shumpf.",
          Float2(),
          std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12),
          Colorf(1, 1, 1)

@@ -33,13 +33,9 @@ void AttackManager::updateOnScreenEntity(Entity &e)
             Rectf bounds2 = getCollisionFromBounds(CompHelpers::getEntityBounds(*collidingEntity), cc2->area);
 
             if(bounds2.contains(bounds))
-            {
+               if(auto collidingChar = collidingEntity->getComponent<CharacterComponent>())
+                  collidingChar->controller->damage(*ac);
 
-               if(auto collidingChar = collidingEntity->getComponent<ElevationComponent>())
-               {
-                  collidingChar->impulse = 10.0f;
-               }
-            }
          }
       }
    }

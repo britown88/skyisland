@@ -117,6 +117,12 @@ StatePtr CharacterController::buildMoveState()
          stop();
          cc.setState(cc.buildAttackState());
       }
+
+      void damage(const AttackComponent &ac)
+      {
+         stop();
+         cc.setState(cc.buildDamagedState(ac));
+      }
    };
    return StatePtr(new MoveState(*this));
 }
@@ -126,10 +132,7 @@ StatePtr CharacterController::buildAttackState()
    class AttackState : public CharacterState
    {
       CharacterController &cc;
-
       std::shared_ptr<Entity> slashEntity;
-
-      
 
       void checkForEnd(SpriteComponent &spr)
       {
@@ -162,6 +165,7 @@ StatePtr CharacterController::buildAttackState()
             slashEntity->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(cc.m_entity, Float2(0.0f, 0.1f)));
             slashEntity->getComponent<PositionComponent>()->pos = pos->pos;
             slashEntity->getComponent<GraphicalBoundsComponent>()->size = gb->size;
+            slashEntity->getComponent<AttackComponent>()->attackDirection = Float2(cc.m_facing.x, -cc.m_facing.y);
             slashEntity->addToScene(cc.m_entity.lock()->getScene());
             //slashEntity->getComponent<SpriteComponent>()->dtMultiplier = 0.5f;
 
@@ -190,8 +194,67 @@ StatePtr CharacterController::buildAttackState()
             checkForEnd(*spr);
          }
       }
+
+      void damage(const AttackComponent &ac)
+      {
+         slashEntity->markedForDeletion = true;
+         stop();
+         cc.m_taskDone = true;
+         cc.replaceState(cc.buildDamagedState(ac));
+      }
    };
    return StatePtr(new AttackState(*this));
+}
+
+StatePtr CharacterController::buildDamagedState(const AttackComponent &ac)
+{
+   class DamagedState : public CharacterState
+   {
+      CharacterController &cc;   
+      const AttackComponent &ac;
+      float startTime;
+   public:
+      DamagedState(CharacterController &cc, const AttackComponent &ac):
+         cc(cc), ac(ac){}
+
+      void onEnter()
+      {
+         if(auto e = cc.m_entity.lock())
+         if(auto fc = e->getComponent<FrictionComponent>())
+         if(auto vc = e->getComponent<VelocityComponent>())
+         if(auto ec = e->getComponent<ElevationComponent>())
+         if(auto spr = e->getComponent<SpriteComponent>())
+         if(auto app = IOC.resolve<Application>())
+         {
+            ec->impulse = 10.0f;
+            startTime = app->getTime();
+            vc->velocity = (Float2)ac.attackDirection * 10.0f;
+            fc->friction = cc.m_friction;
+            spr->dtMultiplier = 0.0f;
+            spr->elapsedTime = 0.0f;
+
+         }
+      }
+
+      void updateOnScreen()
+      {
+         if(auto app = IOC.resolve<Application>())
+         {
+            if(app->getTime() - startTime > 0.50f)
+            {
+               cc.revertState();
+            }
+         }
+
+      }
+
+      void updateOffScreen()
+      {
+         updateOnScreen();
+      }
+
+   };
+   return StatePtr(new DamagedState(*this, ac));
 }
 
 void CharacterController::setState(StatePtr state)
@@ -199,6 +262,16 @@ void CharacterController::setState(StatePtr state)
    if(!m_states.empty())
       m_states.top()->onExit();
 
+   m_states.push(std::move(state));
+   m_states.top()->onEnter();
+}
+
+void CharacterController::replaceState(StatePtr state)
+{
+   if(!m_states.empty())
+      m_states.top()->onExit();
+
+   m_states.pop();
    m_states.push(std::move(state));
    m_states.top()->onEnter();
 }
@@ -249,4 +322,10 @@ void CharacterController::updateOffScreen()
 {
    if(!m_states.empty())
       m_states.top()->updateOffScreen();
+}
+
+void CharacterController::damage(const AttackComponent &ac)
+{
+   if(!m_states.empty())
+      m_states.top()->damage(ac);
 }

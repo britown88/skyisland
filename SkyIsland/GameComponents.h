@@ -15,3 +15,14 @@ public:
    AttackComponent(std::weak_ptr<Entity> attacker, Float2 attackDirection):
       attacker(std::move(attacker)), attackDirection(attackDirection){}
 };
+
+class DamageMarkerComponent : public IComponent
+{
+public:
+   static const int ID = 2176428309;
+   std::weak_ptr<Entity> marker;
+
+   DamageMarkerComponent(std::weak_ptr<Entity> marker):
+      marker(marker){}
+
+};
