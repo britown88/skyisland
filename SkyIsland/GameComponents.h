@@ -22,6 +22,9 @@ public:
    static const int ID = 2176428309;
    std::weak_ptr<Entity> marker;
 
+   float startTime;
+   float length;
+
    DamageMarkerComponent(std::weak_ptr<Entity> marker):
       marker(marker){}
 

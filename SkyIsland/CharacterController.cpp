@@ -6,6 +6,7 @@
 #include "IOCContainer.h"
 #include "Application.h"
 #include "CharacterEntities.h"
+#include "TextComponent.h"
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
@@ -232,6 +233,20 @@ StatePtr CharacterController::buildDamagedState(const AttackComponent &ac)
             fc->friction = cc.m_friction;
             spr->dtMultiplier = 0.0f;
             spr->elapsedTime = 0.0f;
+
+            auto dm = CharacterEntities::buildDamageMarker(e);
+            if(auto tc = dm->getComponent<TextComponent>())
+            {
+               tc->str = "9999";
+               if(auto ec2 = dm->getComponent<ElevationComponent>())
+               {
+                  ec2->elevation = 50.0f;
+                  ec2->impulse = 15.0f;
+               }
+                  
+            }
+
+            dm->addToScene(e->getScene());
 
          }
       }

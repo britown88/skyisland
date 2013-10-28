@@ -19,20 +19,8 @@ public:
    {
       if(auto tc = entity.getComponent<TextComponent>())
       {
-         //m_transform = buildTransformation(entity);
-         Float2 pos = tc->drawPos;
-
-         if(auto pc = entity.getComponent<PositionComponent>())
-         {
-            pos += pc->pos;
-            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
-            {
-               pos.x -= gb->size.x * gb->center.x;
-               pos.y -= gb->size.y * gb->center.y;
-            }
-         }
-
-         m_string = std::make_shared<TextString>(pos, tc->str, tc->color, tc->font);
+         m_transform = buildTransformation(entity);
+         m_string = std::make_shared<TextString>(tc->drawPos, tc->str, tc->color, tc->font);
       }
       
 

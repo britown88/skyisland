@@ -17,7 +17,7 @@ void DrawText::draw()
             glColor4fv((float*)&m_text->color);
             glListBase(font.getDisplayList());
 
-            //applyGLTransformation(m_transform);
+            applyGLTransformation(m_transform);
             glTranslatef(m_text->pos.x, m_text->pos.y, 0);
 
 

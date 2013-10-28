@@ -198,6 +198,9 @@
     <ClCompile Include="DrawText.cpp">
       <Filter>Source Files\Graphics\DrawObjects</Filter>
     </ClCompile>
+    <ClCompile Include="DamageMarkerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -433,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="DrawText.h">
       <Filter>Header Files\Concretes\Graphics\DrawObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageMarkerManager.h">
+      <Filter>Header Files\Concretes\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

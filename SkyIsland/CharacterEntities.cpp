@@ -9,10 +9,12 @@
 #include "TextureComponent.h"
 #include "CharacterComponent.h"
 #include "AIComponent.h"
+#include "Application.h"
 #include "CharacterAnimationStrategy.h"
 #include "SpriteFactory.h"
 #include "GameComponents.h"
 #include "TextComponent.h"
+#include "RotationComponent.h"
 
 namespace CharacterEntities
 {
@@ -33,12 +35,12 @@ namespace CharacterEntities
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
 
       //std::string str, Float2 drawPos, std::shared_ptr<TextFont> font, Colorf color)
-      e->addComponent<TextComponent>(std::make_shared<TextComponent>(
-         "wow. such shumpf.",
-         Float2(),
-         std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12),
-         Colorf(1, 1, 1)
-         ));
+      //e->addComponent<TextComponent>(std::make_shared<TextComponent>(
+      //   "wow. such shumpf.",
+      //   Float2(),
+      //   std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12),
+      //   Colorf(1, 1, 1)
+      //   ));
      
       e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
@@ -68,6 +70,30 @@ namespace CharacterEntities
 
       e->addComponent<CollisionAreaComponent>(std::make_shared<CollisionAreaComponent>(Rectf(0.5f, 0.5f, 1.25, 1.25)));
       e->addComponent<AttackComponent>(std::make_shared<AttackComponent>(std::move(attacker), Float2()));
+
+      return e;
+   }
+
+   std::shared_ptr<Entity> buildDamageMarker(std::weak_ptr<Entity> target)
+   {
+      auto e = std::make_shared<Entity>();
+      auto st = IOC.resolve<StringTable>();
+
+      if(auto pc = target.lock()->getComponent<PositionComponent>())
+      {
+
+         e->addComponent<TextComponent>(std::make_shared<TextComponent>(
+         "", Float2(), std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12), Colorf(1, 0, 0)));
+         e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(pc->pos));
+
+         auto dm = std::make_shared<DamageMarkerComponent>(e);
+         dm->length = 2.0f;
+         dm->startTime = IOC.resolve<Application>()->getTime();
+         e->addComponent<DamageMarkerComponent>(std::move(dm));
+
+         e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
+
+      }
 
       return e;
    }

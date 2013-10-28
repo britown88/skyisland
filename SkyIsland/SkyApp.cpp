@@ -20,6 +20,7 @@
 #include "AIManager.h"
 #include "AIComponent.h"
 #include "AttackManager.h"
+#include "DamageMarkerManager.h"
 
 #include "IKeyEvent.h"
 #include "KeyHandler.h"
@@ -118,6 +119,7 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<AIManager>());
       scene->registerEntityManager(std::make_shared<CharacterManager>());
       scene->registerEntityManager(std::make_shared<AttackManager>());
+      scene->registerEntityManager(std::make_shared<DamageMarkerManager>());
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
