@@ -135,7 +135,7 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 500; ++i)
+      for(int i = 0; i < 1000; ++i)
       {
          auto e = CharacterEntities::buildCharacter();
          e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
@@ -167,8 +167,8 @@ class SkyApp : public Application
       CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
       target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
       target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
-      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2(0.0f, -1.0f)));
+      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(), -1.0f));
+      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
 
       target->addToScene(scene);
 

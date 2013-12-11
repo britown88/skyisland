@@ -14,17 +14,24 @@ void DrawText::draw()
    {
       auto& font = fe->getFont(*m_text->font);
          glPushMatrix();
-            glColor4fv((float*)&m_text->color);
+            
             glListBase(font.getDisplayList());
 
             applyGLTransformation(m_transform);
             glTranslatef(m_text->pos.x, m_text->pos.y, 0);
 
-
             glEnable(GL_TEXTURE_2D);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+            glPushMatrix();
+            glTranslatef(0.0f, 2.0f, 2.0f);
+            glColor4fv((float*)&(Colorf(m_text->color.a, 0, 0, 0)));
+            glCallLists(m_text->text.size(), GL_UNSIGNED_BYTE, m_text->text.c_str());
+            glPopMatrix();
+
+            //glTranslatef(0.0f, -5.0f, 0.0f);
+            glColor4fv((float*)&m_text->color);
             glCallLists(m_text->text.size(), GL_UNSIGNED_BYTE, m_text->text.c_str());
 
             glDisable(GL_TEXTURE_2D);

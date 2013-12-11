@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<IAITask>> CharacterAI::generateTaskList()
          auto list = std::make_shared<TaskList>(0);
          list->addTask(std::make_shared<MoveCharacterTask>(Float2(app->rand(0, 10000), app->rand(0, 10000)), m_entity));
          //list->addTask(std::make_shared<WaitTask>(1.0f));
-         list->addTask(std::make_shared<CharacterAttackTask>(m_entity));
+         //list->addTask(std::make_shared<CharacterAttackTask>(m_entity));
          list->addTask(std::make_shared<WaitTask>(app->rand(0, 5)));
 
          taskList.push_back(std::move(list));

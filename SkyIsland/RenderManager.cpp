@@ -37,17 +37,6 @@ bool RenderManager::renderViewport(IViewport &vp)
       return false;
 
    auto eList = scene->getEntities(camera->getBounds());
-   eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
-   {
-      auto bot1 = CompHelpers::getEntityBounds(*e1).bottom;
-      auto bot2 = CompHelpers::getEntityBounds(*e2).bottom;
-      if(bot1 < bot2) 
-         return true;
-      if(bot1 > bot2) 
-         return false;
-      
-      return e1 < e2;
-   });
 
    for(auto ent : eList)
    {
@@ -60,13 +49,32 @@ bool RenderManager::renderViewport(IViewport &vp)
          if(auto elev = bindEntity->getComponent<ElevationComponent>())
             p->pos.y -= elev->elevation;
       }
+   }
 
+   eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
+   {
+      auto bot1 = CompHelpers::getEntityBounds(*e1).bottom;
+      auto bot2 = CompHelpers::getEntityBounds(*e2).bottom;
+      float layer1 = 0.0f, layer2 = 0.0f;
+
+      if(auto pc1 = e1->getComponent<PositionComponent>()) layer1 = pc1->layer;
+      if(auto pc2 = e2->getComponent<PositionComponent>()) layer2 = pc2->layer;         
+
+      if(bot1 < bot2 || layer1 < layer2) 
+         return true;
+      if(bot1 > bot2 || layer1 > layer2) 
+         return false;
+      
+      return e1 < e2;
+   });
+
+   for(auto ent : eList)
+   {
       if(auto mc = ent->getComponent<MeshComponent>())
          buildMeshRenderable(*ent)->render(*m_renderer); 
 
       if(auto tc = ent->getComponent<TextComponent>())
          buildTextRenderable(*ent)->render(*m_renderer);
-
    }
 
    return true;

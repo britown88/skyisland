@@ -10,11 +10,12 @@ void DamageMarkerManager::updateOnScreenEntity(Entity &e)
    if(auto dm = e.getComponent<DamageMarkerComponent>())
    if(auto tc = e.getComponent<TextComponent>())
    {
-      if(app->getTime() - dm->startTime >= dm->length)
+      float elapsedTime = app->getTime() - dm->startTime;
+      if(elapsedTime >= dm->length)
          e.markedForDeletion = true;
-      else
+      else if (dm->length - elapsedTime <= 1.0f)
       {
-         tc->color.a = 1.0f - ((app->getTime() - dm->startTime) / dm->length);
+         tc->color.a = (dm->length - elapsedTime) / 1.0f;
       }
    }
 }

@@ -83,11 +83,11 @@ namespace CharacterEntities
       {
 
          e->addComponent<TextComponent>(std::make_shared<TextComponent>(
-         "", Float2(), std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 12), Colorf(1, 0, 0)));
-         e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(pc->pos));
+         "", Float2(), std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 24), Colorf(1, 1, 1)));
+         e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(pc->pos, 1.0f));
 
          auto dm = std::make_shared<DamageMarkerComponent>(e);
-         dm->length = 2.0f;
+         dm->length = 3.0f;
          dm->startTime = IOC.resolve<Application>()->getTime();
          e->addComponent<DamageMarkerComponent>(std::move(dm));
 
