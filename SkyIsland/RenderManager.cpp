@@ -53,16 +53,12 @@ bool RenderManager::renderViewport(IViewport &vp)
 
    eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
    {
-      auto bot1 = CompHelpers::getEntityBounds(*e1).bottom;
-      auto bot2 = CompHelpers::getEntityBounds(*e2).bottom;
-      float layer1 = 0.0f, layer2 = 0.0f;
+      auto bot1 = e1->partitionBounds.bottom;
+      auto bot2 = e1->partitionBounds.bottom;
 
-      if(auto pc1 = e1->getComponent<PositionComponent>()) layer1 = pc1->layer;
-      if(auto pc2 = e2->getComponent<PositionComponent>()) layer2 = pc2->layer;         
-
-      if(bot1 < bot2 || layer1 < layer2) 
+      if(bot1 < bot2) 
          return true;
-      if(bot1 > bot2 || layer1 > layer2) 
+      if(bot1 > bot2) 
          return false;
       
       return e1 < e2;

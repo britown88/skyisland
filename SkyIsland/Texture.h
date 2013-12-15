@@ -7,7 +7,7 @@ class Texture : public ITexture
 {
    Int2 m_size;
    int m_bitsPerPixel;
-   unsigned int m_glHandle;
+   unsigned int m_devilHandle, m_glHandle;
    bool m_isLoaded;
    InternString m_filename;
 

@@ -5,7 +5,7 @@
 
 Texture::Texture(InternString filePath):
    m_filename(filePath), m_isLoaded(false), 
-   m_bitsPerPixel(0), m_size(Int2()), m_glHandle(0)
+   m_bitsPerPixel(0), m_size(Int2()), m_devilHandle(0), m_glHandle(0)
 {
 }
 
@@ -17,7 +17,12 @@ bool Texture::isLoaded(){return m_isLoaded;}
 
 void Texture::acquire()
 {
-   m_glHandle = ilutGLLoadImage((char*)m_filename->c_str());
+   ilGenImages(1, &m_devilHandle);
+   ilBindImage(m_devilHandle);
+   ilLoadImage((char*)m_filename->c_str());
+   m_glHandle = ilutGLBindTexImage();
+
+   //m_glHandle = ilutGLLoadImage((char*)m_filename->c_str());
    m_size.x = ilGetInteger(IL_IMAGE_WIDTH);
    m_size.y = ilGetInteger(IL_IMAGE_WIDTH);
    m_bitsPerPixel = ilGetInteger(IL_IMAGE_BITS_PER_PIXEL);
@@ -27,7 +32,8 @@ void Texture::acquire()
 
 void Texture::release()
 {
-   glDeleteTextures(1, &m_glHandle);
+   ilDeleteImages(1, &m_devilHandle);
+   //glDeleteTextures(1, &m_glHandle);
    m_isLoaded = false;
 }
 
