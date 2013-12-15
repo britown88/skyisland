@@ -6,8 +6,8 @@
 
 RenderThread::RenderThread():
    m_queueUpdated(false),
-   m_queueCurrent(Renderer::SceneList(new std::vector<Renderer::DScenePtr>())),
-   m_queueFilling(Renderer::SceneList(new std::vector<Renderer::DScenePtr>()))
+   m_queueCurrent(Renderer::SceneListPtr(new Renderer::SceneList())),
+   m_queueFilling(Renderer::SceneListPtr(new Renderer::SceneList()))
 {
    m_isRunning = false;
 
@@ -61,7 +61,7 @@ void RenderThread::stop()
    m_thread.join();
 }
 
-void RenderThread::resetQueue(Renderer::SceneList queue)
+void RenderThread::resetQueue(Renderer::SceneListPtr queue)
 {
    m_mutex.lock();
       m_queueFilling = std::move(queue);

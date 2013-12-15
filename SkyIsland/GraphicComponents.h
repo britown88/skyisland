@@ -34,6 +34,26 @@ public:
    
 };
 
+//layers are drawn in this order!
+//no component = default
+enum class RenderLayer
+{
+   Default,
+   DamageMarkers,   
+   
+   COUNT
+};
+
+class LayerComponent : public IComponent
+{
+public:
+   static const int ID = 109205117;
+   RenderLayer layer;
+
+   LayerComponent(RenderLayer layer):layer(layer){}
+
+};
+
 class RenderChildrenComponent : public IComponent
 {
 public:

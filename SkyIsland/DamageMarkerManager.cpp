@@ -12,7 +12,7 @@ void DamageMarkerManager::updateOnScreenEntity(Entity &e)
    {
       float elapsedTime = app->getTime() - dm->startTime;
       if(elapsedTime >= dm->length)
-         e.markedForDeletion = true;
+          e.markedForDeletion = true;
       else if (dm->length - elapsedTime <= 1.0f)
       {
          tc->color.a = (dm->length - elapsedTime) / 1.0f;

@@ -10,15 +10,15 @@
 
 class Renderer : public IRenderer
 {
-   SceneList m_drawQueue;
+   SceneListPtr m_drawQueue;
 
 public:
    Renderer();
 
-   void drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
-   void drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
-   void drawText(std::shared_ptr<TextString> text, Transform transform=Transform()) const;
+   void drawTriangles(RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
+   void drawTexture(RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const;
+   void drawText(RenderLayer layer, std::shared_ptr<TextString> text, Transform transform=Transform()) const;
 
-   SceneList drawQueue();
+   SceneListPtr drawQueue();
    bool newScene(IViewport &vp, ICamera &cam);
 };

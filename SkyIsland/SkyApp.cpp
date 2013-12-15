@@ -176,7 +176,7 @@ class SkyApp : public Application
       CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
       target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
       target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
-      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(), -1.0f));
+      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
       target->addComponent<RenderParentComponent>(std::make_shared<RenderParentComponent>(eList[0]));
 

@@ -6,6 +6,7 @@
 #include "MeshComponent.h"
 #include "Transform.h"
 #include "Application.h"
+#include "ComponentHelpers.h"
 
 #include "TextureManager.h"
 
@@ -13,6 +14,7 @@ class TextRenderable : public IRenderable
 {
    std::shared_ptr<TextString> m_string;
    Transform m_transform;
+   RenderLayer layer;
 
 public:
    TextRenderable(Entity &entity)
@@ -22,12 +24,14 @@ public:
          m_transform = buildTransformation(entity);
          m_string = std::make_shared<TextString>(tc->drawPos, tc->str, tc->color, tc->font);
       }
+
+      layer = CompHelpers::getRenderLayer(entity);
       
 
    }
    void render(const IRenderer &renderer) const
    {
-      renderer.drawText(m_string, m_transform);
+      renderer.drawText(layer, m_string, m_transform);
    }
 };
 
@@ -45,10 +49,13 @@ class MeshRenderable : public IRenderable
 
    Transform m_transform;
    InternString m_texture;
+   RenderLayer layer;
 
 public:
    MeshRenderable(Entity &entity)
    {
+      layer = CompHelpers::getRenderLayer(entity);
+
       if(auto pc = entity.getComponent<PositionComponent>())
       {
          if(auto mc = entity.getComponent<MeshComponent>())
@@ -79,9 +86,9 @@ public:
    void render(const IRenderer &renderer) const
    {
       if(m_texture->size() > 0)
-         renderer.drawTexture(m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
+         renderer.drawTexture(layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
       else
-         renderer.drawTriangles(std::move(m_vertices), std::move(m_faces), m_transform);
+         renderer.drawTriangles(layer, std::move(m_vertices), std::move(m_faces), m_transform);
    }
 };
 

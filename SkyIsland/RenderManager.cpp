@@ -40,22 +40,12 @@ bool RenderManager::renderViewport(IViewport &vp)
    auto eList = scene->getEntities(camera->getBounds());
 
    for(auto ent : eList)
-   {
-      if(auto p = ent->getComponent<PositionComponent>())
-      if(auto bind = ent->getComponent<PositionBindComponent>())
-      if(auto bindEntity = bind->entity.lock())
-      if(auto bindPos = bindEntity->getComponent<PositionComponent>())
-      {
-         p->pos = bindPos->pos + bind->offset;
-         if(auto elev = bindEntity->getComponent<ElevationComponent>())
-            p->pos.y -= elev->elevation;
-      }
-   }
+      CompHelpers::updatePositionBind(*ent);
 
    eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
    {
       auto bot1 = e1->partitionBounds.bottom;
-      auto bot2 = e1->partitionBounds.bottom;
+      auto bot2 = e2->partitionBounds.bottom;
 
       if(bot1 < bot2) 
          return true;

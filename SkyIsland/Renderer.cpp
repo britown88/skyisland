@@ -5,30 +5,31 @@
 #include "DrawTexture.h"
 #include "DrawText.h"
 
-Renderer::Renderer():m_drawQueue(SceneList(new std::vector<DScenePtr>()))
+
+Renderer::Renderer():m_drawQueue(SceneListPtr(new SceneList()))
 {   
 }
 
-void Renderer::drawTriangles(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+void Renderer::drawTriangles(RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTriangle(std::move(vertices), std::move(faces), transform)));
+   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawTriangle(std::move(vertices), std::move(faces), transform)));
 }
 
-void Renderer::drawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+void Renderer::drawTexture(RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
+   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
 }
 
-void Renderer::drawText(std::shared_ptr<TextString> text, Transform transform) const
+void Renderer::drawText(RenderLayer layer, std::shared_ptr<TextString> text, Transform transform) const
 {
-   m_drawQueue->back()->addObject(std::unique_ptr<IDrawObject>(new DrawText(text, transform)));
+   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawText(text, transform)));
 }
 
-Renderer::SceneList Renderer::drawQueue()
+Renderer::SceneListPtr Renderer::drawQueue()
 {
    auto ret = std::move(m_drawQueue);
 
-   m_drawQueue.reset(new std::vector<DScenePtr>());
+   m_drawQueue.reset(new SceneList());
    return ret;
 }
 

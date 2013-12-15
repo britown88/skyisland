@@ -12,7 +12,7 @@ class RenderThread
 {
    std::mutex m_mutex;
    std::thread m_thread;
-   Renderer::SceneList m_queueFilling, m_queueCurrent;
+   Renderer::SceneListPtr m_queueFilling, m_queueCurrent;
    bool m_queueUpdated;
    std::atomic_bool m_isRunning;
 
@@ -26,6 +26,6 @@ public:
    void start();
    void stop();
 
-   void resetQueue(Renderer::SceneList queue);
+   void resetQueue(Renderer::SceneListPtr queue);
 
 };

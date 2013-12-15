@@ -4,6 +4,7 @@
 #include "PhysicsComponents.h"
 #include "IOCContainer.h"
 #include "Application.h"
+#include "ComponentHelpers.h"
 
 #include "Trig.h"
 #include <algorithm>
@@ -13,17 +14,7 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
    auto &app = IOC.resolve<Application>();
    if(auto p = ent.getComponent<PositionComponent>())
    {
-      if(auto bind = ent.getComponent<PositionBindComponent>())
-      {
-         if(auto bindEntity = bind->entity.lock())
-         if(auto bindPos = bindEntity->getComponent<PositionComponent>())
-         {
-            p->pos = bindPos->pos + bind->offset;
-            if(auto elev = bindEntity->getComponent<ElevationComponent>())
-               p->pos.y -= elev->elevation;
-         }
-            
-      }
+      CompHelpers::updatePositionBind(ent);
 
       if(auto elev = ent.getComponent<ElevationComponent>())
       {

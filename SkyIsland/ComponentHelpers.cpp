@@ -1,7 +1,7 @@
 #include "ComponentHelpers.h"
 #include "MeshComponent.h"
 #include "PositionComponent.h"
-#include "GraphicComponents.h"
+#include "PhysicsComponents.h"
 
 #include <vector>
 namespace CompHelpers
@@ -26,6 +26,27 @@ Rectf getEntityBounds(Entity& e)
    }
 
    return eBounds;
+}
+
+RenderLayer getRenderLayer(Entity &e)
+{
+   if(auto lc = e.getComponent<LayerComponent>())
+      return lc->layer;
+
+   return RenderLayer::Default;
+}
+
+void updatePositionBind(Entity &e)
+{
+   if(auto p = e.getComponent<PositionComponent>())
+   if(auto bind = e.getComponent<PositionBindComponent>())
+   if(auto bindEntity = bind->entity.lock())
+   if(auto bindPos = bindEntity->getComponent<PositionComponent>())
+   {
+      p->pos = bindPos->pos + bind->offset;
+      if(auto elev = bindEntity->getComponent<ElevationComponent>())
+         p->pos.y -= elev->elevation;
+   }
 }
 
 void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf color)

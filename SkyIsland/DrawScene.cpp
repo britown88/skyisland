@@ -1,6 +1,7 @@
 #include <GLFW/glfw3.h>
 
 #include "DrawScene.h"
+#include "GraphicComponents.h"
 
 DrawScene::DrawScene(IViewport &vp, ICamera &camera):
    m_vpBounds(vp.getBounds()), m_camBounds(camera.getBounds())
@@ -14,9 +15,9 @@ DrawScene::DrawScene(IViewport &vp, ICamera &camera, Rectf scissorBounds):
    m_scissor = true;
 }
 
-void DrawScene::addObject(std::unique_ptr<IDrawObject> obj)
+void DrawScene::addObject(RenderLayer layer, std::unique_ptr<IDrawObject> obj)
 {
-   m_drawQueue.push_back(std::move(obj));
+   m_drawQueue[(int)layer].push_back(std::move(obj));
 }
 
 void DrawScene::draw()
@@ -34,8 +35,9 @@ void DrawScene::draw()
    glLoadIdentity();   
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
-   for(auto &DO : m_drawQueue)
-      DO->draw();
+   for(auto &layer : m_drawQueue)
+      for(auto &DO : layer)
+         DO->draw();
 
    if(m_scissor)
       glDisable(GL_SCISSOR_TEST);

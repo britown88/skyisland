@@ -84,7 +84,7 @@ namespace CharacterEntities
 
          e->addComponent<TextComponent>(std::make_shared<TextComponent>(
          "", Float2(), std::make_shared<TextFont>("assets/fonts/pressstart.ttf", 24), Colorf(1, 1, 1)));
-         e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(pc->pos, 1.0f));
+         e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(pc->pos));
 
          auto dm = std::make_shared<DamageMarkerComponent>(e);
          dm->length = 3.0f;
@@ -92,6 +92,7 @@ namespace CharacterEntities
          e->addComponent<DamageMarkerComponent>(std::move(dm));
 
          e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
+         e->addComponent(std::make_shared<LayerComponent>(RenderLayer::DamageMarkers));
 
       }
 
