@@ -37,11 +37,25 @@ bool RenderManager::renderViewport(IViewport &vp)
    if(!m_renderer->newScene(vp, *camera))
       return false;
 
-   auto eList = scene->getEntities(camera->getBounds());
+   auto _eList = scene->getEntities(camera->getBounds());
+   std::vector<std::shared_ptr<Entity>> eList;
 
-   for(auto ent : eList)
+   //some predraw component operations
+   for(auto ent : _eList)
+   {
       CompHelpers::updatePositionBind(*ent);
+      CompHelpers::updateAnimationBind(*ent);
 
+      //skip entity if it has a parent and that parent still exists
+      if(auto rpc = ent->getComponent<RenderParentComponent>())
+         if(rpc->parent.lock())
+            continue;
+
+      //generate new entity list for drawing
+      eList.push_back(ent);
+   }
+
+   //sort the list by Y-position
    eList = seanSort(std::move(eList), [&](const std::shared_ptr<Entity> &e1, const std::shared_ptr<Entity> &e2)->bool
    {
       auto bot1 = e1->partitionBounds.bottom;
@@ -55,17 +69,9 @@ bool RenderManager::renderViewport(IViewport &vp)
       return e1 < e2;
    });
 
+   //and render
    for(auto ent : eList)
-   {
-      //skip entity if it has a parent and that parent still exists
-      if(auto rpc = ent->getComponent<RenderParentComponent>())
-         if(rpc->parent.lock())
-            continue;
-
       renderEntity(*ent);
-   }
-      
-
 
    return true;
 }
@@ -74,11 +80,12 @@ void RenderManager::renderEntity(Entity &entity)
 {
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
 
+   //draw bg children
    if(childrenComp)
    {
-      for(auto child : childrenComp->bgChildren)
-         if(auto e = child.lock())
-            renderEntity(*e);
+      for(int i = 0; i < childrenComp->parentIndex; ++i)
+         if(auto e = childrenComp->children[i].lock())
+            renderEntity(*e);         
    }
 
    if(auto mc = entity.getComponent<MeshComponent>())
@@ -89,9 +96,9 @@ void RenderManager::renderEntity(Entity &entity)
 
    if(childrenComp)
    {
-      for(auto child : childrenComp->fgChildren)
-         if(auto e = child.lock())
-            renderEntity(*e);
+      for(int i = childrenComp->parentIndex; i < childrenComp->children.size(); ++i)
+         if(auto e = childrenComp->children[i].lock())
+            renderEntity(*e);   
    }
       
 }

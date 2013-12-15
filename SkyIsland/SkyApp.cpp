@@ -84,7 +84,8 @@ class SkyApp : public Application
       if(eIndex >= 0)
       {
          eList[eIndex]->addComponent<AIComponent>(std::make_shared<AIComponent>(eList[eIndex]));
-         eList[eIndex]->removeComponent<RenderChildrenComponent>();
+         eList[eIndex]->getComponent<RenderChildrenComponent>()->children.erase(target->getComponent<RenderParentComponent>()->parentIter);
+
       }
          
 
@@ -95,9 +96,7 @@ class SkyApp : public Application
       //remove the AI and stop moving
       eList[eIndex]->removeComponent<AIComponent>();
       eList[eIndex]->getComponent<CharacterComponent>()->controller->stop();
-      auto childrenComponent = std::make_shared<RenderChildrenComponent>();
-      childrenComponent->bgChildren.push_back(target);
-      eList[eIndex]->addComponent(childrenComponent);
+      eList[eIndex]->getComponent<RenderChildrenComponent>()->addChild(eList[eIndex], target, RenderChildrenComponent::Layer::Background);
 
       target->getComponent<PositionBindComponent>()->entity = eList[eIndex];
       target->getComponent<RenderParentComponent>()->parent = eList[eIndex];
@@ -148,8 +147,10 @@ class SkyApp : public Application
       {
          auto e = CharacterEntities::buildCharacter();
          e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
-         e->getComponent<GraphicalBoundsComponent>()->size = Float2(150, 150);
          e->addToScene(scene);
+
+         //create hair and all that
+         CharacterEntities::buildCharacterChildren(e);
 
          eList.push_back(e);
       }

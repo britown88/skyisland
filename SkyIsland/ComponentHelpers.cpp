@@ -36,6 +36,19 @@ RenderLayer getRenderLayer(Entity &e)
    return RenderLayer::Default;
 }
 
+void updateAnimationBind(Entity &e)
+{
+   if(auto bind = e.getComponent<BindAnimationComponent>())
+   if(auto spr = e.getComponent<SpriteComponent>())   
+   if(auto bindEntity = bind->entity.lock())
+   if(auto bindSpr = bindEntity->getComponent<SpriteComponent>())
+   {
+      spr->dtMultiplier = bindSpr->dtMultiplier;
+      spr->elapsedTime = bindSpr->elapsedTime;
+      spr->face = bindSpr->face;
+   }
+}
+
 void updatePositionBind(Entity &e)
 {
    if(auto p = e.getComponent<PositionComponent>())

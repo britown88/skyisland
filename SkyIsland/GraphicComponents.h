@@ -6,6 +6,7 @@
 #include "StringTable.h"
 #include "Entity.h"
 #include <memory>
+#include <set>
 
 class GraphicalBoundsComponent : public IComponent
 {
@@ -34,6 +35,16 @@ public:
    
 };
 
+//used to keep faces and animspeed in sprites synced between two entities
+class BindAnimationComponent : public IComponent
+{
+public:
+   static const int ID = 1563562358;
+
+   BindAnimationComponent(std::weak_ptr<Entity> entity):entity(std::move(entity)){}
+   std::weak_ptr<Entity> entity;
+};
+
 //layers are drawn in this order!
 //no component = default
 enum class RenderLayer
@@ -54,15 +65,9 @@ public:
 
 };
 
-class RenderChildrenComponent : public IComponent
-{
-public:
-   static const int ID = 3156851391;
 
-   RenderChildrenComponent(){}
+typedef std::vector<std::weak_ptr<Entity>>::iterator ParentIter;
 
-   std::vector<std::weak_ptr<Entity>> bgChildren, fgChildren;
-};
 
 class RenderParentComponent : public IComponent
 {
@@ -72,4 +77,56 @@ public:
    RenderParentComponent(std::weak_ptr<Entity> parent):parent(std::move(parent)){}
 
    std::weak_ptr<Entity> parent;
+   ParentIter parentIter;
 };
+
+class RenderChildrenComponent : public IComponent
+{
+public:
+   static const int ID = 3156851391;
+   int parentIndex;
+   
+
+   RenderChildrenComponent():parentIndex(0){}
+
+   std::vector<std::weak_ptr<Entity>> children;
+
+   enum class Layer
+   {
+      Foreground,
+      Background
+   };
+
+   void addChild(std::shared_ptr<Entity> parent, std::shared_ptr<Entity> child, Layer layer)
+   {
+      ParentIter iter;
+
+      if(layer == Layer::Background)
+      {
+         children.insert(children.begin() + parentIndex, child);
+         iter = children.begin() + parentIndex++;
+      }         
+      else
+      {
+         children.push_back(child);
+         iter = children.end() - 1;
+      }
+
+
+      if(auto rpc = child->getComponent<RenderParentComponent>())
+      {
+         rpc->parent = parent;
+         rpc->parentIter = iter;
+      }
+      else
+      {
+         auto newParentComp = std::make_shared<RenderParentComponent>(parent);
+         newParentComp->parentIter = iter;
+         child->addComponent<RenderParentComponent>(newParentComp);
+
+      }
+
+   }
+   
+};
+
