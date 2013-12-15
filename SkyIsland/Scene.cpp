@@ -82,66 +82,36 @@ void Scene::update()
 
    for(auto &p : m_partitions)
    {
-      if(p.visible)
+      double dt = app->getTime() - p.lastUpdatedTimestamp;
+      p.lastUpdatedTimestamp += dt;
+
+      for(auto &pe : p.entities)
       {
-         for(auto &pe : p.entities)
+         auto e = pe.first;
+         if(!e->updated)
          {
-            auto e = pe.first;
-            if(!e->updated)
-            {
-               for(auto em : m_entityManagers)
+            for(auto em : m_entityManagers)
+               if(p.visible)
                   em->updateOnScreenEntity(*e);
+               else
+                  em->updateOffScreenEntity(*e);
 
-               updatedEntities.push_back(e);
-               e->updated = true;
+            updatedEntities.push_back(e);
+            e->updated = true;
 
-               if(e->markedForDeletion)
-                  deletedEntities.push_back(e);
+            if(e->markedForDeletion)
+               deletedEntities.push_back(e);
 
-               if(auto pc = e->getComponent<PositionComponent>())
-               {
-                  if(pc->oldPos != pc->pos)
-                  {
-                     pc->oldPos = pc->pos;
-                     movedEntities.push_back(pe.second);
-                  }
-               }
-            }            
-         }  
-      }
-      else
-      {         
-         //not visible
-         double dt = app->getTime() - p.lastUpdatedTimestamp;
-         if(dt > 1.0);//disabled for now
-         {            
-            p.lastUpdatedTimestamp += dt;
-            for(auto &pe : p.entities)
+            if(auto pc = e->getComponent<PositionComponent>())
             {
-               auto e = pe.first;
-               if(!e->updated)
+               if(pc->oldPos != pc->pos)
                {
-                  for(auto em : m_entityManagers)
-                     em->updateOffScreenEntity(*e);
-
-                  updatedEntities.push_back(e);
-                  e->updated = true;
-
-                  if(e->markedForDeletion)
-                     deletedEntities.push_back(e);
-
-                  if(auto pc = e->getComponent<PositionComponent>())
-                  {
-                     if(pc->oldPos != pc->pos)
-                     {
-                        pc->oldPos = pc->pos;
-                        movedEntities.push_back(pe.second);
-                     }
-                  }
-               }            
+                  pc->oldPos = pc->pos;
+                  movedEntities.push_back(pe.second);
+               }
             }
-         }         
-      }
+         }            
+      }  
    }
 
    for(auto e : updatedEntities)
@@ -196,6 +166,7 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf &bounds)
             if(updatedEntities.find(ent.first) == updatedEntities.end() &&
                bounds.contains(CompHelpers::getEntityBounds(*ent.first)))
             {
+               //if(!auto rpc = ent.first->
                entities.push_back(ent.first);
                updatedEntities.insert(ent.first);
                //ent.first->updated = true;

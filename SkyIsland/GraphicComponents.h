@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "Sprite.h"
 #include "StringTable.h"
+#include "Entity.h"
 #include <memory>
 
 class GraphicalBoundsComponent : public IComponent
@@ -31,4 +32,24 @@ public:
    void updateTime();
    
    
+};
+
+class RenderChildrenComponent : public IComponent
+{
+public:
+   static const int ID = 3156851391;
+
+   RenderChildrenComponent(){}
+
+   std::vector<std::weak_ptr<Entity>> bgChildren, fgChildren;
+};
+
+class RenderParentComponent : public IComponent
+{
+public:
+   static const int ID = 329001145;
+
+   RenderParentComponent(std::weak_ptr<Entity> parent):parent(std::move(parent)){}
+
+   std::weak_ptr<Entity> parent;
 };

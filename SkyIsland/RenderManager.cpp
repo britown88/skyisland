@@ -10,6 +10,7 @@
 #include "SeanSort.h"
 #include "PhysicsComponents.h"
 #include "TextComponent.h"
+#include "GraphicComponents.h"
 
 RenderManager::RenderManager()
 {
@@ -66,14 +67,43 @@ bool RenderManager::renderViewport(IViewport &vp)
 
    for(auto ent : eList)
    {
-      if(auto mc = ent->getComponent<MeshComponent>())
-         buildMeshRenderable(*ent)->render(*m_renderer); 
+      //skip entity if it has a parent and that parent still exists
+      if(auto rpc = ent->getComponent<RenderParentComponent>())
+         if(rpc->parent.lock())
+            continue;
 
-      if(auto tc = ent->getComponent<TextComponent>())
-         buildTextRenderable(*ent)->render(*m_renderer);
+      renderEntity(*ent);
    }
+      
+
 
    return true;
+}
+
+void RenderManager::renderEntity(Entity &entity)
+{
+   auto childrenComp = entity.getComponent<RenderChildrenComponent>();
+
+   if(childrenComp)
+   {
+      for(auto child : childrenComp->bgChildren)
+         if(auto e = child.lock())
+            renderEntity(*e);
+   }
+
+   if(auto mc = entity.getComponent<MeshComponent>())
+      buildMeshRenderable(entity)->render(*m_renderer); 
+
+   if(auto tc = entity.getComponent<TextComponent>())
+      buildTextRenderable(entity)->render(*m_renderer);
+
+   if(childrenComp)
+   {
+      for(auto child : childrenComp->fgChildren)
+         if(auto e = child.lock())
+            renderEntity(*e);
+   }
+      
 }
 
 void RenderManager::finalizeRender()

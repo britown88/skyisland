@@ -82,7 +82,11 @@ class SkyApp : public Application
    {
       //add the AI back in
       if(eIndex >= 0)
+      {
          eList[eIndex]->addComponent<AIComponent>(std::make_shared<AIComponent>(eList[eIndex]));
+         eList[eIndex]->removeComponent<RenderChildrenComponent>();
+      }
+         
 
       ++eIndex;
       if(eIndex >= eList.size())
@@ -91,7 +95,12 @@ class SkyApp : public Application
       //remove the AI and stop moving
       eList[eIndex]->removeComponent<AIComponent>();
       eList[eIndex]->getComponent<CharacterComponent>()->controller->stop();
+      auto childrenComponent = std::make_shared<RenderChildrenComponent>();
+      childrenComponent->bgChildren.push_back(target);
+      eList[eIndex]->addComponent(childrenComponent);
+
       target->getComponent<PositionBindComponent>()->entity = eList[eIndex];
+      target->getComponent<RenderParentComponent>()->parent = eList[eIndex];
 
 
 
@@ -169,6 +178,7 @@ class SkyApp : public Application
       target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
       target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(), -1.0f));
       target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
+      target->addComponent<RenderParentComponent>(std::make_shared<RenderParentComponent>(eList[0]));
 
       target->addToScene(scene);
 
