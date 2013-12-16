@@ -85,7 +85,7 @@ class SkyApp : public Application
       if(eIndex >= 0)
       {
          eList[eIndex]->addComponent<AIComponent>(std::make_shared<AIComponent>(eList[eIndex]));
-         eList[eIndex]->getComponent<RenderChildrenComponent>()->children.erase(target->getComponent<RenderParentComponent>()->parentIter);
+         eList[eIndex]->getComponent<RenderChildrenComponent>()->removeChild(target->getComponent<RenderParentComponent>()->parentIter);
 
       }
          

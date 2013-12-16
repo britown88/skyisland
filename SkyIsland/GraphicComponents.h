@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include <memory>
 #include <set>
+#include <deque>
 
 class GraphicalBoundsComponent : public IComponent
 {
@@ -66,7 +67,7 @@ public:
 };
 
 
-typedef std::vector<std::weak_ptr<Entity>>::iterator ParentIter;
+typedef std::deque<std::weak_ptr<Entity>>::iterator ParentIter;
 
 
 class RenderParentComponent : public IComponent
@@ -89,13 +90,21 @@ public:
 
    RenderChildrenComponent():parentIndex(0){}
 
-   std::vector<std::weak_ptr<Entity>> children;
+   std::deque<std::weak_ptr<Entity>> children;
 
    enum class Layer
    {
       Foreground,
       Background
    };
+
+   void removeChild(ParentIter child)
+   {
+      if(child - children.begin() < parentIndex)
+         --parentIndex;
+
+      children.erase(child);
+   }
 
    void addChild(std::shared_ptr<Entity> parent, std::shared_ptr<Entity> child, Layer layer)
    {
