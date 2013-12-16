@@ -23,5 +23,19 @@ void buildColorFilters()
 
    filters.insert(std::make_pair(st->get("bluehair"), bluehair));
 
+   ColorFilter redclothes(st->get("redclothes"));
+   redclothes.table.insert(std::make_pair(Color255(13, 47, 103), Color255(103, 47, 13)));
+   redclothes.table.insert(std::make_pair(Color255(23, 82, 180), Color255(180, 82, 23)));
+   redclothes.table.insert(std::make_pair(Color255(31, 113, 248), Color255(248, 113, 31)));
+
+   filters.insert(std::make_pair(st->get("redclothes"), redclothes));
+
+   ColorFilter greenclothes(st->get("greenclothes"));
+   greenclothes.table.insert(std::make_pair(Color255(13, 47, 103), Color255(13, 103, 47)));
+   greenclothes.table.insert(std::make_pair(Color255(23, 82, 180), Color255(23, 180, 82)));
+   greenclothes.table.insert(std::make_pair(Color255(31, 113, 248), Color255(31, 248, 113)));
+
+   filters.insert(std::make_pair(st->get("greenclothes"), greenclothes));
+
 
 }

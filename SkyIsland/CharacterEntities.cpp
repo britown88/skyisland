@@ -47,35 +47,51 @@ namespace CharacterEntities
       return e;
    }
 
-   void buildCharacterChildren(std::shared_ptr<Entity> e)
-   {     
-      int rand = IOC.resolve<Application>()->rand(0, 4);
-      if(rand == 3)return;
-
-      char *hairs[3] = {"assets/hair", "assets/hair:redhair", "assets/hair:bluehair"};
-
+   void addClothesItem(std::shared_ptr<Entity> e, const char *sprite)
+   {
       auto st = IOC.resolve<StringTable>();
       auto parentSize = e->getComponent<GraphicalBoundsComponent>();
       auto parentChildList = e->getComponent<RenderChildrenComponent>();
 
       //build hair
-      auto hair = std::make_shared<Entity>();
-      CompHelpers::addRectangleMeshComponent(*hair, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      hair->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
-      hair->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(parentSize->size), Float2(parentSize->center)));
-      hair->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      auto hairSprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get(hairs[rand]), CharacterAnimationStrategy());
-      hair->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(hairSprite), st->get("stand_down")));
+      auto item = std::make_shared<Entity>();
+      CompHelpers::addRectangleMeshComponent(*item, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      item->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
+      item->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(parentSize->size), Float2(parentSize->center)));
+      item->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      
+      auto spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get(sprite), CharacterAnimationStrategy());
+      item->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(spr), st->get("stand_down")));
       
       //bindings
-      hair->addComponent<BindAnimationComponent>(std::make_shared<BindAnimationComponent>(e));
-      hair->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(e, Float2()));
+      item->addComponent<BindAnimationComponent>(std::make_shared<BindAnimationComponent>(e));
+      item->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(e, Float2()));
       
       //add children to scene
-      hair->addToScene(e->getScene());
+      item->addToScene(e->getScene());
 
       //add children to parent
-      parentChildList->addChild(e, hair, RenderChildrenComponent::Layer::Foreground);
+      parentChildList->addChild(e, item, RenderChildrenComponent::Layer::Foreground);
+   }
+
+   void buildCharacterChildren(std::shared_ptr<Entity> e)
+   {     
+      auto app = IOC.resolve<Application>();
+
+      
+      char *hairs[3] = {"assets/hair", "assets/hair:redhair", "assets/hair:bluehair"};
+      char *clothes[3] = {"", ":redclothes", ":greenclothes"};
+
+      int rand = app->rand(0, 3);
+      addClothesItem(e, std::string("assets/pants" + std::string(clothes[rand])).c_str());
+
+      rand = app->rand(0, 4);
+      if(rand != 3) addClothesItem(e, std::string("assets/shirt" + std::string(clothes[rand])).c_str());
+
+      rand = app->rand(0, 4);
+      if(rand != 3)  addClothesItem(e, hairs[rand]);
+
+      
 
    }
 
