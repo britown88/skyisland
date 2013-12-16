@@ -34,6 +34,7 @@
 #include "ComponentHelpers.h"
 #include "CharacterAnimationStrategy.h"
 #include "CharacterEntities.h"
+#include "ColorFilter.h"
 
 #include <unordered_map>
 
@@ -114,6 +115,7 @@ class SkyApp : public Application
    void onAppStart()
    {
       IOC.resolve<SpriteFactory>()->buildAssetIndex("assets");
+      buildColorFilters();
 
       m_frameRate = 60.0f;
 

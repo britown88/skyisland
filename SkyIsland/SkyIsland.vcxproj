@@ -84,6 +84,7 @@
     <ClCompile Include="CharacterEntities.cpp" />
     <ClCompile Include="CharacterInputHandler.cpp" />
     <ClCompile Include="CharacterManager.cpp" />
+    <ClCompile Include="ColorFilters.cpp" />
     <ClCompile Include="ComponentHelpers.cpp" />
     <ClCompile Include="DamageMarkerManager.cpp" />
     <ClCompile Include="DrawScene.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="CharacterInputHandler.h" />
     <ClInclude Include="CharacterManager.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="ColorFilter.h" />
     <ClInclude Include="ComponentHelpers.h" />
     <ClInclude Include="DamageMarkerManager.h" />
     <ClInclude Include="DrawScene.h" />

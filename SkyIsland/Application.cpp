@@ -7,6 +7,7 @@
 #include "IOCContainer.h"
 #include "MouseHandler.h"
 #include "TextureManager.h"
+#include "ColorFilter.h"
 #include "SpriteFactory.h"
 #include "StringTable.h"
 #include "Text.h"
@@ -43,6 +44,7 @@ void Application::start()
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
    IOC.add<StringTable>(std::make_shared<StringTable>()); 
    IOC.add<FontEngine>(std::make_shared<FontEngine>());
+   IOC.add<ColorFilterManager>(std::make_shared<ColorFilterManager>());
 
    onAppStart();
 

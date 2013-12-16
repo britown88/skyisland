@@ -48,7 +48,12 @@ namespace CharacterEntities
    }
 
    void buildCharacterChildren(std::shared_ptr<Entity> e)
-   {      
+   {     
+      int rand = IOC.resolve<Application>()->rand(0, 4);
+      if(rand == 3)return;
+
+      char *hairs[3] = {"assets/hair", "assets/hair:redhair", "assets/hair:bluehair"};
+
       auto st = IOC.resolve<StringTable>();
       auto parentSize = e->getComponent<GraphicalBoundsComponent>();
       auto parentChildList = e->getComponent<RenderChildrenComponent>();
@@ -59,7 +64,7 @@ namespace CharacterEntities
       hair->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
       hair->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(parentSize->size), Float2(parentSize->center)));
       hair->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      auto hairSprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/hair"), CharacterAnimationStrategy());
+      auto hairSprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get(hairs[rand]), CharacterAnimationStrategy());
       hair->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(hairSprite), st->get("stand_down")));
       
       //bindings

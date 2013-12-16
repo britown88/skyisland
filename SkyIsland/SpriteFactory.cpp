@@ -13,7 +13,7 @@ std::pair<fs::directory_iterator, fs::directory_iterator> iterateDirectory(fs::p
    return std::make_pair(fs::directory_iterator(p), fs::directory_iterator());
 }
 
-void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animStrat, std::shared_ptr<Sprite> sprite)
+void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animStrat, std::shared_ptr<Sprite> sprite, std::string &filters)
 {
    auto face = std::unique_ptr<Face>(new Face()); 
    auto st = IOC.resolve<StringTable>();
@@ -26,7 +26,14 @@ void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animSt
       InternString fname = st->get(std::string(buf));
 
       if(faceNode.children.find(fname) != faceNode.children.end())
-         face->textures.push_back(faceNode[fname].path);
+      {
+         if(filters.length() > 0)
+            face->textures.push_back(st->get(*faceNode[fname].path + ":" + filters));
+         else
+            face->textures.push_back(faceNode[fname].path);
+
+      }
+         
       else
          break;         
    }
@@ -69,6 +76,16 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>();
    auto st = IOC.resolve<StringTable>();
 
+   auto filterIndex = filepath->find(':');
+   std::string filters = "";
+
+   if(filterIndex != std::string::npos && filterIndex < filepath->length() - 1)
+   {
+      //using filters      
+      filters = filepath->substr(filterIndex + 1);
+      filepath = st->get(filepath->substr(0, filterIndex).c_str());
+   }
+
    std::vector<std::string> pathParts;
    boost::split(pathParts, *filepath, boost::is_any_of("/"));
 
@@ -104,9 +121,9 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
    }
    else
    {
-      addFace(st->get(""), *node, animStrat, sprite);
+      addFace(st->get(""), *node, animStrat, sprite, filters);
       for(auto &child : node->children)
-         addFace(child.first, child.second, animStrat, sprite);
+         addFace(child.first, child.second, animStrat, sprite, filters);
    }
 
    return sprite;

@@ -201,6 +201,9 @@
     <ClCompile Include="DamageMarkerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColorFilters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="DamageMarkerManager.h">
       <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorFilter.h">
+      <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
