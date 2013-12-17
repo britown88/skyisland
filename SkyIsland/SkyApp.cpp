@@ -132,11 +132,15 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<DamageMarkerManager>());
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
-      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));      
+      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));  
+
+      camera->addFBOPass(ICamera::Pass::Lighting);
 
       camera2.reset(new Camera(Rectf(0, 0, 150, 150), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
 
+      camera->addFBOPass(ICamera::Pass::Lighting);
+      camera2->addFBOPass(ICamera::Pass::Lighting);
 
       viewport->addChild(UIViewport);
       UIViewport->addChild(viewport2);
@@ -171,17 +175,16 @@ class SkyApp : public Application
 
       cc = std::unique_ptr<CharacterInputHandler>(new CharacterInputHandler());
 
-      
-
       auto st = IOC.resolve<StringTable>();
 
       target = std::make_shared<Entity>();
       CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
       target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
-      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
+      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(900, 900), Float2(0.5f, 0.5f)));
       target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
       target->addComponent<RenderParentComponent>(std::make_shared<RenderParentComponent>(eList[0]));
+      target->addComponent<LightComponent>(std::make_shared<LightComponent>());
 
       target->addToScene(scene);
 

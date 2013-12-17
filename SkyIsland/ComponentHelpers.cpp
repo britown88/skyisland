@@ -67,6 +67,15 @@ void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf color)
    addRectangleMeshComponent(e, rect, color, color, color, color);
 }
 
+ICamera::Pass getRenderPass(Entity &e)
+{
+   if(auto c = e.getComponent<LightComponent>())
+      return ICamera::Pass::Lighting;
+
+   //return count to say default pass
+   return ICamera::Pass::COUNT;
+}
+
 void addRectangleMeshComponent(Entity &e, Rectf rect, Colorf c1, Colorf c2, Colorf c3, Colorf c4)
 {
    auto vertices = createVertexList()

@@ -10,19 +10,37 @@ Renderer::Renderer():m_drawQueue(SceneListPtr(new SceneList()))
 {   
 }
 
-void Renderer::drawTriangles(RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+void Renderer::addObjectToScene(ICamera::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> DO) const
 {
-   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawTriangle(std::move(vertices), std::move(faces), transform)));
+   if(pass == ICamera::Pass::COUNT)
+      m_drawQueue->back()->addObject(layer, std::move(DO));
+   else
+      m_drawQueue->back()->addObjectToPass(pass, layer, std::move(DO));
 }
 
-void Renderer::drawTexture(RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+void Renderer::drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
+   addObjectToScene(
+      pass, layer, 
+      std::unique_ptr<IDrawObject>(
+         new DrawTriangle(std::move(vertices), std::move(faces), transform)));
+   
 }
 
-void Renderer::drawText(RenderLayer layer, std::shared_ptr<TextString> text, Transform transform) const
+void Renderer::drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   m_drawQueue->back()->addObject(layer, std::unique_ptr<IDrawObject>(new DrawText(text, transform)));
+   addObjectToScene(
+      pass, layer, 
+      std::unique_ptr<IDrawObject>(
+         new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
+}
+
+void Renderer::drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform) const
+{
+   addObjectToScene(
+      pass, layer, 
+      std::unique_ptr<IDrawObject>(
+         new DrawText(text, transform)));
 }
 
 Renderer::SceneListPtr Renderer::drawQueue()
@@ -52,14 +70,14 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
 
          if(i.width() == vb.width() && i.height() == vb.height())
          {
-            //vp lies entirely within parent bounds, drw normally            
-            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam)));
+            //vp lies entirely within parent bounds, drw normally    
+            m_drawQueue->push_back(std::make_shared<DrawScene>(vp, cam));
             return true;
          }
          else
          {
             //vp intersects with parents, set scissor rect
-            m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam, correctedBounds)));
+            m_drawQueue->push_back(std::make_shared<DrawScene>(vp, cam, correctedBounds));
             return true;
          }
 
@@ -71,7 +89,7 @@ bool Renderer::newScene(IViewport &vp, ICamera &cam)
 
    //vp has no parent, so draw
    vp.setDrawnBounds(vp.getWindowBounds());
-   m_drawQueue->push_back(Renderer::DScenePtr(new DrawScene(vp, cam)));
 
+   m_drawQueue->push_back(std::make_shared<DrawScene>(vp, cam));
    return true;
 }

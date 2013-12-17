@@ -5,13 +5,12 @@
 Viewport::Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera):
    m_pos(position), m_size(size), m_center(center), m_camera(camera)
 {
-   for(int i = 0; i < (int)Pass::COUNT; ++i)
-      m_frameBuffers.push_back(std::shared_ptr<FBO>(new FBO(getBounds())));
+  
 }
 std::weak_ptr<IViewport> Viewport::getParent(){return m_parent;}
 std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
 
-std::vector<std::shared_ptr<FBO>> &Viewport::getFBOs(){return m_frameBuffers;}
+
 
 Rectf Viewport::getBounds()
 {

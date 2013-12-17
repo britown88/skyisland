@@ -13,33 +13,48 @@ typedef std::vector<std::unique_ptr<IDrawObject>> DrawQueue;
 
 struct DrawPass
 {
-   std::weak_ptr<FBO> fbo;
+   std::unique_ptr<IDrawObject> fboTexture;
    std::vector<DrawQueue> drawQueue;
-   DrawPass(){drawQueue.resize((int)RenderLayer::COUNT);}
-   DrawPass(std::weak_ptr<FBO> FBO):fbo(std::move(FBO)){drawQueue.resize((int)RenderLayer::COUNT);}
+   std::shared_ptr<FBO> fbo;
+   DrawPass()
+   {
+      drawQueue.resize((int)RenderLayer::COUNT);
+   }
 
-   DrawPass(DrawPass && ref):fbo(std::move(ref.fbo)), drawQueue(std::move(ref.drawQueue)){}
-   DrawPass &operator=(DrawPass && ref){fbo = std::move(ref.fbo); drawQueue = std::move(ref.drawQueue); return *this;}
+   DrawPass(DrawPass && ref):
+      fboTexture(std::move(ref.fboTexture)), fbo(std::move(fbo)), drawQueue(std::move(ref.drawQueue))
+   {}
+
+   DrawPass &operator=(DrawPass && ref)
+   {
+      fbo = std::move(ref.fbo); 
+      fboTexture = std::move(ref.fboTexture); 
+      drawQueue = std::move(ref.drawQueue); 
+      return *this;
+   }
 };
 
 class DrawScene
 {
 private:   
    std::vector<DrawQueue> m_drawQueue;
-   std::vector<DrawPass> m_passes;
+   std::unordered_map<ICamera::Pass, std::unique_ptr<DrawPass>> m_passes;
    Rectf m_vpBounds;
    Rectf m_camBounds;
    Rectf m_scissorBounds;
    bool m_scissor;
 
    void renderObjectList(std::vector<DrawQueue> &queues);
+   void renderFBOObjectList(DrawPass &dp);
+   std::unique_ptr<IDrawObject> buildFboDrawObject(std::shared_ptr<FBO> fbo);
 
 public:
    DrawScene(IViewport &vp, ICamera &camera);
    DrawScene(IViewport &vp, ICamera &camera, Rectf scissorBounds);
 
-   void addObjectToPass(IViewport::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> obj);
+   void addObjectToPass(ICamera::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> obj);
    void addObject(RenderLayer layer, std::unique_ptr<IDrawObject> obj);
    void draw();
+
 
 };

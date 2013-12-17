@@ -4,6 +4,7 @@
 #include "Color.h"
 #include "Entity.h"
 #include "GraphicComponents.h"
+#include "IViewport.h"
 
 #include <string>
 
@@ -15,5 +16,6 @@ namespace CompHelpers
    void updatePositionBind(Entity &e);
    void updateAnimationBind(Entity &e);
    RenderLayer getRenderLayer(Entity &e);
+   ICamera::Pass getRenderPass(Entity &e);
 }
 

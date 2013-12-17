@@ -15,23 +15,24 @@ class TextRenderable : public IRenderable
    std::shared_ptr<TextString> m_string;
    Transform m_transform;
    RenderLayer layer;
+   ICamera::Pass pass;
 
 public:
    TextRenderable(Entity &entity)
    {
+      pass = CompHelpers::getRenderPass(entity);
+      layer = CompHelpers::getRenderLayer(entity);
+
       if(auto tc = entity.getComponent<TextComponent>())
       {
          m_transform = buildTransformation(entity);
          m_string = std::make_shared<TextString>(tc->drawPos, tc->str, tc->color, tc->font);
       }
 
-      layer = CompHelpers::getRenderLayer(entity);
-      
-
    }
    void render(const IRenderer &renderer) const
    {
-      renderer.drawText(layer, m_string, m_transform);
+      renderer.drawText(pass, layer, m_string, m_transform);
    }
 };
 
@@ -50,10 +51,12 @@ class MeshRenderable : public IRenderable
    Transform m_transform;
    InternString m_texture;
    RenderLayer layer;
+   ICamera::Pass pass;
 
 public:
    MeshRenderable(Entity &entity)
    {
+      pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
 
       if(auto pc = entity.getComponent<PositionComponent>())
@@ -86,9 +89,9 @@ public:
    void render(const IRenderer &renderer) const
    {
       if(m_texture->size() > 0)
-         renderer.drawTexture(layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
+         renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
       else
-         renderer.drawTriangles(layer, std::move(m_vertices), std::move(m_faces), m_transform);
+         renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_transform);
    }
 };
 

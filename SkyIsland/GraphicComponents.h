@@ -19,6 +19,13 @@ public:
    Float2 size, center;
 };
 
+//add to entity to designate it as a light source
+class LightComponent : public IComponent
+{
+public:
+   static const int ID = 3308791299;
+};
+
 class SpriteComponent : public IComponent
 {
 public:

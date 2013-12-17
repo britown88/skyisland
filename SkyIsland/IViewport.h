@@ -14,14 +14,7 @@ class ViewportList;
 
 class IViewport : std::enable_shared_from_this<IViewport>
 {   
-public:
-   enum class Pass
-   {
-      Lighting,
-      COUNT
-   };
-
-   virtual std::vector<std::shared_ptr<FBO>> &getFBOs()=0;
+public:   
 
    IntrusiveListHook hook;
    std::shared_ptr<IViewport> getptr() {return shared_from_this();}

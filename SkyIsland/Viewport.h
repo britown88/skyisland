@@ -17,7 +17,7 @@ class Viewport : public IViewport
    std::unordered_map<Keystroke, MouseEventList, ObjectHash<Keystroke>> m_mouseCallbacks;
    std::weak_ptr<IViewport> m_parent;
 
-   std::vector<std::shared_ptr<FBO>> m_frameBuffers;
+   
 
 public:
    Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera);
