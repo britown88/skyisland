@@ -7,6 +7,8 @@
 #include "Keystroke.h"
 #include "MouseHandler.h"
 
+#include "FBO.h"
+
 
 class ViewportList;
 
@@ -18,6 +20,8 @@ public:
       Lighting,
       COUNT
    };
+
+   virtual std::vector<std::shared_ptr<FBO>> &getFBOs()=0;
 
    IntrusiveListHook hook;
    std::shared_ptr<IViewport> getptr() {return shared_from_this();}

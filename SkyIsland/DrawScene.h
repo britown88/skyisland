@@ -13,21 +13,26 @@ typedef std::vector<std::unique_ptr<IDrawObject>> DrawQueue;
 
 struct DrawPass
 {
-   std::unique_ptr<FBO> fbo;
-   DrawQueue drawQueue[RenderLayer::COUNT];
+   std::weak_ptr<FBO> fbo;
+   std::vector<DrawQueue> drawQueue;
+   DrawPass(){drawQueue.resize((int)RenderLayer::COUNT);}
+   DrawPass(std::weak_ptr<FBO> FBO):fbo(std::move(FBO)){drawQueue.resize((int)RenderLayer::COUNT);}
+
+   DrawPass(DrawPass && ref):fbo(std::move(ref.fbo)), drawQueue(std::move(ref.drawQueue)){}
+   DrawPass &operator=(DrawPass && ref){fbo = std::move(ref.fbo); drawQueue = std::move(ref.drawQueue); return *this;}
 };
 
 class DrawScene
 {
 private:   
-   DrawQueue m_drawQueue[RenderLayer::COUNT];
-   DrawPass m_passes[IViewport::Pass::COUNT];
+   std::vector<DrawQueue> m_drawQueue;
+   std::vector<DrawPass> m_passes;
    Rectf m_vpBounds;
    Rectf m_camBounds;
    Rectf m_scissorBounds;
    bool m_scissor;
 
-   void renderObjectList(DrawQueue *queues);
+   void renderObjectList(std::vector<DrawQueue> &queues);
 
 public:
    DrawScene(IViewport &vp, ICamera &camera);

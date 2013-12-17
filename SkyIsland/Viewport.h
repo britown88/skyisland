@@ -17,7 +17,7 @@ class Viewport : public IViewport
    std::unordered_map<Keystroke, MouseEventList, ObjectHash<Keystroke>> m_mouseCallbacks;
    std::weak_ptr<IViewport> m_parent;
 
-   std::unique_ptr<FBO> m_frameBuffers[Pass::COUNT];
+   std::vector<std::shared_ptr<FBO>> m_frameBuffers;
 
 public:
    Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera);
@@ -28,6 +28,7 @@ public:
    Rectf getWindowBounds();
    Rectf getDrawnBounds();
    void setDrawnBounds(Rectf bounds);
+   std::vector<std::shared_ptr<FBO>> &getFBOs();
 
    void update();
 
