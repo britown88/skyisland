@@ -13,6 +13,12 @@ class ViewportList;
 class IViewport : std::enable_shared_from_this<IViewport>
 {   
 public:
+   enum class Pass
+   {
+      Lighting,
+      COUNT
+   };
+
    IntrusiveListHook hook;
    std::shared_ptr<IViewport> getptr() {return shared_from_this();}
    virtual ~IViewport(){}   

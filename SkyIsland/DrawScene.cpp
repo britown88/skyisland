@@ -15,12 +15,17 @@ DrawScene::DrawScene(IViewport &vp, ICamera &camera, Rectf scissorBounds):
    m_scissor = true;
 }
 
+void DrawScene::addObjectToPass(IViewport::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> obj)
+{
+   m_passes[(int)pass].drawQueue[(int)layer].push_back(std::move(obj));
+}
+
 void DrawScene::addObject(RenderLayer layer, std::unique_ptr<IDrawObject> obj)
 {
    m_drawQueue[(int)layer].push_back(std::move(obj));
 }
 
-void DrawScene::draw()
+void DrawScene::renderObjectList(DrawQueue *queues)
 {
    glViewport(m_vpBounds.left, m_vpBounds.top, m_vpBounds.right, m_vpBounds.bottom);
    if(m_scissor)
@@ -35,10 +40,16 @@ void DrawScene::draw()
    glLoadIdentity();   
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
-   for(auto &layer : m_drawQueue)
-      for(auto &DO : layer)
+   for(int i = 0; i < (int)RenderLayer::COUNT; ++i)
+      for(auto &DO : queues[i])
          DO->draw();
 
    if(m_scissor)
       glDisable(GL_SCISSOR_TEST);
+
+}
+
+void DrawScene::draw()
+{
+   renderObjectList(m_drawQueue);
 }

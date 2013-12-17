@@ -1,3 +1,4 @@
+#include "GL\glew.h"
 #include <GLFW/glfw3.h>
 #include "GLWindow.h"
 #include "KeyHandler.h"
@@ -7,10 +8,14 @@
 #include "IL\ilu.h"
 #include "IL\ilut.h"
 
+
+
 void GLWindow::registerCallbacks()
 {
    glfwSetKeyCallback(m_window, keyCallback);
    glfwSetMouseButtonCallback(m_window, mouseCallback);
+
+   glewInit();
 
    ilInit();
    iluInit();
