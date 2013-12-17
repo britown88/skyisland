@@ -204,6 +204,9 @@
     <ClCompile Include="ColorFilters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FBO.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="ColorFilter.h">
       <Filter>Header Files\Concretes\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="FBO.h">
+      <Filter>Header Files\Concretes\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
