@@ -11,14 +11,14 @@ FBO::FBO(Rectf bounds):m_bounds(Rectf(bounds))
    glGenFramebuffers(1, &m_fboHandle);
 
    int pixelCount = m_bounds.width() * m_bounds.height();
-   unsigned char *pixels = (unsigned char*)calloc(pixelCount * 4, sizeof(unsigned char));
+   unsigned char *pixels = (unsigned char*)calloc(pixelCount * 16, sizeof(unsigned char));
 
    glGenTextures(1, &m_texHandle);
    glBindTexture(GL_TEXTURE_2D, m_texHandle);
    glTexImage2D(
-      GL_TEXTURE_2D, 0, GL_RGBA, 
+      GL_TEXTURE_2D, 0, GL_RGBA32F, 
       m_bounds.width(), m_bounds.height(), 
-      0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+      0, GL_RGBA, GL_FLOAT, pixels);
 
    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -68,5 +68,6 @@ void FBO::bind()
 {
    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fboHandle);
    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texHandle, 0);
+   glClearColor(0.1f, 0.0f, 0.0f, 0.0f);
    glClear(GL_COLOR_BUFFER_BIT);
 }

@@ -57,6 +57,7 @@ public:
 //no component = default
 enum class RenderLayer
 {
+   Backdrop,
    Default,
    DamageMarkers,   
    

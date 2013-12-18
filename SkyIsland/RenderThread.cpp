@@ -26,7 +26,7 @@ void RenderThread::_run()
 
    while(true)
    {
-
+      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
    
       for(auto& scene : *m_queueCurrent)

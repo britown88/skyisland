@@ -4,6 +4,8 @@
 #include "DrawScene.h"
 #include "GraphicComponents.h"
 #include "DrawTexture.h"
+#include "IOCContainer.h"
+#include "FBODebugger.h"
 
 DrawScene::DrawScene(IViewport &vp, ICamera &camera):
    m_vpBounds(vp.getBounds()), m_camBounds(camera.getBounds())
@@ -57,20 +59,22 @@ std::unique_ptr<IDrawObject> DrawScene::buildFboDrawObject(std::shared_ptr<FBO> 
 
 }
 
-void DrawScene::addObjectToPass(ICamera::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> obj)
+void DrawScene::addObjectToPass(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<IDrawObject> obj)
 {
    if(m_passes.find(pass) != m_passes.end())
       m_passes[pass]->drawQueue[(int)layer].push_back(std::move(obj));
 }
 
-void DrawScene::addObject(RenderLayer layer, std::unique_ptr<IDrawObject> obj)
+void DrawScene::addObject(RenderLayer layer, std::shared_ptr<IDrawObject> obj)
 {
    m_drawQueue[(int)layer].push_back(std::move(obj));
 }
 
-void DrawScene::renderFBOObjectList(DrawPass &dp)
+void DrawScene::renderFBOObjectList(ICamera::Pass pass, DrawPass &dp)
 {
-   dp.fbo->bind();
+   if(IOC.resolve<FBODebugger>()->getPass() != pass)
+      dp.fbo->bind();
+
    glViewport(0, 0, dp.fbo->getBounds().width(), dp.fbo->getBounds().height());
 
    glMatrixMode(GL_PROJECTION);
@@ -80,6 +84,7 @@ void DrawScene::renderFBOObjectList(DrawPass &dp)
    glLoadIdentity();   
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
+   
    for(auto &layer : dp.drawQueue)
       for(auto &DO : layer)
          if(DO)DO->draw();
@@ -101,9 +106,10 @@ void DrawScene::renderObjectList(std::vector<DrawQueue> &queues)
    glLoadIdentity();   
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
-   for(auto &layer : queues)
-      for(auto &DO : layer)
-         if(DO)DO->draw();
+   
+      for(auto &layer : queues)
+         for(auto &DO : layer)
+            if(DO)DO->draw();
 
    if(m_scissor)
       glDisable(GL_SCISSOR_TEST);
@@ -115,24 +121,32 @@ void DrawScene::draw()
    //draw passes
    for(auto &pass : m_passes)
       if(pass.second->fbo)
-         renderFBOObjectList(*pass.second.get());
+         renderFBOObjectList(pass.first, *pass.second.get());
 
    ////draw main shit
    glBindFramebuffer(GL_FRAMEBUFFER, 0); 
-   renderObjectList(m_drawQueue);
-
-   //draw the passes
-   if(m_scissor)
+   auto fbodebug = IOC.resolve<FBODebugger>();
+   if(fbodebug->getPass() == ICamera::Pass::COUNT)
    {
-      glScissor(m_scissorBounds.left, m_scissorBounds.top, m_scissorBounds.right, m_scissorBounds.bottom);
-      glEnable(GL_SCISSOR_TEST);
+      renderObjectList(m_drawQueue);
+
+      if(!fbodebug->renderFBOs)
+         return;
+
+      //draw the passes
+      if(m_scissor)
+      {
+         glScissor(m_scissorBounds.left, m_scissorBounds.top, m_scissorBounds.right, m_scissorBounds.bottom);
+         glEnable(GL_SCISSOR_TEST);
+      }
+
+      for(auto &pass : m_passes)      
+         pass.second->fboTexture->draw();
+
+      if(m_scissor)
+         glDisable(GL_SCISSOR_TEST);
    }
-
-   for(auto &pass : m_passes)
-      pass.second->fboTexture->draw();
-
-   if(m_scissor)
-      glDisable(GL_SCISSOR_TEST);
+      
       
 
 }

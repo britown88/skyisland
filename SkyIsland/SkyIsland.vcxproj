@@ -92,6 +92,7 @@
     <ClCompile Include="DrawTexture.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
     <ClCompile Include="FBO.cpp" />
+    <ClCompile Include="FBODebugger.cpp" />
     <ClCompile Include="KeyHandler.cpp" />
     <ClCompile Include="MouseHandler.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="SpriteFactory.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vertex.cpp" />
@@ -144,6 +146,7 @@
     <ClInclude Include="GameComponents.h" />
     <ClInclude Include="GLWindow.h" />
     <ClInclude Include="GraphicComponents.h" />
+    <ClInclude Include="FBODebugger.h" />
     <ClInclude Include="IAITask.h" />
     <ClInclude Include="IAnimation.h" />
     <ClInclude Include="IAnimationStrategy.h" />

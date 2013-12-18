@@ -10,7 +10,7 @@ Renderer::Renderer():m_drawQueue(SceneListPtr(new SceneList()))
 {   
 }
 
-void Renderer::addObjectToScene(ICamera::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> DO) const
+void Renderer::addObjectToScene(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<IDrawObject> DO) const
 {
    if(pass == ICamera::Pass::COUNT)
       m_drawQueue->back()->addObject(layer, std::move(DO));
@@ -18,29 +18,31 @@ void Renderer::addObjectToScene(ICamera::Pass pass, RenderLayer layer, std::uniq
       m_drawQueue->back()->addObjectToPass(pass, layer, std::move(DO));
 }
 
-void Renderer::drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+std::shared_ptr<IDrawObject> Renderer::drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   addObjectToScene(
-      pass, layer, 
-      std::unique_ptr<IDrawObject>(
-         new DrawTriangle(std::move(vertices), std::move(faces), transform)));
+
+   std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+      new DrawTriangle(std::move(vertices), std::move(faces), transform));
+   addObjectToScene(pass, layer, DO);
+   return DO;
+      
    
 }
 
-void Renderer::drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
+std::shared_ptr<IDrawObject> Renderer::drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform) const
 {
-   addObjectToScene(
-      pass, layer, 
-      std::unique_ptr<IDrawObject>(
-         new DrawTexture(texture, std::move(vertices), std::move(faces), transform)));
+   std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+      new DrawTexture(texture, std::move(vertices), std::move(faces), transform));
+   addObjectToScene(pass, layer, DO);
+   return DO;
 }
 
-void Renderer::drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform) const
+std::shared_ptr<IDrawObject> Renderer::drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform) const
 {
-   addObjectToScene(
-      pass, layer, 
-      std::unique_ptr<IDrawObject>(
-         new DrawText(text, transform)));
+   std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+      new DrawText(text, transform));
+   addObjectToScene(pass, layer, DO);
+   return DO;
 }
 
 Renderer::SceneListPtr Renderer::drawQueue()

@@ -60,8 +60,8 @@ class SkyApp : public Application
    std::unique_ptr<CharacterInputHandler> cc;
    std::shared_ptr<Viewport> viewport, viewport2, UIViewport;
    std::unique_ptr<CameraController> camControl, camControl2;
-   std::vector<std::shared_ptr<Entity>> eList;
-   std::shared_ptr<Entity> UIEntity, target;
+   std::vector<std::shared_ptr<Entity>> eList, lightList;
+   std::shared_ptr<Entity> UIEntity, target, bg;
 
    int eIndex;
 
@@ -178,15 +178,54 @@ class SkyApp : public Application
       auto st = IOC.resolve<StringTable>();
 
       target = std::make_shared<Entity>();
-      CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
-      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(900, 900), Float2(0.5f, 0.5f)));
+      //CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      //target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
+      //target->getComponent<TextureComponent>()->setBlendFunc(GL_ONE, GL_ONE);
+      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
       target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
       target->addComponent<RenderParentComponent>(std::make_shared<RenderParentComponent>(eList[0]));
-      target->addComponent<LightComponent>(std::make_shared<LightComponent>());
+      //target->addComponent<LightComponent>(std::make_shared<LightComponent>());
 
       target->addToScene(scene);
+
+      bg = std::make_shared<Entity>();
+      CompHelpers::addRectangleMeshComponent(*bg, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      bg->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/test.jpeg")));      
+      bg->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(20000, 20000), Float2(0.5f, 0.5f)));
+      bg->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      bg->addComponent<LayerComponent>(std::make_shared<LayerComponent>(RenderLayer::Backdrop));
+      bg->addToScene(scene);
+
+
+      target->addToScene(scene);
+
+      for(int i = 0; i < 1000; ++i)
+      {
+         lightList.push_back(std::make_shared<Entity>());
+         auto light = lightList.back();
+
+         CompHelpers::addRectangleMeshComponent(*light, Rectf(0, 0, 1, 1), Colorf(rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f));
+         light->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
+         light->getComponent<TextureComponent>()->setBlendFunc(GL_ONE, GL_ONE);
+         auto lightSize = rand(150, 450);
+         light->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(lightSize, lightSize), Float2(0.5f, 0.5f)));
+         light->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(rand(0, 10000), rand(0, 10000))));
+         light->addComponent<LightComponent>(std::make_shared<LightComponent>());
+
+         light->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
+         light->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
+         light->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
+         light->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
+         light->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(light));
+
+         light->addComponent<AIComponent>(std::make_shared<AIComponent>(light));
+         light->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
+
+         light->addToScene(scene);
+
+
+      }
 
       eIndex = -1;
       nextEntity();

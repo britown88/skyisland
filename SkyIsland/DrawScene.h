@@ -9,7 +9,7 @@
 #include <vector>
 #include <memory>
 
-typedef std::vector<std::unique_ptr<IDrawObject>> DrawQueue;
+typedef std::vector<std::shared_ptr<IDrawObject>> DrawQueue;
 
 struct DrawPass
 {
@@ -45,15 +45,15 @@ private:
    bool m_scissor;
 
    void renderObjectList(std::vector<DrawQueue> &queues);
-   void renderFBOObjectList(DrawPass &dp);
+   void renderFBOObjectList(ICamera::Pass pass, DrawPass &dp);
    std::unique_ptr<IDrawObject> buildFboDrawObject(std::shared_ptr<FBO> fbo);
 
 public:
    DrawScene(IViewport &vp, ICamera &camera);
    DrawScene(IViewport &vp, ICamera &camera, Rectf scissorBounds);
 
-   void addObjectToPass(ICamera::Pass pass, RenderLayer layer, std::unique_ptr<IDrawObject> obj);
-   void addObject(RenderLayer layer, std::unique_ptr<IDrawObject> obj);
+   void addObjectToPass(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<IDrawObject> obj);
+   void addObject(RenderLayer layer, std::shared_ptr<IDrawObject> obj);
    void draw();
 
 

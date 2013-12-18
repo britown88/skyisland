@@ -207,6 +207,12 @@
     <ClCompile Include="FBO.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="TextureComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FBODebugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -451,6 +457,9 @@
     </ClInclude>
     <ClInclude Include="FBO.h">
       <Filter>Header Files\Concretes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FBODebugger.h">
+      <Filter>Header Files\Concretes\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

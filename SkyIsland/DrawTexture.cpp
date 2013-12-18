@@ -38,8 +38,8 @@ void DrawTexture::draw()
 
       glBindTexture(GL_TEXTURE_2D, tex);
 
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
       glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);      
 
       glEnable(GL_TEXTURE_2D);
       glEnable(GL_BLEND);

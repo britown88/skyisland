@@ -10,6 +10,9 @@
 
 #include "TextureManager.h"
 
+#include "DrawTexture.h"
+#include <GLFW\glfw3.h>
+
 class TextRenderable : public IRenderable
 {
    std::shared_ptr<TextString> m_string;
@@ -52,6 +55,7 @@ class MeshRenderable : public IRenderable
    InternString m_texture;
    RenderLayer layer;
    ICamera::Pass pass;
+   unsigned int blendS, blendD;
 
 public:
    MeshRenderable(Entity &entity)
@@ -73,6 +77,8 @@ public:
       if(auto tc = entity.getComponent<TextureComponent>())
       {
          m_texture = tc->texture;
+         blendS = tc->blendS;
+         blendD = tc->blendD;
 
          if(auto spr = entity.getComponent<SpriteComponent>())
          {
@@ -89,7 +95,10 @@ public:
    void render(const IRenderer &renderer) const
    {
       if(m_texture->size() > 0)
-         renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
+      {
+         auto DO = renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
+         dynamic_cast<DrawTexture*>(DO.get())->setBlendFunc(blendS, blendD);
+      }        
       else
          renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_transform);
    }

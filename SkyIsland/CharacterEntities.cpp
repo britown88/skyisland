@@ -15,6 +15,7 @@
 #include "GameComponents.h"
 #include "TextComponent.h"
 #include "RotationComponent.h"
+#include <GLFW\glfw3.h>
 
 namespace CharacterEntities
 {
@@ -56,7 +57,7 @@ namespace CharacterEntities
       //build hair
       auto item = std::make_shared<Entity>();
       CompHelpers::addRectangleMeshComponent(*item, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      item->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
+      item->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));      
       item->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(parentSize->size), Float2(parentSize->center)));
       item->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       
