@@ -9,10 +9,10 @@
 
 struct SNodeConnection
 {
-   SNodeConnection():connectionPos(Float2()), locked(false){}
-   SNodeConnection(Float2 conPos):connectionPos(conPos), locked(false){}
+   SNodeConnection():connectionPos(Float2()), offset(Float2()), locked(false){}
+   SNodeConnection(Float2 conPos):connectionPos(conPos), offset(Float2()), locked(false){}
    bool locked;
-   Float2 connectionPos;//point (0-1) on parent
+   Float2 connectionPos, offset;//point (0-1) on parent
    std::shared_ptr<Entity> entity;
 };
 
@@ -21,6 +21,4 @@ class SkeletalNodeComponent : public IComponent
 public:
    const static int ID = 1964797685;
    std::unordered_map<InternString, SNodeConnection> connections;
-   std::shared_ptr<Entity> parent;
-   Float2 offset;
 };

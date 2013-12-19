@@ -41,7 +41,8 @@ public:
          {
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
-               addNode(*connection.second.entity, gb->size * connection.second.connectionPos, transforms);
+               addNode(*connection.second.entity, 
+                  gb->size * connection.second.connectionPos + connection.second.offset, transforms);
 
             }
             
@@ -94,30 +95,30 @@ public:
          node.m_texture = IOC.resolve<StringTable>()->get("");
       }
 
+      auto t = std::make_shared<Transform>();
+      *t = buildTransformation(entity);
+      t->offset = offset;
+
+      if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+      {
+         t->offset.y -= gb->size.y * gb->center.y;
+         t->offset.x -= gb->size.x * gb->center.x;
+
+      }
+
+      node.transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
+      node.transforms->push_back(std::move(t));
+         
+         
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
       {
-         auto t = std::make_shared<Transform>();
-         *t = buildTransformation(entity);
-         t->offset = snc->offset + offset;
-
-         if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
-         {
-            t->offset.y -= gb->size.y * gb->center.y;
-            t->offset.x -= gb->size.x * gb->center.x;
-
-         }
-
-         node.transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
-         node.transforms->push_back(std::move(t));
-         
          for(auto &connection : snc->connections)
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
-               addNode(*connection.second.entity, gb->size * connection.second.connectionPos, node.transforms);
+               addNode(*connection.second.entity, 
+                  gb->size * connection.second.connectionPos + connection.second.offset, node.transforms);
                
             }
-               
-
 
       }
          
