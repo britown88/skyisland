@@ -97,7 +97,7 @@ void RenderManager::renderEntity(Entity &entity)
 
    if(auto snc = entity.getComponent<SkeletalNodeComponent>())
    {
-
+      buildSkeletalRenderable(entity)->render(*m_renderer);
    }
 
    if(childrenComp)

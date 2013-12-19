@@ -39,6 +39,22 @@ Transform buildTransformation(Entity &entity)
    return t;
 }
 
+void applyGLTransformation(std::vector<Transform> tList)
+{
+   if(tList.empty()) return;
+
+   for(auto t = tList.rbegin(); t != tList.rend(); ++t)
+   {
+      glTranslatef(t->offset.x, t->offset.y, 0.0f);
+      glTranslatef(t->rotationPoint.x, t->rotationPoint.y, 0.0f);
+      glRotatef(t->rotationAngle, 0.0f, 0.0f, 1.0f);
+      glTranslatef(-t->rotationPoint.x, -t->rotationPoint.y, 0.0f);
+   }
+
+   auto &t = tList.back();
+   glScalef(t.scale.x, t.scale.y, 0.0f);
+}
+
 void applyGLTransformation(Transform t)
 {
    //1. scale

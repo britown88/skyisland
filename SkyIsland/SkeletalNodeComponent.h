@@ -7,19 +7,11 @@
 #include <unordered_map>
 #include <memory>
 
-struct SNodeConnection
-{
-   SNodeConnection():location(Float2()){}
-   SNodeConnection(Float2 loc):location(loc){}
-   Float2 location;
-   std::shared_ptr<Entity> entity;
-};
-
 class SkeletalNodeComponent : public IComponent
 {
 public:
    const static int ID = 1964797685;
-   std::unordered_map<InternString, SNodeConnection> connections;
+   std::unordered_map<InternString, std::shared_ptr<Entity>> connections;
    std::shared_ptr<Entity> parent;
-   Transform transform;
+   Float2 offset;
 };

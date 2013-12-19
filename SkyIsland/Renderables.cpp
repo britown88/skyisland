@@ -2,6 +2,7 @@
 #include "PositionComponent.h"
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
+#include "SkeletalNodeComponent.h"
 #include "TextComponent.h"
 #include "MeshComponent.h"
 #include "Transform.h"
@@ -13,6 +14,128 @@
 
 #include "DrawTexture.h"
 #include <GLFW\glfw3.h>
+
+struct SkeletalNode
+{
+   std::shared_ptr<VertexList> m_vertices;
+   std::shared_ptr<std::vector<int>> m_faces;
+   std::vector<Transform> transforms;
+
+   InternString m_texture;
+   unsigned int blendS, blendD;
+   
+};
+
+class SkeletalRenderable : public IRenderable
+{
+   std::vector<SkeletalNode> nodes;
+   std::shared_ptr<TextString> m_string;
+   RenderLayer layer;
+   ICamera::Pass pass;
+   std::vector<Transform> transforms;
+
+public:
+
+
+
+   SkeletalRenderable(Entity &entity)
+   {
+      pass = CompHelpers::getRenderPass(entity);
+      layer = CompHelpers::getRenderLayer(entity);
+
+      transforms.push_back(buildTransformation(entity));
+
+      if(auto snc = entity.getComponent<SkeletalNodeComponent>())
+         for(auto &connection : snc->connections)
+            addNode(*connection.second, transforms);
+
+   }
+
+   void addNode(Entity &entity, std::vector<Transform> transforms)
+   {
+      nodes.push_back(SkeletalNode());
+      auto &node = nodes.back();
+
+      if(auto pc = entity.getComponent<PositionComponent>())
+      {
+         if(auto mc = entity.getComponent<MeshComponent>())
+         {
+            node.m_vertices = mc->vertices;
+            node.m_faces = mc->faces;
+         }
+      }
+
+      if(auto tc = entity.getComponent<TextureComponent>())
+      {
+         node.m_texture = tc->texture;
+         node.blendS = tc->blendS;
+         node.blendD = tc->blendD;
+
+         //change texCoords
+         if(tc->size.x > 0.0f && tc->size.y > 0.0f)
+         {
+            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+            {
+               auto texCoords = gb->size / tc->size;
+               (*node.m_vertices)[0].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
+               (*node.m_vertices)[1].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
+               (*node.m_vertices)[1].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
+               (*node.m_vertices)[2].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
+            }
+
+         }
+
+         if(auto spr = entity.getComponent<SpriteComponent>())
+         {
+            node.m_texture = spr->sprite->getTexture(spr->face, spr->elapsedTime);
+         }
+      }         
+      else
+      {
+         node.m_texture = IOC.resolve<StringTable>()->get("");
+      }
+
+      if(auto snc = entity.getComponent<SkeletalNodeComponent>())
+      {
+         auto t = buildTransformation(entity);
+         t.offset = snc->offset;
+         if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+         {
+            t.offset.y -= gb->size.y * gb->center.y;
+            t.offset.x -= gb->size.x * gb->center.x;
+
+         }
+
+         node.transforms = std::vector<Transform>(transforms);
+         node.transforms.push_back(t);
+         
+         for(auto &connection : snc->connections)
+            addNode(*connection.second, node.transforms);
+      }
+         
+
+   }
+
+
+   void render(const IRenderer &renderer) const
+   {
+      for(auto &node : nodes)
+      {
+         if(node.m_texture->size() > 0)
+         {
+            auto DO = renderer.drawTexture(pass, layer, node.m_texture, std::move(node.m_vertices), std::move(node.m_faces), std::move(node.transforms));
+            dynamic_cast<DrawTexture*>(DO.get())->setBlendFunc(node.blendS, node.blendD);
+         }        
+         //else
+            //renderer.drawTriangles(pass, layer, std::move(node.m_vertices), std::move(node.m_faces), m_transform);
+      }      
+   }
+};
+
+std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity)
+{
+   return std::unique_ptr<IRenderable>(new SkeletalRenderable(entity));
+}
 
 class TextRenderable : public IRenderable
 {

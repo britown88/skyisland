@@ -80,7 +80,7 @@ class SkyApp : public Application
       return e;
    }
 
-   std::shared_ptr<Entity> buildBodyPart()
+   std::shared_ptr<Entity> buildBodyPart(char *texture, Float2 size, Float2 center, Float2 offset)
    {
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
@@ -89,14 +89,15 @@ class SkyApp : public Application
 
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
 
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/body/head.png")));
-      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(78, 78), Float2(0.5f, 0.5f)));
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get(texture)));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, center));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
 
       auto nc = std::make_shared<SkeletalNodeComponent>();
-      e->addComponent<SkeletalNodeComponent>(nc);      
+      nc->offset = offset;
+      e->addComponent<SkeletalNodeComponent>(nc); 
 
-      e->addToScene(scene);
+      
 
       return e;
    }
@@ -106,8 +107,6 @@ class SkyApp : public Application
    {
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
-      
-      e->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
 
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
 
@@ -121,14 +120,33 @@ class SkyApp : public Application
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
       
       auto nc = std::make_shared<SkeletalNodeComponent>();
-      auto partName = st->get("head");
 
-      nc->connections.insert(std::make_pair(partName, SNodeConnection(Float2(0.5f, 0.0f))));
+      nc->connections.insert(std::make_pair(st->get("head"), std::shared_ptr<Entity>()));
+      nc->connections.insert(std::make_pair(st->get("rightleg"), std::shared_ptr<Entity>()));
+      nc->connections.insert(std::make_pair(st->get("leftleg"), std::shared_ptr<Entity>()));
+      nc->connections.insert(std::make_pair(st->get("rightarm"), std::shared_ptr<Entity>()));
+      nc->connections.insert(std::make_pair(st->get("leftarm"), std::shared_ptr<Entity>()));
       e->addComponent<SkeletalNodeComponent>(nc);
       
-      auto part = buildBodyPart();
+      auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f), Float2(39.0f, 30.0f));
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[partName].entity = part;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")] = part;
+
+      part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.0f, 0.0f), Float2(6.0f, 54.0f));
+      part->getComponent<SkeletalNodeComponent>()->parent = e;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")] = part;
+
+      part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.0f, 0.0f), Float2(36.0f, 54.0f));
+      part->getComponent<SkeletalNodeComponent>()->parent = e;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")] = part;
+
+      part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.0f, 0.0f), Float2(0.0f, 42.0f));
+      part->getComponent<SkeletalNodeComponent>()->parent = e;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")] = part;
+
+      part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(1.0f, 0.0f), Float2(78.0f, 42.0f));
+      part->getComponent<SkeletalNodeComponent>()->parent = e;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")] = part;
 
       e->addToScene(scene);
       eList.push_back(e);
@@ -200,7 +218,7 @@ class SkyApp : public Application
 
       buildTestEntity();
 
-      for(int i = 0; i < 100; ++i)
+      for(int i = 0; i < 0; ++i)
       {
          auto e = CharacterEntities::buildCharacter();
          e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.h"
+#include <vector>
 
 class Entity;
 
@@ -17,3 +18,4 @@ struct Transform
 
 Transform buildTransformation(Entity &entity);
 void applyGLTransformation(Transform t);
+void applyGLTransformation(std::vector<Transform> tList);

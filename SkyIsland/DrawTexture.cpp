@@ -12,6 +12,14 @@ DrawTexture::DrawTexture(InternString texture, std::shared_ptr<VertexList> verti
    m_blendD = GL_ONE_MINUS_SRC_ALPHA;
 }
 
+DrawTexture::DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, std::vector<Transform> transform):
+   m_texture(std::move(texture)), m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transformList(std::move(transform)), m_gltexture(0)
+{
+   m_blendS = GL_SRC_ALPHA;
+   m_blendD = GL_ONE_MINUS_SRC_ALPHA;
+}
+
+
 
 DrawTexture::DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform):
    m_gltexture(texture), m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transform(transform)
@@ -30,7 +38,10 @@ void DrawTexture::draw()
 {
    glPushMatrix();
 
+   if(m_transformList.empty())
       applyGLTransformation(m_transform);
+   else
+      applyGLTransformation(m_transformList);
 
       GLint tex = m_gltexture;
       if(tex == 0)

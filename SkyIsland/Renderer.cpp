@@ -42,6 +42,14 @@ public:
       addObjectToScene(pass, layer, DO);
       return DO;
    }
+
+   std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, std::vector<Transform> transformList) const
+   {
+      std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+         new DrawTexture(texture, std::move(vertices), std::move(faces), std::move(transformList)));
+      addObjectToScene(pass, layer, DO);
+      return DO;
+   }
    
    std::shared_ptr<IDrawObject> drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform=Transform()) const
    {
@@ -49,11 +57,6 @@ public:
          new DrawText(text, transform));
       addObjectToScene(pass, layer, DO);
       return DO;
-   }
-
-   std::shared_ptr<IDrawObject> drawSkeletalAnimation(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform=Transform()) const
-   {
-      return std::shared_ptr<IDrawObject>();
    }
 
    SceneListPtr drawQueue()
