@@ -15,16 +15,7 @@
 #include "DrawTexture.h"
 #include <GLFW\glfw3.h>
 
-struct SkeletalNode
-{
-   std::shared_ptr<VertexList> m_vertices;
-   std::shared_ptr<std::vector<int>> m_faces;
-   std::vector<Transform> transforms;
 
-   InternString m_texture;
-   unsigned int blendS, blendD;
-   
-};
 
 class SkeletalRenderable : public IRenderable
 {
@@ -32,26 +23,34 @@ class SkeletalRenderable : public IRenderable
    std::shared_ptr<TextString> m_string;
    RenderLayer layer;
    ICamera::Pass pass;
-   std::vector<Transform> transforms;
-
+   
 public:
-
-
 
    SkeletalRenderable(Entity &entity)
    {
       pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
 
-      transforms.push_back(buildTransformation(entity));
+      TransformList transforms = std::make_shared<std::vector<TransformPtr>>();
+      auto t = std::make_shared<Transform>();
+      *t = buildTransformation(entity);
+      transforms->push_back(std::move(t));
 
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
          for(auto &connection : snc->connections)
-            addNode(*connection.second, transforms);
+         {
+            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+            {
+               addNode(*connection.second.entity, gb->size * connection.second.connectionPos, transforms);
+
+            }
+            
+         }
+            
 
    }
 
-   void addNode(Entity &entity, std::vector<Transform> transforms)
+   void addNode(Entity &entity, Float2 &offset, TransformList transforms)
    {
       nodes.push_back(SkeletalNode());
       auto &node = nodes.back();
@@ -97,20 +96,29 @@ public:
 
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
       {
-         auto t = buildTransformation(entity);
-         t.offset = snc->offset;
+         auto t = std::make_shared<Transform>();
+         *t = buildTransformation(entity);
+         t->offset = snc->offset + offset;
+
          if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
          {
-            t.offset.y -= gb->size.y * gb->center.y;
-            t.offset.x -= gb->size.x * gb->center.x;
+            t->offset.y -= gb->size.y * gb->center.y;
+            t->offset.x -= gb->size.x * gb->center.x;
 
          }
 
-         node.transforms = std::vector<Transform>(transforms);
-         node.transforms.push_back(t);
+         node.transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
+         node.transforms->push_back(std::move(t));
          
          for(auto &connection : snc->connections)
-            addNode(*connection.second, node.transforms);
+            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+            {
+               addNode(*connection.second.entity, gb->size * connection.second.connectionPos, node.transforms);
+               
+            }
+               
+
+
       }
          
 

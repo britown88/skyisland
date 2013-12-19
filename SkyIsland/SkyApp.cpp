@@ -118,35 +118,42 @@ class SkyApp : public Application
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+
+      e->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.5f, 0.5f)));
       
       auto nc = std::make_shared<SkeletalNodeComponent>();
 
-      nc->connections.insert(std::make_pair(st->get("head"), std::shared_ptr<Entity>()));
-      nc->connections.insert(std::make_pair(st->get("rightleg"), std::shared_ptr<Entity>()));
-      nc->connections.insert(std::make_pair(st->get("leftleg"), std::shared_ptr<Entity>()));
-      nc->connections.insert(std::make_pair(st->get("rightarm"), std::shared_ptr<Entity>()));
-      nc->connections.insert(std::make_pair(st->get("leftarm"), std::shared_ptr<Entity>()));
+      nc->connections.insert(std::make_pair(st->get("head"), SNodeConnection(Float2(0.5f, 0.38f))));
+      nc->connections.insert(std::make_pair(st->get("rightleg"), SNodeConnection(Float2(0.31f, 0.69f))));
+      nc->connections.insert(std::make_pair(st->get("leftleg"), SNodeConnection(Float2(0.69f, 0.69f))));
+      nc->connections.insert(std::make_pair(st->get("rightarm"), SNodeConnection(Float2(0.15f, 0.54f))));
+      nc->connections.insert(std::make_pair(st->get("leftarm"), SNodeConnection(Float2(0.85f, 0.54f))));
       e->addComponent<SkeletalNodeComponent>(nc);
       
-      auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f), Float2(39.0f, 30.0f));
+      auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f), Float2());
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")] = part;
+      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-25.0f, Float2(0.5f, 1.0f)));
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")].entity = part;
 
-      part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.0f, 0.0f), Float2(6.0f, 54.0f));
+      part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.5f, 0.0f), Float2());
+      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.5f, 0.0f)));
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")] = part;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")].entity = part;
 
-      part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.0f, 0.0f), Float2(36.0f, 54.0f));
+      part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.5f, 0.0f), Float2());
+      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-45.0f, Float2(0.5f, 0.0f)));
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")] = part;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")].entity = part;
 
-      part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.0f, 0.0f), Float2(0.0f, 42.0f));
+      part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f), Float2(0.0f, -6.0f));
+      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(135.0f, Float2(0.5f, 0.0f)));
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")] = part;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].entity = part;
 
-      part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(1.0f, 0.0f), Float2(78.0f, 42.0f));
+      part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f), Float2(0.0f, -6.0f));
+      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-135.0f, Float2(0.5f, 0.0f)));
       part->getComponent<SkeletalNodeComponent>()->parent = e;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")] = part;
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].entity = part;
 
       e->addToScene(scene);
       eList.push_back(e);

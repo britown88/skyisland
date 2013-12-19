@@ -31,6 +31,11 @@ Transform buildTransformation(Entity &entity)
 
    if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
    {
+      if(auto rot = entity.getComponent<RotationComponent>())
+      {
+         t.rotationPoint = t.rotationPoint * gb->size;
+      }
+
       t.scale = gb->size;
       t.offset = Float2(t.offset.x - gb->size.x * gb->center.x, t.offset.y - gb->size.y * gb->center.y);
    }
@@ -39,19 +44,20 @@ Transform buildTransformation(Entity &entity)
    return t;
 }
 
-void applyGLTransformation(std::vector<Transform> tList)
+void applyGLTransformation(TransformList tList)
 {
-   if(tList.empty()) return;
+   if(tList->empty()) return;
 
-   for(auto t = tList.rbegin(); t != tList.rend(); ++t)
+   for(auto iter = tList->begin(); iter != tList->end(); ++iter)
    {
-      glTranslatef(t->offset.x, t->offset.y, 0.0f);
-      glTranslatef(t->rotationPoint.x, t->rotationPoint.y, 0.0f);
-      glRotatef(t->rotationAngle, 0.0f, 0.0f, 1.0f);
-      glTranslatef(-t->rotationPoint.x, -t->rotationPoint.y, 0.0f);
+      auto &t = **iter;
+      glTranslatef(t.offset.x, t.offset.y, 0.0f);
+      glTranslatef(t.rotationPoint.x, t.rotationPoint.y, 0.0f);
+      glRotatef(t.rotationAngle, 0.0f, 0.0f, 1.0f);
+      glTranslatef(-t.rotationPoint.x, -t.rotationPoint.y, 0.0f);
    }
 
-   auto &t = tList.back();
+   auto &t = *tList->back();
    glScalef(t.scale.x, t.scale.y, 0.0f);
 }
 

@@ -2,6 +2,7 @@
 
 #include "Vector.h"
 #include <vector>
+#include <memory>
 
 class Entity;
 
@@ -16,6 +17,10 @@ struct Transform
 
 };
 
+
+typedef std::shared_ptr<Transform> TransformPtr;
+typedef std::shared_ptr<std::vector<TransformPtr>> TransformList;
+
 Transform buildTransformation(Entity &entity);
 void applyGLTransformation(Transform t);
-void applyGLTransformation(std::vector<Transform> tList);
+void applyGLTransformation(TransformList tList);

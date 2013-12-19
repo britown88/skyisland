@@ -43,7 +43,7 @@ public:
       return DO;
    }
 
-   std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, std::vector<Transform> transformList) const
+   std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transformList) const
    {
       std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
          new DrawTexture(texture, std::move(vertices), std::move(faces), std::move(transformList)));

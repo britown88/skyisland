@@ -15,7 +15,7 @@ class DrawTexture : public IDrawObject
 
    unsigned int m_gltexture;
    Transform m_transform;
-   std::vector<Transform> m_transformList;
+   TransformList m_transformList;
 
    InternString m_texture;
 
@@ -24,7 +24,7 @@ class DrawTexture : public IDrawObject
 public:
    DrawTexture(){}
    DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
-   DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, std::vector<Transform> transform);
+   DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transform);
    DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
 
    void setBlendFunc(unsigned int sFactor, unsigned int dFactor);
