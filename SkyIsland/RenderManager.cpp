@@ -11,10 +11,11 @@
 #include "PhysicsComponents.h"
 #include "TextComponent.h"
 #include "GraphicComponents.h"
+#include "SkeletalNodeComponent.h"
 
 RenderManager::RenderManager()
 {
-   m_renderer.reset(new Renderer());
+   m_renderer = std::move(createRenderer());
    m_renderThread.reset(new RenderThread());
    m_renderThread->start();
 }
@@ -93,6 +94,11 @@ void RenderManager::renderEntity(Entity &entity)
 
    if(auto tc = entity.getComponent<TextComponent>())
       buildTextRenderable(entity)->render(*m_renderer);
+
+   if(auto snc = entity.getComponent<SkeletalNodeComponent>())
+   {
+
+   }
 
    if(childrenComp)
    {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer.h"
+#include "IRenderer.h"
 #include "TextureManager.h"
 #include <memory>
 #include <vector>
@@ -12,7 +12,7 @@ class RenderThread
 {
    std::mutex m_mutex;
    std::thread m_thread;
-   Renderer::SceneListPtr m_queueFilling, m_queueCurrent;
+   IRenderer::SceneListPtr m_queueFilling, m_queueCurrent;
    bool m_queueUpdated;
    std::atomic_bool m_isRunning;
 
@@ -26,6 +26,6 @@ public:
    void start();
    void stop();
 
-   void resetQueue(Renderer::SceneListPtr queue);
+   void resetQueue(IRenderer::SceneListPtr queue);
 
 };

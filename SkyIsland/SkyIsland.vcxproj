@@ -163,7 +163,6 @@
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Renderables.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RotationComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="IComponent.h" />
@@ -180,6 +179,8 @@
     <ClInclude Include="RenderThread.h" />
     <ClInclude Include="SeanSort.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SkeletalAnimation.h" />
+    <ClInclude Include="SkeletalNodeComponent.h" />
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />

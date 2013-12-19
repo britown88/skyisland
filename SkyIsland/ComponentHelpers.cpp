@@ -19,8 +19,8 @@ Rectf getEntityBounds(Entity& e)
          eBounds = Rectf(
             pc->pos.x - (gb->size.x * gb->center.x),
             pc->pos.y - (gb->size.y * gb->center.y),
-            pc->pos.x + (gb->size.x * gb->center.x),
-            pc->pos.y + (gb->size.y * gb->center.y)
+            pc->pos.x + (gb->size.x * (1.0f - gb->center.x)),
+            pc->pos.y + (gb->size.y * (1.0f - gb->center.y))
          );
       }
    }

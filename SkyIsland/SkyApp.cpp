@@ -14,6 +14,7 @@
 #include "GraphicComponents.h"
 #include "TextureComponent.h"
 #include "CharacterComponent.h"
+#include "SkeletalNodeComponent.h"
 #include "PhysicsManager.h"
 #include "CharacterAnimationManager.h"
 #include "CharacterManager.h"
@@ -61,7 +62,7 @@ class SkyApp : public Application
    std::shared_ptr<Viewport> viewport, viewport2, UIViewport;
    std::unique_ptr<CameraController> camControl, camControl2;
    std::vector<std::shared_ptr<Entity>> eList, lightList;
-   std::shared_ptr<Entity> UIEntity, target, bg;
+   std::shared_ptr<Entity> UIEntity, bg;
 
    int eIndex;
 
@@ -79,14 +80,68 @@ class SkyApp : public Application
       return e;
    }
 
+   std::shared_ptr<Entity> buildBodyPart()
+   {
+      auto e = std::make_shared<Entity>();
+      auto st = IOC.resolve<StringTable>();
+      
+      e->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
+
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/body/head.png")));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(78, 78), Float2(0.5f, 0.5f)));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+
+      auto nc = std::make_shared<SkeletalNodeComponent>();
+      e->addComponent<SkeletalNodeComponent>(nc);      
+
+      e->addToScene(scene);
+
+      return e;
+   }
+
+
+   void buildTestEntity()
+   {
+      auto e = std::make_shared<Entity>();
+      auto st = IOC.resolve<StringTable>();
+      
+      e->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
+
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/body/torso.png")));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(78, 78), Float2(0.5f, 0.5f)));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
+      e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
+      e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
+      e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
+      e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+      
+      auto nc = std::make_shared<SkeletalNodeComponent>();
+      auto partName = st->get("head");
+
+      nc->connections.insert(std::make_pair(partName, SNodeConnection(Float2(0.5f, 0.0f))));
+      e->addComponent<SkeletalNodeComponent>(nc);
+      
+      auto part = buildBodyPart();
+      part->getComponent<SkeletalNodeComponent>()->parent = e;
+      e->getComponent<SkeletalNodeComponent>()->connections[partName].entity = part;
+
+      e->addToScene(scene);
+      eList.push_back(e);
+      
+   }
+
    void nextEntity()
    {
       //add the AI back in
       if(eIndex >= 0)
       {
          eList[eIndex]->addComponent<AIComponent>(std::make_shared<AIComponent>(eList[eIndex]));
-         eList[eIndex]->getComponent<RenderChildrenComponent>()->removeChild(target->getComponent<RenderParentComponent>()->parentIter);
-
+         
       }
          
 
@@ -97,10 +152,6 @@ class SkyApp : public Application
       //remove the AI and stop moving
       eList[eIndex]->removeComponent<AIComponent>();
       eList[eIndex]->getComponent<CharacterComponent>()->controller->stop();
-      eList[eIndex]->getComponent<RenderChildrenComponent>()->addChild(eList[eIndex], target, RenderChildrenComponent::Layer::Background);
-
-      target->getComponent<PositionBindComponent>()->entity = eList[eIndex];
-      target->getComponent<RenderParentComponent>()->parent = eList[eIndex];
 
 
 
@@ -134,8 +185,6 @@ class SkyApp : public Application
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));  
 
-      camera->addFBOPass(ICamera::Pass::Lighting);
-
       camera2.reset(new Camera(Rectf(0, 0, 150, 150), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
 
@@ -149,7 +198,9 @@ class SkyApp : public Application
       //m_window->addViewport(UIViewport);
       //m_window->addViewport(viewport2);
 
-      for(int i = 0; i < 1000; ++i)
+      buildTestEntity();
+
+      for(int i = 0; i < 100; ++i)
       {
          auto e = CharacterEntities::buildCharacter();
          e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
@@ -160,6 +211,8 @@ class SkyApp : public Application
 
          eList.push_back(e);
       }
+
+      
 
       UIEntity = buildUIEntity();
          
@@ -177,28 +230,14 @@ class SkyApp : public Application
 
       auto st = IOC.resolve<StringTable>();
 
-      target = std::make_shared<Entity>();
-      //CompHelpers::addRectangleMeshComponent(*target, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      //target->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
-      //target->getComponent<TextureComponent>()->setBlendFunc(GL_ONE, GL_ONE);
-      target->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
-      target->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      target->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(eList[0], Float2()));
-      target->addComponent<RenderParentComponent>(std::make_shared<RenderParentComponent>(eList[0]));
-      //target->addComponent<LightComponent>(std::make_shared<LightComponent>());
-
-      target->addToScene(scene);
-
       bg = std::make_shared<Entity>();
       CompHelpers::addRectangleMeshComponent(*bg, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      bg->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/test.jpeg")));      
-      bg->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(20000, 20000), Float2(0.5f, 0.5f)));
+      bg->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/sand.png")));  
+      bg->getComponent<TextureComponent>()->size = Float2(450, 450);
+      bg->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(10000, 10000), Float2()));
       bg->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       bg->addComponent<LayerComponent>(std::make_shared<LayerComponent>(RenderLayer::Backdrop));
       bg->addToScene(scene);
-
-
-      target->addToScene(scene);
 
       for(int i = 0; i < 1000; ++i)
       {

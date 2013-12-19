@@ -281,9 +281,6 @@
     <ClInclude Include="PositionComponent.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files\Concretes\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Header Files\Concretes\Utility</Filter>
     </ClInclude>
@@ -460,6 +457,12 @@
     </ClInclude>
     <ClInclude Include="FBODebugger.h">
       <Filter>Header Files\Concretes\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalAnimation.h">
+      <Filter>Header Files\Concretes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalNodeComponent.h">
+      <Filter>Header Files\Concretes\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

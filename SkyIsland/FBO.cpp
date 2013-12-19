@@ -68,6 +68,6 @@ void FBO::bind()
 {
    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_fboHandle);
    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texHandle, 0);
-   glClearColor(0.1f, 0.0f, 0.0f, 0.0f);
+   glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
    glClear(GL_COLOR_BUFFER_BIT);
 }

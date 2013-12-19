@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Application.h"
 #include "ComponentHelpers.h"
+#include "Vertex.h"
 
 #include "TextureManager.h"
 
@@ -72,13 +73,25 @@ public:
          }
       }
 
-      m_transform = buildTransformation(entity);
-
       if(auto tc = entity.getComponent<TextureComponent>())
       {
          m_texture = tc->texture;
          blendS = tc->blendS;
          blendD = tc->blendD;
+
+         //change texCoords
+         if(tc->size.x > 0.0f && tc->size.y > 0.0f)
+         {
+            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
+            {
+               auto texCoords = gb->size / tc->size;
+               (*m_vertices)[0].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
+               (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
+               (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
+               (*m_vertices)[2].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
+            }
+
+         }
 
          if(auto spr = entity.getComponent<SpriteComponent>())
          {
@@ -89,6 +102,8 @@ public:
       {
          m_texture = IOC.resolve<StringTable>()->get("");
       }
+
+      m_transform = buildTransformation(entity);
          
    }
 

@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "StringTable.h"
+#include "Vector.h"
 #include <string>
 
 class TextureComponent : public IComponent
@@ -13,5 +14,6 @@ public:
    void setBlendFunc(unsigned int sFactor, unsigned int dFactor){blendS = sFactor; blendD = dFactor;}
 
    InternString texture;
+   Float2 size;
 
 };

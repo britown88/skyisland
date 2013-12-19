@@ -14,6 +14,7 @@ public:
    Vector2<T> &operator+=(const Vector2<T> &rhs){ x+=rhs.x; y+=rhs.y; return *this;}
    Vector2<T> operator*(const T scalar){ return Vector2<T>(x*scalar, y*scalar);}
    Vector2<T> operator*(const Vector2<T> &rhs){ return Vector2<T>(x*rhs.x, y*rhs.y);}
+   Vector2<T> operator/(const Vector2<T> &rhs){ return Vector2<T>(x/rhs.x, y/rhs.y);}
 
    bool operator==(const Vector2<T> &rhs){ return x==rhs.x && y==rhs.y;}
    bool operator!=(const Vector2<T> &rhs){ return x!=rhs.x || y!=rhs.y;}
