@@ -111,6 +111,7 @@ public:
             {
                auto t2 = std::make_shared<Transform>(connection.second.transform);
                t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
+               t2->rotationPoint = (gb->size * connection.second.connectionPos);
                node.transforms->push_back(std::move(t2));
 
                addNode(*connection.second.entity, node.transforms);

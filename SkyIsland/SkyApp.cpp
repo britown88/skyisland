@@ -131,27 +131,31 @@ class SkyApp : public Application
       e->addComponent<SkeletalNodeComponent>(nc);
       
       auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f));
-      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-25.0f, Float2(0.5f, 1.0f)));
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")].entity = part;
+      auto &head = e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")];
+      head.entity = part;
+      head.transform.rotationAngle = -25.0f;
 
       part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
-      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.5f, 0.0f)));
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")].entity = part;
+      auto &rightleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")];
+      rightleg.entity = part;
+      rightleg.transform.rotationAngle = 45.0f;
 
       part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
-      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-45.0f, Float2(0.5f, 0.0f)));
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")].entity = part;
+      auto &leftleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")];
+      leftleg.entity = part;
+      leftleg.transform.rotationAngle = -45.0f;
 
       part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
-      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(135.0f, Float2(0.5f, 0.0f)));
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].entity = part;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].transform.offset = Float2(0.0f, -6.0f);
-      
+      auto &rightarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")];
+      rightarm.entity = part;
+      rightarm.transform.offset = Float2(0.0f, -6.0f);
+      rightarm.transform.rotationAngle = 135.0f;
 
       part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
-      part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-135.0f, Float2(0.5f, 0.0f)));
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].entity = part;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].transform.offset = Float2(0.0f, -6.0f);
+      auto &leftarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
+      leftarm.entity = part;
+      leftarm.transform.offset = Float2(0.0f, -6.0f);
+      leftarm.transform.rotationAngle = -135.0f;
 
       e->addToScene(scene);
       eList.push_back(e);
