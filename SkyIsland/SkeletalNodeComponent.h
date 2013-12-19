@@ -9,10 +9,11 @@
 
 struct SNodeConnection
 {
-   SNodeConnection():connectionPos(Float2()), offset(Float2()), locked(false){}
-   SNodeConnection(Float2 conPos):connectionPos(conPos), offset(Float2()), locked(false){}
+   SNodeConnection():connectionPos(Float2()), transform(Transform()), locked(false){}
+   SNodeConnection(Float2 conPos):connectionPos(conPos), transform(Transform()), locked(false){}
    bool locked;
-   Float2 connectionPos, offset;//point (0-1) on parent
+   Float2 connectionPos;
+   Transform transform;
    std::shared_ptr<Entity> entity;
 };
 

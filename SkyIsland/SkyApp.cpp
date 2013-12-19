@@ -145,13 +145,13 @@ class SkyApp : public Application
       part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
       part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(135.0f, Float2(0.5f, 0.0f)));
       e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].entity = part;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].offset = Float2(0.0f, -6.0f);
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")].transform.offset = Float2(0.0f, -6.0f);
       
 
       part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
       part->addComponent<RotationComponent>(std::make_shared<RotationComponent>(-135.0f, Float2(0.5f, 0.0f)));
       e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].entity = part;
-      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].offset = Float2(0.0f, -6.0f);
+      e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")].transform.offset = Float2(0.0f, -6.0f);
 
       e->addToScene(scene);
       eList.push_back(e);

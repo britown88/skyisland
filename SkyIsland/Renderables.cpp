@@ -41,17 +41,20 @@ public:
          {
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
-               addNode(*connection.second.entity, 
-                  gb->size * connection.second.connectionPos + connection.second.offset, transforms);
+               auto t2 = std::make_shared<Transform>(connection.second.transform);
+               t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
+               transforms->push_back(std::move(t2));
 
-            }
-            
+               addNode(*connection.second.entity, transforms);
+
+               transforms->pop_back();
+            }            
          }
             
 
    }
 
-   void addNode(Entity &entity, Float2 &offset, TransformList transforms)
+   void addNode(Entity &entity, TransformList transforms)
    {
       nodes.push_back(SkeletalNode());
       auto &node = nodes.back();
@@ -96,31 +99,25 @@ public:
       }
 
       auto t = std::make_shared<Transform>();
-      *t = buildTransformation(entity);
-      t->offset = offset;
-
-      if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
-      {
-         t->offset.y -= gb->size.y * gb->center.y;
-         t->offset.x -= gb->size.x * gb->center.x;
-
-      }
+      *t = buildTransformation(entity);      
 
       node.transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
       node.transforms->push_back(std::move(t));
-         
-         
+
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
-      {
          for(auto &connection : snc->connections)
+         {
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
-               addNode(*connection.second.entity, 
-                  gb->size * connection.second.connectionPos + connection.second.offset, node.transforms);
-               
-            }
+               auto t2 = std::make_shared<Transform>(connection.second.transform);
+               t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
+               node.transforms->push_back(std::move(t2));
 
-      }
+               addNode(*connection.second.entity, node.transforms);
+
+               node.transforms->pop_back();
+            }            
+         }
          
 
    }
