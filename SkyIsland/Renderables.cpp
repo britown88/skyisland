@@ -14,6 +14,7 @@
 #include "RenderManager.h"
 
 #include "DrawTexture.h"
+#include "SeanSort.h"
 #include <GLFW\glfw3.h>
 
 
@@ -27,8 +28,12 @@ class SkeletalRenderable : public IRenderable
    
 public:
 
-   SkeletalRenderable(Entity &entity, TransformList transforms)
+   SkeletalRenderable(Entity &entity, TransformList transforms, ComponentDrawLayer drawLayer)
    {
+      //exit if we're not going to be rendering anything
+      if(!hasDrawableConnections(entity, drawLayer))
+         return;
+
       pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
 
@@ -42,6 +47,10 @@ public:
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
          for(auto &connection : snc->connections)
          {
+            if(connection.second.entity)
+            if(drawLayer == ComponentDrawLayer::Both ||
+               connection.second.layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
+               connection.second.layer < 0 && drawLayer == ComponentDrawLayer::Background) 
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
                auto t2 = std::make_shared<Transform>(connection.second.transform);
@@ -51,14 +60,46 @@ public:
                auto node = std::make_shared<SkeletalNode>();
                node->transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
                node->entity = connection.second.entity;
+               node->layer = connection.second.layer;
                nodes.push_back(std::move(node));
 
                transforms->pop_back();
             }            
-         }     
+         } 
+
+         //sort nodes based on layerering
+         nodes = seanSort(std::move(nodes), 
+            [&](const std::shared_ptr<SkeletalNode> &n1, const std::shared_ptr<SkeletalNode> &n2)->bool
+         { 
+            if(n1->layer < n2->layer) 
+               return true;
+            if(n1->layer > n2->layer) 
+               return false;
+      
+            return n1 < n2;
+         });
             
 
    }   
+
+   bool hasDrawableConnections(Entity &entity, ComponentDrawLayer drawLayer)
+   {
+      if(auto snc = entity.getComponent<SkeletalNodeComponent>())
+      {
+         for(auto &connection : snc->connections)
+         {
+            if(connection.second.entity)
+            if(drawLayer == ComponentDrawLayer::Both ||
+               connection.second.layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
+               connection.second.layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+            {
+               return true;
+            }
+         }
+      }
+
+      return false;
+   }
 
 
    void render(const IRenderer &renderer) const
@@ -71,10 +112,11 @@ public:
    }
 };
 
-std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity, TransformList transforms)
+std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity, TransformList transforms, ComponentDrawLayer drawLayer)
 {
-   return std::unique_ptr<IRenderable>(new SkeletalRenderable(entity, transforms));
+   return std::unique_ptr<IRenderable>(new SkeletalRenderable(entity, transforms, drawLayer));
 }
+
 
 class TextRenderable : public IRenderable
 {

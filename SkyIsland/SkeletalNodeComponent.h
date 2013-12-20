@@ -9,11 +9,12 @@
 
 struct SNodeConnection
 {
-   SNodeConnection():connectionPos(Float2()), transform(Transform()), startFrameSet(false){}
-   SNodeConnection(Float2 conPos):connectionPos(conPos), transform(Transform()), startFrameSet(false){}
+   SNodeConnection():connectionPos(Float2()), transform(Transform()), startFrameSet(false), layer(0){}
+   SNodeConnection(Float2 conPos):connectionPos(conPos), transform(Transform()), startFrameSet(false), layer(0){}
    Float2 connectionPos;
    Transform transform, startFrame;
    bool startFrameSet;
+   int layer;
    std::shared_ptr<Entity> entity;
 };
 

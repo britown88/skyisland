@@ -80,6 +80,10 @@ bool RenderManager::renderViewport(IViewport &vp)
 void RenderManager::renderEntity(Entity &entity, TransformList transforms)
 {
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
+   auto skeletalNodeComp = entity.getComponent<SkeletalNodeComponent>();
+
+   if(skeletalNodeComp)    
+      buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
 
    //draw bg children
    if(childrenComp)
@@ -102,12 +106,12 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
       if(auto sPos = skeleton->entity->getComponent<PositionComponent>())
       {
          sPos->pos = pPos->pos;
-         buildSkeletalRenderable(*skeleton->entity, transforms)->render(*m_renderer);
+         buildSkeletalRenderable(*skeleton->entity, transforms, ComponentDrawLayer::Both)->render(*m_renderer);
       }      
    }      
 
-   if(auto skeleton = entity.getComponent<SkeletalNodeComponent>())    
-      buildSkeletalRenderable(entity, transforms)->render(*m_renderer);
+   if(skeletalNodeComp)    
+      buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Foreground)->render(*m_renderer);
 
 
    if(childrenComp)
