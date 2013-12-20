@@ -25,26 +25,30 @@ class SkeletalRenderable : public IRenderable
    std::shared_ptr<TextString> m_string;
    RenderLayer layer;
    ICamera::Pass pass;
+   bool nothingRendered;
    
 public:
 
    SkeletalRenderable(Entity &entity, TransformList transforms, ComponentDrawLayer drawLayer)
    {
       //exit if we're not going to be rendering anything
-      if(!hasDrawableConnections(entity, drawLayer))
+      nothingRendered = !hasDrawableConnections(entity, drawLayer);
+
+      if(nothingRendered)
          return;
 
       pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
 
       if(!transforms)
-         transforms = std::make_shared<std::vector<TransformPtr>>();
-
-      auto t = std::make_shared<Transform>();
-      *t = buildTransformation(entity);
-      transforms->push_back(std::move(t));
+         transforms = std::make_shared<std::vector<TransformPtr>>();      
 
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
+      {
+         auto t = std::make_shared<Transform>();
+         *t = buildTransformation(entity);
+         transforms->push_back(std::move(t));
+
          for(auto &connection : snc->connections)
          {
             if(connection.second.entity)
@@ -64,20 +68,27 @@ public:
                nodes.push_back(std::move(node));
 
                transforms->pop_back();
+               
             }            
          } 
+      }
+         
 
-         //sort nodes based on layerering
-         nodes = seanSort(std::move(nodes), 
-            [&](const std::shared_ptr<SkeletalNode> &n1, const std::shared_ptr<SkeletalNode> &n2)->bool
-         { 
-            if(n1->layer < n2->layer) 
-               return true;
-            if(n1->layer > n2->layer) 
-               return false;
+      //if drawing background
+      if(drawLayer == ComponentDrawLayer::Background)
+         transforms->pop_back();
+
+      //sort nodes based on layerering
+      nodes = seanSort(std::move(nodes), 
+         [&](const std::shared_ptr<SkeletalNode> &n1, const std::shared_ptr<SkeletalNode> &n2)->bool
+      { 
+         if(n1->layer < n2->layer) 
+            return true;
+         if(n1->layer > n2->layer) 
+            return false;
       
-            return n1 < n2;
-         });
+         return n1 < n2;
+      });
             
 
    }   
@@ -92,6 +103,7 @@ public:
             if(drawLayer == ComponentDrawLayer::Both ||
                connection.second.layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
                connection.second.layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+            if(entity.getComponent<GraphicalBoundsComponent>())
             {
                return true;
             }
@@ -101,13 +113,18 @@ public:
       return false;
    }
 
-
-   void render(const IRenderer &renderer) const
+   //returns whether or not something was rendered
+   bool render(const IRenderer &renderer) const
    {
+      if(nothingRendered)
+         return false;
+
       auto rManager = IOC.resolve<RenderManager>();
       for(auto &node : nodes)
          if(auto e = node->entity.lock())
             rManager->renderEntity(*e, node->transforms);
+
+      return true;
           
    }
 };
@@ -145,12 +162,14 @@ public:
       }
 
    }
-   void render(const IRenderer &renderer) const
+   //returns whether or not something was rendered
+   bool render(const IRenderer &renderer) const
    {
       if(m_tList)
          renderer.drawText(pass, layer, m_string, m_tList);
       else
          renderer.drawText(pass, layer, m_string, m_transform);
+      return true;
    }
 };
 
@@ -228,7 +247,8 @@ public:
          
    }
 
-   void render(const IRenderer &renderer) const
+   //returns whether or not something was rendered
+   bool render(const IRenderer &renderer) const
    {
       if(m_texture->size() > 0)
       {
@@ -243,6 +263,8 @@ public:
             renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_tList);
          else
             renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_transform);
+
+      return true;
    }
 };
 

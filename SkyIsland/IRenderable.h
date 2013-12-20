@@ -6,5 +6,5 @@ class IRenderable
 {
 public:
    virtual ~IRenderable(){}
-   virtual void render(const IRenderer &renderer) const=0;
+   virtual bool render(const IRenderer &renderer) const=0;
 };

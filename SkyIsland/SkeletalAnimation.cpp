@@ -134,6 +134,8 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
 
             t.rotationAngle = t1.rotationAngle + LinearInterpolate(t1.rotationAngle, t2.rotationAngle, delta);
 
+            if(frame1->layerSet)
+               conn->layer = frame1->layer;
 
             //set the final transform
             conn->transform = t;

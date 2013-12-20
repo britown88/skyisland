@@ -15,6 +15,16 @@ struct Transform
    Float2 scale, offset, rotationPoint;
    float rotationAngle;
 
+   bool operator==(const Transform &rhs)
+   {
+      return 
+         scale == rhs.scale &&
+         offset == rhs.offset &&
+         rotationPoint == rhs.rotationPoint &&
+         rotationAngle == rhs.rotationAngle;
+
+   }
+
 };
 
 

@@ -81,9 +81,21 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
 {
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
    auto skeletalNodeComp = entity.getComponent<SkeletalNodeComponent>();
+   bool bgSkelNodesDrawn = false;
+
+   if(auto skeleton = entity.getComponent<SkeletonComponent>())  
+   {
+      if(auto skeleton = entity.getComponent<SkeletonComponent>())
+      if(auto pPos = entity.getComponent<PositionComponent>())
+      if(auto sPos = skeleton->entity->getComponent<PositionComponent>())
+      {
+         sPos->pos = pPos->pos;
+         buildSkeletalRenderable(*skeleton->entity, transforms, ComponentDrawLayer::Both)->render(*m_renderer);
+      }      
+   }
 
    if(skeletalNodeComp)    
-      buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
+      bgSkelNodesDrawn = buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
 
    //draw bg children
    if(childrenComp)
@@ -97,21 +109,18 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
       buildMeshRenderable(entity, transforms)->render(*m_renderer); 
 
    if(auto tc = entity.getComponent<TextComponent>())
-      buildTextRenderable(entity, transforms)->render(*m_renderer);
+      buildTextRenderable(entity, transforms)->render(*m_renderer); 
 
-   if(auto skeleton = entity.getComponent<SkeletonComponent>())  
-   {
-      if(auto skeleton = entity.getComponent<SkeletonComponent>())
-      if(auto pPos = entity.getComponent<PositionComponent>())
-      if(auto sPos = skeleton->entity->getComponent<PositionComponent>())
-      {
-         sPos->pos = pPos->pos;
-         buildSkeletalRenderable(*skeleton->entity, transforms, ComponentDrawLayer::Both)->render(*m_renderer);
-      }      
-   }      
+
 
    if(skeletalNodeComp)    
+   {
+      if(bgSkelNodesDrawn)
+         transforms->pop_back();
+
       buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Foreground)->render(*m_renderer);
+   }
+      
 
 
    if(childrenComp)
