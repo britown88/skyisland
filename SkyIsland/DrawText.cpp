@@ -8,6 +8,11 @@ DrawText::DrawText(std::shared_ptr<TextString> text, Transform transform):
 {
 }
 
+DrawText::DrawText(std::shared_ptr<TextString> text, TransformList transforms):
+   m_text(std::move(text)), m_transformList(transforms)
+{
+}
+
 void DrawText::draw()
 {
    if(auto fe = IOC.resolve<FontEngine>())
@@ -17,7 +22,11 @@ void DrawText::draw()
             
             glListBase(font.getDisplayList());
 
-            applyGLTransformation(m_transform);
+            if(m_transformList)
+               applyGLTransformation(m_transformList);
+            else
+               applyGLTransformation(m_transform);
+
             glTranslatef(m_text->pos.x, m_text->pos.y, 0);
 
             glEnable(GL_TEXTURE_2D);

@@ -151,7 +151,7 @@ public:
    }
 };
 
-std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity)
+std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity, TransformList transforms)
 {
    return std::unique_ptr<IRenderable>(new SkeletalRenderable(&entity));
 }
@@ -182,7 +182,7 @@ public:
    }
 };
 
-std::unique_ptr<IRenderable> buildTextRenderable(Entity &entity)
+std::unique_ptr<IRenderable> buildTextRenderable(Entity &entity, TransformList transforms)
 {
    return std::unique_ptr<IRenderable>(new TextRenderable(entity));
 }
@@ -195,13 +195,14 @@ class MeshRenderable : public IRenderable
    std::shared_ptr<std::vector<int>> m_faces;
 
    Transform m_transform;
+   TransformList m_tList;
    InternString m_texture;
    RenderLayer layer;
    ICamera::Pass pass;
    unsigned int blendS, blendD;
 
 public:
-   MeshRenderable(Entity &entity)
+   MeshRenderable(Entity &entity, TransformList transforms)
    {
       pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
@@ -246,6 +247,12 @@ public:
       }
 
       m_transform = buildTransformation(entity);
+      if(transforms)
+      {
+         //copy list and add to it
+         m_tList = std::make_shared<std::vector<TransformPtr>>(*transforms);
+         m_tList->push_back(std::make_shared<Transform>(m_transform));
+      }
          
    }
 
@@ -261,8 +268,8 @@ public:
    }
 };
 
-std::unique_ptr<IRenderable> buildMeshRenderable(Entity &entity)
+std::unique_ptr<IRenderable> buildMeshRenderable(Entity &entity, TransformList transforms)
 {
-   return std::unique_ptr<IRenderable>(new MeshRenderable(entity));
+   return std::unique_ptr<IRenderable>(new MeshRenderable(entity, transforms));
 }
 

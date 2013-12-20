@@ -10,10 +10,18 @@ DrawTriangle::DrawTriangle(std::shared_ptr<VertexList> vertices, std::shared_ptr
 {
 }
 
+DrawTriangle::DrawTriangle(std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transform):
+   m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transformList(transform)
+{
+}
+
 void DrawTriangle::draw()
 {
    glPushMatrix();
-      applyGLTransformation(m_transform);
+      if(m_transformList)
+         applyGLTransformation(m_transformList);
+      else
+         applyGLTransformation(m_transform);
       drawGlVertices(*m_vertices, *m_faces);
    glPopMatrix();
 }

@@ -70,14 +70,14 @@ bool RenderManager::renderViewport(IViewport &vp)
       return e1 < e2;
    });
 
-   //and render
+   //and render, with an empty transform list
    for(auto ent : eList)
-      renderEntity(*ent);
+      renderEntity(*ent, std::shared_ptr<std::vector<TransformPtr>>());
 
    return true;
 }
 
-void RenderManager::renderEntity(Entity &entity)
+void RenderManager::renderEntity(Entity &entity, TransformList transforms)
 {
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
 
@@ -86,24 +86,24 @@ void RenderManager::renderEntity(Entity &entity)
    {
       for(int i = 0; i < childrenComp->parentIndex; ++i)
          if(auto e = childrenComp->children[i].lock())
-            renderEntity(*e);         
+            renderEntity(*e, transforms);         
    }
 
    if(auto mc = entity.getComponent<MeshComponent>())
-      buildMeshRenderable(entity)->render(*m_renderer); 
+      buildMeshRenderable(entity, transforms)->render(*m_renderer); 
 
    if(auto tc = entity.getComponent<TextComponent>())
-      buildTextRenderable(entity)->render(*m_renderer);
+      buildTextRenderable(entity, transforms)->render(*m_renderer);
 
    if(auto skeleton = entity.getComponent<SkeletonComponent>())    
-      buildSkeletalRenderable(entity)->render(*m_renderer);
+      buildSkeletalRenderable(entity, transforms)->render(*m_renderer);
 
 
    if(childrenComp)
    {
       for(int i = childrenComp->parentIndex; i < childrenComp->children.size(); ++i)
          if(auto e = childrenComp->children[i].lock())
-            renderEntity(*e);   
+            renderEntity(*e, transforms);   
    }
       
 }

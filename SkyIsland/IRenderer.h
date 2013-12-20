@@ -21,9 +21,11 @@ public:
    virtual ~IRenderer(){}
 
    virtual std::shared_ptr<IDrawObject> drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const=0;
+   virtual std::shared_ptr<IDrawObject> drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transformList) const=0;
    virtual std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const=0;
    virtual std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transformList) const=0;
    virtual std::shared_ptr<IDrawObject> drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform=Transform()) const=0;
+   virtual std::shared_ptr<IDrawObject> drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, TransformList transformList) const=0;
    
 
    virtual SceneListPtr drawQueue()=0;

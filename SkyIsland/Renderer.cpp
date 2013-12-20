@@ -34,6 +34,13 @@ public:
       addObjectToScene(pass, layer, DO);
       return DO;
    }
+   std::shared_ptr<IDrawObject> drawTriangles(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transforms) const
+   {
+      std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+         new DrawTriangle(std::move(vertices), std::move(faces), std::move(transforms)));
+      addObjectToScene(pass, layer, DO);
+      return DO;
+   }
 
    std::shared_ptr<IDrawObject> drawTexture(ICamera::Pass pass, RenderLayer layer, InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform = Transform()) const
    {
@@ -55,6 +62,14 @@ public:
    {
       std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
          new DrawText(text, transform));
+      addObjectToScene(pass, layer, DO);
+      return DO;
+   }
+
+   std::shared_ptr<IDrawObject> drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, TransformList transforms) const
+   {
+      std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
+         new DrawText(text, std::move(transforms)));
       addObjectToScene(pass, layer, DO);
       return DO;
    }

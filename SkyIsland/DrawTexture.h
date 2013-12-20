@@ -26,6 +26,7 @@ public:
    DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
    DrawTexture(InternString texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transform);
    DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform=Transform());
+   DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transform);
 
    void setBlendFunc(unsigned int sFactor, unsigned int dFactor);
 

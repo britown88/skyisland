@@ -19,14 +19,20 @@ DrawTexture::DrawTexture(InternString texture, std::shared_ptr<VertexList> verti
    m_blendD = GL_ONE_MINUS_SRC_ALPHA;
 }
 
-
-
 DrawTexture::DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, Transform transform):
    m_gltexture(texture), m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transform(transform)
 {
    m_blendS = GL_SRC_ALPHA;
    m_blendD = GL_ONE_MINUS_SRC_ALPHA;
 }
+
+DrawTexture::DrawTexture(unsigned int texture, std::shared_ptr<VertexList> vertices, std::shared_ptr<std::vector<int>> faces, TransformList transform):
+   m_gltexture(texture), m_vertices(std::move(vertices)), m_faces(std::move(faces)), m_transformList(std::move(transform))
+{
+   m_blendS = GL_SRC_ALPHA;
+   m_blendD = GL_ONE_MINUS_SRC_ALPHA;
+}
+
 
 void DrawTexture::setBlendFunc(unsigned int sFactor, unsigned int dFactor)
 {
