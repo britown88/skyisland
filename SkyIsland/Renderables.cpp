@@ -11,6 +11,7 @@
 #include "Vertex.h"
 
 #include "TextureManager.h"
+#include "RenderManager.h"
 
 #include "DrawTexture.h"
 #include <GLFW\glfw3.h>
@@ -26,94 +27,17 @@ class SkeletalRenderable : public IRenderable
    
 public:
 
-   SkeletalRenderable(Entity *entity)
+   SkeletalRenderable(Entity &entity, TransformList transforms)
    {
-      pass = CompHelpers::getRenderPass(*entity);
-      layer = CompHelpers::getRenderLayer(*entity);
+      pass = CompHelpers::getRenderPass(entity);
+      layer = CompHelpers::getRenderLayer(entity);
 
-
-      if(auto skeleton = entity->getComponent<SkeletonComponent>())
-      if(auto pPos = entity->getComponent<PositionComponent>())
-      if(auto sPos = skeleton->entity->getComponent<PositionComponent>())
-      {
-         entity = skeleton->entity.get();
-         sPos->pos = pPos->pos;
-
-         TransformList transforms = std::make_shared<std::vector<TransformPtr>>();
-         auto t = std::make_shared<Transform>();
-         *t = buildTransformation(*entity);
-         transforms->push_back(std::move(t));
-
-         if(auto snc = entity->getComponent<SkeletalNodeComponent>())
-            for(auto &connection : snc->connections)
-            {
-               if(auto gb = entity->getComponent<GraphicalBoundsComponent>())
-               {
-                  auto t2 = std::make_shared<Transform>(connection.second.transform);
-                  t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
-                  transforms->push_back(std::move(t2));
-
-                  addNode(*connection.second.entity, transforms);
-
-                  transforms->pop_back();
-               }            
-            }
-      }
-
-      
-            
-
-   }
-
-   void addNode(Entity &entity, TransformList transforms)
-   {
-      auto node = std::make_shared<SkeletalNode>();
-      nodes.push_back(node);
-
-      if(auto pc = entity.getComponent<PositionComponent>())
-      {
-         if(auto mc = entity.getComponent<MeshComponent>())
-         {
-            node->m_vertices = mc->vertices;
-            node->m_faces = mc->faces;
-         }
-      }
-
-      if(auto tc = entity.getComponent<TextureComponent>())
-      {
-         node->m_texture = tc->texture;
-         node->blendS = tc->blendS;
-         node->blendD = tc->blendD;
-
-         //change texCoords
-         if(tc->size.x > 0.0f && tc->size.y > 0.0f)
-         {
-            if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
-            {
-               auto texCoords = gb->size / tc->size;
-               (*node->m_vertices)[0].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
-               (*node->m_vertices)[1].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
-               (*node->m_vertices)[1].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
-               (*node->m_vertices)[2].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
-            }
-
-         }
-
-         if(auto spr = entity.getComponent<SpriteComponent>())
-         {
-            node->m_texture = spr->sprite->getTexture(spr->face, spr->elapsedTime);
-         }
-      }         
-      else
-      {
-         node->m_texture = IOC.resolve<StringTable>()->get("");
-      }
+      if(!transforms)
+         transforms = std::make_shared<std::vector<TransformPtr>>();
 
       auto t = std::make_shared<Transform>();
-      *t = buildTransformation(entity);      
-
-      node->transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
-      node->transforms->push_back(std::move(t));
+      *t = buildTransformation(entity);
+      transforms->push_back(std::move(t));
 
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
          for(auto &connection : snc->connections)
@@ -122,38 +46,34 @@ public:
             {
                auto t2 = std::make_shared<Transform>(connection.second.transform);
                t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
-               //t2->rotationPoint = (gb->size * connection.second.connectionPos);
-               node->transforms->push_back(std::move(t2));
+               transforms->push_back(std::move(t2));
 
-               auto n = &node;
-               addNode(*connection.second.entity, node->transforms);
+               auto node = std::make_shared<SkeletalNode>();
+               node->transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
+               node->entity = connection.second.entity;
+               nodes.push_back(std::move(node));
 
-               node->transforms->pop_back();
+               transforms->pop_back();
             }            
-         }
-         
+         }     
+            
 
-   }
+   }   
 
 
    void render(const IRenderer &renderer) const
    {
-      for(auto node : nodes)
-      {
-         if(node->m_texture->size() > 0)
-         {
-            auto DO = renderer.drawTexture(pass, layer, node->m_texture, std::move(node->m_vertices), std::move(node->m_faces), std::move(node->transforms));
-            dynamic_cast<DrawTexture*>(DO.get())->setBlendFunc(node->blendS, node->blendD);
-         }        
-         //else
-            //renderer.drawTriangles(pass, layer, std::move(node.m_vertices), std::move(node.m_faces), m_transform);
-      }      
+      auto rManager = IOC.resolve<RenderManager>();
+      for(auto &node : nodes)
+         if(auto e = node->entity.lock())
+            rManager->renderEntity(*e, node->transforms);
+          
    }
 };
 
 std::unique_ptr<IRenderable> buildSkeletalRenderable(Entity &entity, TransformList transforms)
 {
-   return std::unique_ptr<IRenderable>(new SkeletalRenderable(&entity));
+   return std::unique_ptr<IRenderable>(new SkeletalRenderable(entity, transforms));
 }
 
 class TextRenderable : public IRenderable

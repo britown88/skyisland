@@ -125,7 +125,7 @@ class SkyApp : public Application
       
       auto testSkeleton = std::make_shared<Entity>();
       e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(testSkeleton));
-      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("idle");
+      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("dance");
 
 
       testSkeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(0.0f, 0.0f), Float2(0.0f, 0.0f)));

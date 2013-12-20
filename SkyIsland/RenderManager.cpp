@@ -95,7 +95,18 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    if(auto tc = entity.getComponent<TextComponent>())
       buildTextRenderable(entity, transforms)->render(*m_renderer);
 
-   if(auto skeleton = entity.getComponent<SkeletonComponent>())    
+   if(auto skeleton = entity.getComponent<SkeletonComponent>())  
+   {
+      if(auto skeleton = entity.getComponent<SkeletonComponent>())
+      if(auto pPos = entity.getComponent<PositionComponent>())
+      if(auto sPos = skeleton->entity->getComponent<PositionComponent>())
+      {
+         sPos->pos = pPos->pos;
+         buildSkeletalRenderable(*skeleton->entity, transforms)->render(*m_renderer);
+      }      
+   }      
+
+   if(auto skeleton = entity.getComponent<SkeletalNodeComponent>())    
       buildSkeletalRenderable(entity, transforms)->render(*m_renderer);
 
 
