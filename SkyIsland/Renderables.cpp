@@ -160,11 +160,12 @@ class TextRenderable : public IRenderable
 {
    std::shared_ptr<TextString> m_string;
    Transform m_transform;
+   TransformList m_tList;
    RenderLayer layer;
    ICamera::Pass pass;
 
 public:
-   TextRenderable(Entity &entity)
+   TextRenderable(Entity &entity, TransformList transforms)
    {
       pass = CompHelpers::getRenderPass(entity);
       layer = CompHelpers::getRenderLayer(entity);
@@ -172,19 +173,28 @@ public:
       if(auto tc = entity.getComponent<TextComponent>())
       {
          m_transform = buildTransformation(entity);
+         if(transforms)
+         {
+            //copy list and add to it
+            m_tList = std::make_shared<std::vector<TransformPtr>>(*transforms);
+            m_tList->push_back(std::make_shared<Transform>(m_transform));
+         }
          m_string = std::make_shared<TextString>(tc->drawPos, tc->str, tc->color, tc->font);
       }
 
    }
    void render(const IRenderer &renderer) const
    {
-      renderer.drawText(pass, layer, m_string, m_transform);
+      if(m_tList)
+         renderer.drawText(pass, layer, m_string, m_tList);
+      else
+         renderer.drawText(pass, layer, m_string, m_transform);
    }
 };
 
 std::unique_ptr<IRenderable> buildTextRenderable(Entity &entity, TransformList transforms)
 {
-   return std::unique_ptr<IRenderable>(new TextRenderable(entity));
+   return std::unique_ptr<IRenderable>(new TextRenderable(entity, transforms));
 }
 
 
@@ -260,11 +270,17 @@ public:
    {
       if(m_texture->size() > 0)
       {
-         auto DO = renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
+         std::shared_ptr<IDrawObject> DO;
+         DO = m_tList ? 
+            renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_tList) : 
+            renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
          dynamic_cast<DrawTexture*>(DO.get())->setBlendFunc(blendS, blendD);
       }        
       else
-         renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_transform);
+         if(m_tList)
+            renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_tList);
+         else
+            renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_transform);
    }
 };
 
