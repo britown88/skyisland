@@ -125,7 +125,7 @@ class SkyApp : public Application
       
       auto testSkeleton = std::make_shared<Entity>();
       e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(testSkeleton));
-      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("dance");
+      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("idle");
 
 
       testSkeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(0.0f, 0.0f), Float2(0.0f, 0.0f)));
@@ -167,17 +167,6 @@ class SkyApp : public Application
       part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
       auto &leftarm = body->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
       leftarm.entity = part;
-
-      nc = std::make_shared<SkeletalNodeComponent>();
-      nc->connections.insert(std::make_pair(st->get("headhands"), SNodeConnection(Float2(0.5f, 0.69f))));
-      part->addComponent<SkeletalNodeComponent>(nc);
-      
-
-      auto testHand = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 0.0f));
-      nc->connections[st->get("headhands")].entity = testHand;
-
-
-
       
       
    }
