@@ -73,6 +73,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />
+    <ClCompile Include="AnimationBuilders.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AttackManager.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="SeanSort.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkeletalAnimation.h" />
+    <ClInclude Include="SkeletalAnimationsManager.h" />
     <ClInclude Include="SkeletalNodeComponent.h" />
     <ClInclude Include="SkyApp.h" />
     <ClInclude Include="Sprite.h" />

@@ -37,6 +37,7 @@
 #include "CharacterEntities.h"
 #include "ColorFilter.h"
 #include "SkeletalAnimation.h"
+#include "SkeletalAnimationsManager.h"
 
 #include <unordered_map>
 
@@ -64,9 +65,6 @@ class SkyApp : public Application
    std::unique_ptr<CameraController> camControl, camControl2;
    std::vector<std::shared_ptr<Entity>> eList, lightList;
    std::shared_ptr<Entity> UIEntity, bg;
-
-   std::shared_ptr<SkeletalAnimation> sk;
-   float testElapsedTime;
 
    int eIndex;
 
@@ -111,10 +109,8 @@ class SkyApp : public Application
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
 
-      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/body/torso.png")));
-      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(78, 78), Float2(0.5f, 0.5f)));
+      //CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(0.25f, 1.0f, 1.0f, 1.0f));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
@@ -122,68 +118,68 @@ class SkyApp : public Application
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
 
+      e->addToScene(scene);
+      eList.push_back(e);
+
       //e->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.69f, 0.69f)));
       
-      auto nc = std::make_shared<SkeletalNodeComponent>();
+      auto testSkeleton = std::make_shared<Entity>();
+      e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(testSkeleton));
+      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("dance");
 
-      
+
+      testSkeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(0.0f, 0.0f), Float2(0.0f, 0.0f)));
+      testSkeleton->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      testSkeleton->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(e, Float2()));
+
+      auto nc = std::make_shared<SkeletalNodeComponent>();
+      nc->connections.insert(std::make_pair(st->get("torso"), SNodeConnection(Float2())));
+      testSkeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
+
+
+      nc = std::make_shared<SkeletalNodeComponent>();
+      auto body = buildBodyPart("assets/body/torso.png", Float2(78, 78), Float2(0.5f, 0.5f));      
       nc->connections.insert(std::make_pair(st->get("rightleg"), SNodeConnection(Float2(0.31f, 0.69f))));
       nc->connections.insert(std::make_pair(st->get("leftleg"), SNodeConnection(Float2(0.69f, 0.69f))));
       nc->connections.insert(std::make_pair(st->get("rightarm"), SNodeConnection(Float2(0.15f, 0.54f))));
       nc->connections.insert(std::make_pair(st->get("leftarm"), SNodeConnection(Float2(0.85f, 0.54f))));
       nc->connections.insert(std::make_pair(st->get("head"), SNodeConnection(Float2(0.5f, 0.38f))));
-      e->addComponent<SkeletalNodeComponent>(nc);
+      body->addComponent<SkeletalNodeComponent>(nc);
+
+      testSkeleton->getComponent<SkeletalNodeComponent>()->connections[st->get("torso")].entity = body;
       
       auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f));
-      auto &head = e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")];
+      auto &head = body->getComponent<SkeletalNodeComponent>()->connections[st->get("head")];
       head.entity = part;
-      //head.transform.rotationAngle = -25.0f;
 
       part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
-      auto &rightleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")];
+      auto &rightleg = body->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")];
       rightleg.entity = part;
-      //rightleg.transform.rotationAngle = 45.0f;
 
       part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
-      auto &leftleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")];
+      auto &leftleg = body->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")];
       leftleg.entity = part;
-      //leftleg.transform.rotationAngle = -45.0f;
 
       part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
-      auto &rightarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")];
+      auto &rightarm = body->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")];
       rightarm.entity = part;
-      //rightarm.transform.offset = Float2(0.0f, -6.0f);
-      //rightarm.transform.rotationAngle = 135.0f;
 
       part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
-      auto &leftarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
+      auto &leftarm = body->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
       leftarm.entity = part;
-      //leftarm.transform.offset = Float2(0.0f, -6.0f);
-      //leftarm.transform.rotationAngle = -135.0f;
 
-      e->addToScene(scene);
-      eList.push_back(e);
-      
-   }
-
-   void buildTestAnim()
-   {
-      sk = std::make_shared<SkeletalAnimation>(1000);
-      sk->setLooping(true);
-
-      sk->addFrame("leftarm", 500).setRotation(-45.0f);
-      sk->addFrame("leftarm", 1000).setRotation(-135.0f).setOffset(0.0f, -6.0f);
-      
-      sk->addFrame("rightarm", 500).setRotation(135.0f).setOffset(0.0f, -6.0f);
-      sk->addFrame("rightarm", 1000).setRotation(45.0f);
-
-      sk->addFrame("head", 250).setOffset(0.0f, 6.0f);
-      sk->addFrame("head", 500).setRotation(25.0f);
-      sk->addFrame("head", 750).setOffset(0.0f, 6.0f);
-      sk->addFrame("head", 1000).setRotation(-25.0f);
-
+      nc = std::make_shared<SkeletalNodeComponent>();
+      nc->connections.insert(std::make_pair(st->get("headhands"), SNodeConnection(Float2(0.5f, 0.69f))));
+      part->addComponent<SkeletalNodeComponent>(nc);
       
 
+      auto testHand = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 0.0f));
+      nc->connections[st->get("headhands")].entity = testHand;
+
+
+
+      
+      
    }
 
 
@@ -221,7 +217,6 @@ class SkyApp : public Application
       buildColorFilters();
 
       m_frameRate = 60.0f;
-      testElapsedTime = 0.0f;
 
       UIScene.reset(new Scene(Float2(100, 100), 1));
       UICamera.reset(new Camera(Rectf(0, 0, 100, 100), UIScene));
@@ -234,6 +229,7 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<CharacterManager>());
       scene->registerEntityManager(std::make_shared<AttackManager>());
       scene->registerEntityManager(std::make_shared<DamageMarkerManager>());
+      scene->registerEntityManager(std::make_shared<SkeletalAnimationsUpdateManager>());
 
       camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
       viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));  
@@ -252,7 +248,6 @@ class SkyApp : public Application
       //m_window->addViewport(viewport2);
 
       buildTestEntity();
-      buildTestAnim();
 
       for(int i = 0; i < 0; ++i)
       {
@@ -407,9 +402,7 @@ class SkyApp : public Application
       camControl->updateCamera();
       camControl2->updateCamera();
 
-      auto t = dt() * (frameTime() / 1000.0f);
-      testElapsedTime += t;
-      sk->updateEntity(testElapsedTime, *eList[0]);
+      
 
       for(auto &vp : m_window->getViewports())
       {

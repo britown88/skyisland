@@ -216,6 +216,9 @@
     <ClCompile Include="SkeletalAnimation.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationBuilders.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="Interpolation.h">
       <Filter>Header Files\Concretes\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalAnimationsManager.h">
+      <Filter>Header Files\Concretes\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

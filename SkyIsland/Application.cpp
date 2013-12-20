@@ -11,6 +11,7 @@
 #include "SpriteFactory.h"
 #include "StringTable.h"
 #include "FBODebugger.h"
+#include "SkeletalAnimationsManager.h"
 #include "Text.h"
 
 #include <chrono>
@@ -46,6 +47,8 @@ void Application::start()
    IOC.add<StringTable>(std::make_shared<StringTable>()); 
    IOC.add<FontEngine>(std::make_shared<FontEngine>());
    IOC.add<ColorFilterManager>(std::make_shared<ColorFilterManager>());
+   IOC.add<SkeletalAnimationsManager>(std::make_shared<SkeletalAnimationsManager>());
+   buildSkeletalAnimations();
    IOC.add<FBODebugger>(std::make_shared<FBODebugger>());
 
    onAppStart();

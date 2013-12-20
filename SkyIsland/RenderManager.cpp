@@ -95,10 +95,9 @@ void RenderManager::renderEntity(Entity &entity)
    if(auto tc = entity.getComponent<TextComponent>())
       buildTextRenderable(entity)->render(*m_renderer);
 
-   if(auto snc = entity.getComponent<SkeletalNodeComponent>())
-   {
+   if(auto skeleton = entity.getComponent<SkeletonComponent>())    
       buildSkeletalRenderable(entity)->render(*m_renderer);
-   }
+
 
    if(childrenComp)
    {
