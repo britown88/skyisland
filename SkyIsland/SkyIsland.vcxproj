@@ -101,6 +101,7 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderThread.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SkeletalAnimation.cpp" />
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="IAnimationStrategy.h" />
     <ClInclude Include="IEntityManager.h" />
     <ClInclude Include="IKeyEvent.h" />
+    <ClInclude Include="Interpolation.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="KeyHandler.h" />
     <ClInclude Include="Keystroke.h" />

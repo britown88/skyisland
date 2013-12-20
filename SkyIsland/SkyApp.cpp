@@ -36,6 +36,7 @@
 #include "CharacterAnimationStrategy.h"
 #include "CharacterEntities.h"
 #include "ColorFilter.h"
+#include "SkeletalAnimation.h"
 
 #include <unordered_map>
 
@@ -63,6 +64,9 @@ class SkyApp : public Application
    std::unique_ptr<CameraController> camControl, camControl2;
    std::vector<std::shared_ptr<Entity>> eList, lightList;
    std::shared_ptr<Entity> UIEntity, bg;
+
+   std::shared_ptr<SkeletalAnimation> sk;
+   float testElapsedTime;
 
    int eIndex;
 
@@ -118,7 +122,7 @@ class SkyApp : public Application
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
 
-      e->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.5f, 0.5f)));
+      //e->addComponent<RotationComponent>(std::make_shared<RotationComponent>(45.0f, Float2(0.69f, 0.69f)));
       
       auto nc = std::make_shared<SkeletalNodeComponent>();
 
@@ -133,34 +137,55 @@ class SkyApp : public Application
       auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f));
       auto &head = e->getComponent<SkeletalNodeComponent>()->connections[st->get("head")];
       head.entity = part;
-      head.transform.rotationAngle = -25.0f;
+      //head.transform.rotationAngle = -25.0f;
 
       part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
       auto &rightleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")];
       rightleg.entity = part;
-      rightleg.transform.rotationAngle = 45.0f;
+      //rightleg.transform.rotationAngle = 45.0f;
 
       part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
       auto &leftleg = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")];
       leftleg.entity = part;
-      leftleg.transform.rotationAngle = -45.0f;
+      //leftleg.transform.rotationAngle = -45.0f;
 
       part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
       auto &rightarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")];
       rightarm.entity = part;
-      rightarm.transform.offset = Float2(0.0f, -6.0f);
-      rightarm.transform.rotationAngle = 135.0f;
+      //rightarm.transform.offset = Float2(0.0f, -6.0f);
+      //rightarm.transform.rotationAngle = 135.0f;
 
       part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
       auto &leftarm = e->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
       leftarm.entity = part;
-      leftarm.transform.offset = Float2(0.0f, -6.0f);
-      leftarm.transform.rotationAngle = -135.0f;
+      //leftarm.transform.offset = Float2(0.0f, -6.0f);
+      //leftarm.transform.rotationAngle = -135.0f;
 
       e->addToScene(scene);
       eList.push_back(e);
       
    }
+
+   void buildTestAnim()
+   {
+      sk = std::make_shared<SkeletalAnimation>(1000);
+      sk->setLooping(true);
+
+      sk->addFrame("leftarm", 500).setRotation(-45.0f);
+      sk->addFrame("leftarm", 1000).setRotation(-135.0f).setOffset(0.0f, -6.0f);
+      
+      sk->addFrame("rightarm", 500).setRotation(135.0f).setOffset(0.0f, -6.0f);
+      sk->addFrame("rightarm", 1000).setRotation(45.0f);
+
+      sk->addFrame("head", 250).setOffset(0.0f, 6.0f);
+      sk->addFrame("head", 500).setRotation(25.0f);
+      sk->addFrame("head", 750).setOffset(0.0f, 6.0f);
+      sk->addFrame("head", 1000).setRotation(-25.0f);
+
+      
+
+   }
+
 
    void nextEntity()
    {
@@ -196,6 +221,7 @@ class SkyApp : public Application
       buildColorFilters();
 
       m_frameRate = 60.0f;
+      testElapsedTime = 0.0f;
 
       UIScene.reset(new Scene(Float2(100, 100), 1));
       UICamera.reset(new Camera(Rectf(0, 0, 100, 100), UIScene));
@@ -226,6 +252,7 @@ class SkyApp : public Application
       //m_window->addViewport(viewport2);
 
       buildTestEntity();
+      buildTestAnim();
 
       for(int i = 0; i < 0; ++i)
       {
@@ -380,9 +407,14 @@ class SkyApp : public Application
       camControl->updateCamera();
       camControl2->updateCamera();
 
+      auto t = dt() * (frameTime() / 1000.0f);
+      testElapsedTime += t;
+      sk->updateEntity(testElapsedTime, *eList[0]);
+
       for(auto &vp : m_window->getViewports())
       {
          vp->update();
+         
          updateViewportGraphics(*vp);
       }        
 

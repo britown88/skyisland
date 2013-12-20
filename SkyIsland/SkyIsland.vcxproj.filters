@@ -213,6 +213,9 @@
     <ClCompile Include="FBODebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkeletalAnimation.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICamera.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="SkeletalNodeComponent.h">
       <Filter>Header Files\Concretes\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpolation.h">
+      <Filter>Header Files\Concretes\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
