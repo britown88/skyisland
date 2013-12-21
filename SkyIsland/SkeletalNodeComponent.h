@@ -22,7 +22,12 @@ class SkeletalNodeComponent : public IComponent
 {
 public:
    const static int ID = 1964797685;
-   std::unordered_map<InternString, SNodeConnection> connections;
+   std::unordered_map<InternString, std::shared_ptr<SNodeConnection>> connections;
+   std::shared_ptr<SNodeConnection> addConnection(InternString name, Float2 pos)
+   {
+      connections.insert(std::make_pair(name, std::make_shared<SNodeConnection>(pos)));
+      return connections[name];
+   }
 };
 
 class SkeletonComponent : public IComponent

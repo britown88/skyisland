@@ -66,7 +66,7 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
          if(obj.frames[i].frame > frame || obj.frames[i].frame <= frame && obj.frames[i+1].frame > frame)
          {
             //determine if the object exists
-            SNodeConnection *conn = nullptr;
+            std::shared_ptr<SNodeConnection> conn;
 
             auto searchSnc = &(*snc);
             for(int i = 0; i < obj.name.size(); ++i)
@@ -77,13 +77,13 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                   if(i == obj.name.size() - 1)
                   {
                      //set the right connection
-                     conn = &searchSnc->connections[obj.name[i]];
+                     conn = searchSnc->connections[obj.name[i]];
                      break;
                   }
                   else
                   {
                      //reset searchsnc
-                     if(auto newsnc = searchSnc->connections[obj.name[i]].entity->getComponent<SkeletalNodeComponent>())
+                     if(auto newsnc = searchSnc->connections[obj.name[i]]->entity->getComponent<SkeletalNodeComponent>())
                         searchSnc = &(*newsnc);
                      else 
                         break;
@@ -147,8 +147,8 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
             }
                
 
-            if(frame1->layerSet)
-               conn->layer = frame1->layer;
+            if(frame2->layerSet)
+               conn->layer = frame2->layer;
 
             //set the final transform
             conn->transform = t;

@@ -15,6 +15,7 @@
 #include "GameComponents.h"
 #include "TextComponent.h"
 #include "RotationComponent.h"
+#include "SkeletalNodeComponent.h"
 #include <GLFW\glfw3.h>
 
 namespace CharacterEntities
@@ -23,28 +24,63 @@ namespace CharacterEntities
    {      
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
-      
-      e->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
 
-      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      //beautiful numbers
+      float pixelMult = 6.0f;
+      float torsoSize = 9.0f, headSize = 11.0f, rArmSize = 6.0f, lArmSize = 6.0f, rLegSize = 6.0f, lLegSize = 6.0f;
+      Float2 headConn(4.5f / torsoSize, 3.0f / torsoSize);Float2 headCenter(5.5f / headSize, 11.0f / headSize);
+      Float2 rArmConn(0.0f / torsoSize, 4.0f / torsoSize);Float2 rArmCenter(4.0f / rArmSize, 2.0f / rArmSize);
+      Float2 lArmConn(9.0f / torsoSize, 4.0f / torsoSize);Float2 lArmCenter(2.0f / lArmSize, 2.0f / lArmSize);
+      Float2 rLegConn(2.0f / torsoSize, 8.0f / torsoSize);Float2 rLegCenter(3.0f / rLegSize, 3.0f / rLegSize);
+      Float2 lLegConn(7.0f / torsoSize, 8.0f / torsoSize);Float2 lLegCenter(3.0f / lLegSize, 3.0f / lLegSize);      
 
-      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
-      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(pixelMult * 25.0f, pixelMult * 25.0f), Float2(0.5f, 0.5f)));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
+      e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2()));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+      
+      auto skeleton = std::make_shared<Entity>();
+      skeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(), Float2()));
+      skeleton->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
 
-      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
-      e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
+      auto nc = std::make_shared<SkeletalNodeComponent>();
+      auto torsoNode = nc->addConnection(st->get("torso"), Float2());
+      skeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
       
-      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/guy"), CharacterAnimationStrategy());
-      e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("stand_down")));
+      auto torso = buildBasicBodyPart("assets/body/torso.png", Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));
+      torsoNode->entity = torso;
+         
+      nc = std::make_shared<SkeletalNodeComponent>();
+      auto headNode = nc->addConnection(st->get("head"), headConn);
+      auto rArmNode = nc->addConnection(st->get("rightarm"), rArmConn);
+      auto lArmNode = nc->addConnection(st->get("leftarm"), lArmConn);
+      auto rLegNode = nc->addConnection(st->get("rightleg"), rLegConn);
+      auto lLegNode = nc->addConnection(st->get("leftleg"), lLegConn);
+      torso->addComponent<SkeletalNodeComponent>(nc);
+
+      headNode->entity = buildBasicBodyPart("assets/body/head.png", Float2(headSize*pixelMult, headSize*pixelMult), headCenter);
+      rArmNode->entity = buildBasicBodyPart("assets/body/rightarm.png", Float2(rArmSize*pixelMult, rArmSize*pixelMult), rArmCenter);
+      lArmNode->entity = buildBasicBodyPart("assets/body/leftarm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
+      rLegNode->entity = buildBasicBodyPart("assets/body/rightleg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
+      lLegNode->entity = buildBasicBodyPart("assets/body/leftleg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
       
-      e->addComponent<CollisionAreaComponent>(std::make_shared<CollisionAreaComponent>(Rectf(0.25f, 0.5, 0.75f, 1)));
-      
+      e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(skeleton));
+      return e;
+   }
+
+   std::shared_ptr<Entity> buildBasicBodyPart(char *texture, Float2 size, Float2 center)
+   {
+      auto e = std::make_shared<Entity>();
+      auto st = IOC.resolve<StringTable>();
+
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get(texture)));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, center));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+
       return e;
    }
 

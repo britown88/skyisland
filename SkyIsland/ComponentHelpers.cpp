@@ -13,7 +13,7 @@ Float2 getSkeletalConnectionPoint(Entity &e, InternString connection)
    if(auto snc = e.getComponent<SkeletalNodeComponent>())
    if(snc->connections.find(connection) != snc->connections.end())
    if(auto gb = e.getComponent<GraphicalBoundsComponent>())
-      return snc->connections[connection].connectionPos * gb->size - (gb->center * gb->size);
+      return snc->connections[connection]->connectionPos * gb->size - (gb->center * gb->size);
 
    return Float2();
 }

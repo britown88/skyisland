@@ -51,20 +51,20 @@ public:
 
          for(auto &connection : snc->connections)
          {
-            if(connection.second.entity)
+            if(connection.second->entity)
             if(drawLayer == ComponentDrawLayer::Both ||
-               connection.second.layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
-               connection.second.layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+               connection.second->layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
+               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background) 
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
-               auto t2 = std::make_shared<Transform>(connection.second.transform);
-               t2->offset = t2->offset + (gb->size * connection.second.connectionPos);
+               auto t2 = std::make_shared<Transform>(connection.second->transform);
+               t2->offset = t2->offset + (gb->size * connection.second->connectionPos);
                transforms->push_back(std::move(t2));
 
                auto node = std::make_shared<SkeletalNode>();
                node->transforms = std::make_shared<std::vector<TransformPtr>>(*transforms);
-               node->entity = connection.second.entity;
-               node->layer = connection.second.layer;
+               node->entity = connection.second->entity;
+               node->layer = connection.second->layer;
                nodes.push_back(std::move(node));
 
                transforms->pop_back();
@@ -99,10 +99,10 @@ public:
       {
          for(auto &connection : snc->connections)
          {
-            if(connection.second.entity)
+            if(connection.second->entity)
             if(drawLayer == ComponentDrawLayer::Both ||
-               connection.second.layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
-               connection.second.layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+               connection.second->layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
+               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background) 
             if(entity.getComponent<GraphicalBoundsComponent>())
             {
                return true;
