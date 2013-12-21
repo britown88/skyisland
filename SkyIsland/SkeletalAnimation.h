@@ -13,30 +13,31 @@
 struct SkeletalFrame
 {
    SkeletalFrame(int frame, Transform transform):
-      frame(frame), transform(transform), layer(0), layerSet(false), rotationPart(nullptr){}
+      frame(frame), _transform(transform), _layer(0), _layerSet(false), _rotationPart(nullptr),
+      _flipX(false), _flipY(false){}
    const int frame;
-   Transform transform;
-   int layer;
-   bool layerSet;//only change if layer wa sset
-   InternString rotationPart;//set to rotate based on a connection position
+   Transform _transform;
+   int _layer;
+   bool _layerSet, _flipX, _flipY;//only change if layer wa sset
+   InternString _rotationPart;//set to rotate based on a connection position
 
-   SkeletalFrame &setRotation(float rotation){transform.rotationAngle = rotation; return *this;}
+   SkeletalFrame &flipX(bool flip){_flipX = flip; return *this;}
+   SkeletalFrame &flipY(bool flip){_flipY = flip; return *this;}
+   SkeletalFrame &setRotation(float rotation){_transform.rotationAngle = rotation; return *this;}
    SkeletalFrame &setRotation(float rotation, Float2 rotationPoint)
    {
-      transform.rotationPoint = rotationPoint;
-      transform.rotationAngle = rotation; 
+      _transform.rotationPoint = rotationPoint;
+      _transform.rotationAngle = rotation; 
       return *this;
    }
    SkeletalFrame &setRotation(float rotation, std::string connection)
    {
-      rotationPart = IOC.resolve<StringTable>()->get(connection.c_str());
-      transform.rotationAngle = rotation; 
+      _rotationPart = IOC.resolve<StringTable>()->get(connection.c_str());
+      _transform.rotationAngle = rotation; 
       return *this;
    }
-
-
-   SkeletalFrame &setOffset(float x, float y){transform.offset = Float2(x, y); return *this;}
-   SkeletalFrame &setLayer(int l){layer = l; layerSet = true; return *this;}
+   SkeletalFrame &setOffset(float x, float y){_transform.offset = Float2(x, y); return *this;}
+   SkeletalFrame &setLayer(int l){_layer = l; _layerSet = true; return *this;}
 
 };
 

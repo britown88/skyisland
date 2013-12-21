@@ -45,7 +45,7 @@ class SkyApp : public Application
 {
    std::string getWindowTitle()
    {
-      return "Arq: Legend of Shumpf Guy";
+      return "Arq: Legend of Learning OpenGL";
    }
 
    Int2 getDefaultWindowSize()
@@ -70,6 +70,55 @@ class SkyApp : public Application
 
    KeyEvent tabEvent, spaceEvent;
    MouseEvent clickEvent, click2;
+
+   void buildTestEntities()
+   {
+      auto st = IOC.resolve<StringTable>();
+      int rowLength = 9;
+      float charSpacing = 150.0f;
+      Float2 charStart = Float2(125.0f, 400.0f);
+      std::vector<InternString> anims;
+
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("walkright"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("walkright"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("walkright"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkright"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("walkright"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("dance"));
+      anims.push_back(st->get("idle"));
+      anims.push_back(st->get("walkdown"));
+      anims.push_back(st->get("walkright"));
+
+      for(int i = 0; i < anims.size(); ++i)
+      {
+         auto e = CharacterEntities::buildCharacter();
+         e->getComponent<PositionComponent>()->pos = 
+            Float2(
+               charStart.x + charSpacing * (i % rowLength), 
+               charStart.y + charSpacing * (i / rowLength));
+         e->getComponent<SkeletonComponent>()->playingAnimation = anims[i];
+         e->addToScene(scene);
+         eList.push_back(e);
+      }
+   }
 
    std::shared_ptr<Entity> buildUIEntity()
    {
@@ -138,36 +187,7 @@ class SkyApp : public Application
 
       m_window->addViewport(viewport);
 
-      auto e = CharacterEntities::buildCharacter();
-      e->getComponent<PositionComponent>()->pos = Float2(450, 450);
-      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("idle");
-      e->addToScene(scene);
-      eList.push_back(e);
-
-      e = CharacterEntities::buildCharacter();
-      e->getComponent<PositionComponent>()->pos = Float2(650, 450);
-      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("walkdown");
-      e->addToScene(scene);
-      eList.push_back(e);
-
-      e = CharacterEntities::buildCharacter();
-      e->getComponent<PositionComponent>()->pos = Float2(850, 450);
-      e->getComponent<SkeletonComponent>()->playingAnimation = st->get("dance");
-      e->addToScene(scene);
-      eList.push_back(e);
-
-      for(int i = 0; i < 0; ++i)
-      {
-         auto e = CharacterEntities::buildCharacter();
-         e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
-         e->addToScene(scene);
-
-         //create hair and all that
-         CharacterEntities::buildCharacterChildren(e);
-
-         eList.push_back(e);
-      }      
-
+      buildTestEntities();
       UIEntity = buildUIEntity();
          
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[0]));

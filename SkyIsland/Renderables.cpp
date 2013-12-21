@@ -213,18 +213,38 @@ public:
          blendS = tc->blendS;
          blendD = tc->blendD;
 
-         //change texCoords
+         //change texCoords, copy vertexlist to new
+         if(tc->yFlipped || tc->xFlipped || (tc->size.x > 0.0f && tc->size.y > 0.0f))
+            m_vertices = std::make_shared<VertexList>(*m_vertices);
+
+         if(tc->yFlipped)
+         {
+            (*m_vertices)[0].get<VertexComponent::TextureCoordinate>()->y = 0.0f;
+            (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->y = 0.0f;
+            (*m_vertices)[2].get<VertexComponent::TextureCoordinate>()->y = 1.0f;
+            (*m_vertices)[3].get<VertexComponent::TextureCoordinate>()->y = 1.0f;
+         }
+
+         if(tc->xFlipped)
+         {
+            (*m_vertices)[0].get<VertexComponent::TextureCoordinate>()->x = 1.0f;
+            (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->x = 0.0f;
+            (*m_vertices)[2].get<VertexComponent::TextureCoordinate>()->x = 0.0f;
+            (*m_vertices)[3].get<VertexComponent::TextureCoordinate>()->x = 1.0f;
+         }
+
          if(tc->size.x > 0.0f && tc->size.y > 0.0f)
          {
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
                auto texCoords = gb->size / tc->size;
-               (*m_vertices)[0].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
-               (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
-               (*m_vertices)[1].get<VertexComponent::TextureCoordinate>()->y = texCoords.y;
-               (*m_vertices)[2].get<VertexComponent::TextureCoordinate>()->x = texCoords.x;
-            }
 
+               *(*m_vertices)[0].get<VertexComponent::TextureCoordinate>() *= texCoords;
+               *(*m_vertices)[1].get<VertexComponent::TextureCoordinate>() *= texCoords;
+               *(*m_vertices)[2].get<VertexComponent::TextureCoordinate>() *= texCoords;
+               *(*m_vertices)[3].get<VertexComponent::TextureCoordinate>() *= texCoords;
+
+            }
          }
 
          if(auto spr = entity.getComponent<SpriteComponent>())

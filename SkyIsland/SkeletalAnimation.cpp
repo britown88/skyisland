@@ -5,9 +5,10 @@
 #include "IOCContainer.h"
 #include "StringTable.h"
 #include "ComponentHelpers.h"
+#include "TextureComponent.h"
 
 SkeletalAnimation::SkeletalAnimation(float framesPerSecond):
-   m_framesPerSecond(framesPerSecond), m_frameCount(0)
+   m_framesPerSecond(framesPerSecond), m_frameCount(1)//bad division by zero, bad
 {
 }
 
@@ -122,8 +123,8 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
             }
 
             //now interpolate the data
-            auto &t1 = frame1->transform;
-            auto &t2 = frame2->transform;
+            auto &t1 = frame1->_transform;
+            auto &t2 = frame2->_transform;
             
             float delta = (float)(frame - frame1->frame) / (float)(frame2->frame - frame1->frame);
             auto t = Transform();
@@ -135,20 +136,26 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
 
             t.rotationAngle = t1.rotationAngle + LinearInterpolate(t1.rotationAngle, t2.rotationAngle, delta);
 
-            if(frame2->rotationPart)
+            if(frame2->_rotationPart)
             {
                //rotating based on a connection position
-               t.rotationPoint = CompHelpers::getSkeletalConnectionPoint(*conn->entity, frame2->rotationPart);
+               t.rotationPoint = CompHelpers::getSkeletalConnectionPoint(*conn->entity, frame2->_rotationPart);
             }
             else
             {
                if(auto gb = conn->entity->getComponent<GraphicalBoundsComponent>())
                   t.rotationPoint = t2.rotationPoint * gb->size;
-            }
-               
+            }               
 
-            if(frame2->layerSet)
-               conn->layer = frame2->layer;
+            if(frame2->_layerSet)
+               conn->layer = frame2->_layer;
+
+            if(frame2->_flipX || frame2->_flipY)
+               if(auto tc = conn->entity->getComponent<TextureComponent>())
+               {
+                  tc->xFlipped = frame2->_flipX;
+                  tc->yFlipped = frame2->_flipY;
+               }
 
             //set the final transform
             conn->transform = t;

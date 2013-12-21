@@ -112,6 +112,14 @@ class VertexList
 public:
    VertexList(VertexFlags flags):m_flags(flags){build();}
 
+   VertexList(const VertexList &rhs):
+      m_flags(VertexFlags(rhs.m_flags)), m_vertexSize(rhs.m_vertexSize), 
+      m_bytes(std::vector<char>(rhs.m_bytes))
+   {
+      for(int i = 0; i < (int)VertexComponent::COUNT; ++i)
+         m_componentOffset[i] = rhs.m_componentOffset[i];
+   }
+
    VertexList(VertexList && ref):
       m_flags(std::move(ref.m_flags)), m_vertexSize(ref.m_vertexSize), 
       m_bytes(std::move(ref.m_bytes))

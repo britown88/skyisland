@@ -62,10 +62,10 @@ namespace CharacterEntities
       torso->addComponent<SkeletalNodeComponent>(nc);
 
       headNode->entity = buildBasicBodyPart("assets/body/head.png", Float2(headSize*pixelMult, headSize*pixelMult), headCenter);
-      rArmNode->entity = buildBasicBodyPart("assets/body/rightarm.png", Float2(rArmSize*pixelMult, rArmSize*pixelMult), rArmCenter);
-      lArmNode->entity = buildBasicBodyPart("assets/body/leftarm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
-      rLegNode->entity = buildBasicBodyPart("assets/body/rightleg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
-      lLegNode->entity = buildBasicBodyPart("assets/body/leftleg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
+      rArmNode->entity = buildBasicBodyPart("assets/body/arm.png", Float2(rArmSize*pixelMult, rArmSize*pixelMult), rArmCenter);
+      lArmNode->entity = buildBasicBodyPart("assets/body/arm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
+      rLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
+      lLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
       
       e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(skeleton));
       return e;

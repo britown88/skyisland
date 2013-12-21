@@ -15,5 +15,6 @@ public:
 
    InternString texture;
    Float2 size;
+   bool yFlipped, xFlipped;
 
 };
