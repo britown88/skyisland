@@ -16,10 +16,10 @@ void buildSkeletalAnimations()
    auto dance = std::unique_ptr<SkeletalAnimation>(new SkeletalAnimation(1000));
    dance->setLooping(true);
 
-   dance->addFrame("torso", 250).setRotation(25.0f, Float2(0.278f, 0.389f));
-   dance->addFrame("torso", 500).setRotation(0.0f, Float2(0.278f, 0.389f));
-   dance->addFrame("torso", 750).setRotation(-25.0f, Float2(-0.278f, 0.389f));
-   dance->addFrame("torso", 1000).setRotation(0.0f, Float2(-0.278f, 0.389f));
+   dance->addFrame("torso", 250).setRotation(25.0f, "leftleg");
+   dance->addFrame("torso", 500).setRotation(0.0f, "leftleg");
+   dance->addFrame("torso", 750).setRotation(-25.0f, "rightleg");
+   dance->addFrame("torso", 1000).setRotation(0.0f, "rightleg");
 
    dance->addFrame("torso/leftleg", 250).setRotation(-25.0f);
    dance->addFrame("torso/leftleg", 500).setRotation(0.0f);

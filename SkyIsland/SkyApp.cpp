@@ -130,7 +130,6 @@ class SkyApp : public Application
 
       testSkeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(0.0f, 0.0f), Float2(0.0f, 0.0f)));
       testSkeleton->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      testSkeleton->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(e, Float2()));
 
       auto nc = std::make_shared<SkeletalNodeComponent>();
       nc->connections.insert(std::make_pair(st->get("torso"), SNodeConnection(Float2())));
