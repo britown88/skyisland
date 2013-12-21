@@ -111,7 +111,7 @@ class SkyApp : public Application
 
       //CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(0.25f, 1.0f, 1.0f, 1.0f));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(150, 150), Float2(0.5f, 0.5f)));
-      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(450.0f, 450.0f)));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2(0.0f, 0.0f)));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
@@ -136,37 +136,50 @@ class SkyApp : public Application
       nc->connections.insert(std::make_pair(st->get("torso"), SNodeConnection(Float2())));
       testSkeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
 
+      float pixelMult = 6.0f;
+      float torsoSize = 9.0f, headSize = 11.0f, rArmSize = 6.0f, lArmSize = 6.0f, rLegSize = 6.0f, lLegSize = 6.0f;
+      Float2 headConn(4.5f / torsoSize, 3.0f / torsoSize);Float2 headCenter(5.5f / headSize, 11.0f / headSize);
+      Float2 lArmConn(9.0f / torsoSize, 4.0f / torsoSize);Float2 lArmCenter(2.0f / lArmSize, 2.0f / lArmSize);
+      Float2 rArmConn(0.0f / torsoSize, 4.0f / torsoSize);Float2 rArmCenter(4.0f / rArmSize, 2.0f / rArmSize);
+      Float2 lLegConn(7.0f / torsoSize, 8.0f / torsoSize);Float2 lLegCenter(3.0f / lLegSize, 3.0f / lLegSize);
+      Float2 rLegConn(2.0f / torsoSize, 8.0f / torsoSize);Float2 rLegCenter(3.0f / rLegSize, 3.0f / rLegSize);
+
 
       nc = std::make_shared<SkeletalNodeComponent>();
-      auto body = buildBodyPart("assets/body/torso.png", Float2(78, 78), Float2(0.5f, 0.5f));      
-      nc->connections.insert(std::make_pair(st->get("rightleg"), SNodeConnection(Float2(0.31f, 0.69f))));
-      nc->connections.insert(std::make_pair(st->get("leftleg"), SNodeConnection(Float2(0.69f, 0.69f))));
-      nc->connections.insert(std::make_pair(st->get("rightarm"), SNodeConnection(Float2(0.15f, 0.54f))));
-      nc->connections.insert(std::make_pair(st->get("leftarm"), SNodeConnection(Float2(0.85f, 0.54f))));
-      nc->connections.insert(std::make_pair(st->get("head"), SNodeConnection(Float2(0.5f, 0.38f))));
+      auto body = buildBodyPart("assets/body/torso.png", Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));      
+      nc->connections.insert(std::make_pair(st->get("rightleg"), SNodeConnection(rLegConn)));
+      nc->connections.insert(std::make_pair(st->get("leftleg"), SNodeConnection(lLegConn)));
+      nc->connections.insert(std::make_pair(st->get("rightarm"), SNodeConnection(rArmConn)));
+      nc->connections.insert(std::make_pair(st->get("leftarm"), SNodeConnection(lArmConn)));
+      nc->connections.insert(std::make_pair(st->get("head"), SNodeConnection(headConn)));
       body->addComponent<SkeletalNodeComponent>(nc);
 
       testSkeleton->getComponent<SkeletalNodeComponent>()->connections[st->get("torso")].entity = body;
       
-      auto part = buildBodyPart("assets/body/head.png", Float2(66, 66), Float2(0.5f, 1.0f));
+      auto part = buildBodyPart("assets/body/head.png", Float2(headSize*pixelMult, headSize*pixelMult), headCenter);
       auto &head = body->getComponent<SkeletalNodeComponent>()->connections[st->get("head")];
       head.entity = part;
+      //head.layer = -1;
 
-      part = buildBodyPart("assets/body/rightleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
+      part = buildBodyPart("assets/body/rightleg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
       auto &rightleg = body->getComponent<SkeletalNodeComponent>()->connections[st->get("rightleg")];
       rightleg.entity = part;
+      rightleg.layer = -1;
 
-      part = buildBodyPart("assets/body/leftleg.png", Float2(36, 36), Float2(0.5f, 0.0f));
+      part = buildBodyPart("assets/body/leftleg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
       auto &leftleg = body->getComponent<SkeletalNodeComponent>()->connections[st->get("leftleg")];
       leftleg.entity = part;
+      leftleg.layer = -1;
 
-      part = buildBodyPart("assets/body/rightarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
+      part = buildBodyPart("assets/body/rightarm.png", Float2(rArmSize*pixelMult, rArmSize*pixelMult), rArmCenter);
       auto &rightarm = body->getComponent<SkeletalNodeComponent>()->connections[st->get("rightarm")];
       rightarm.entity = part;
+      rightarm.layer = -2;
 
-      part = buildBodyPart("assets/body/leftarm.png", Float2(24, 24), Float2(0.5f, 0.0f));
+      part = buildBodyPart("assets/body/leftarm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
       auto &leftarm = body->getComponent<SkeletalNodeComponent>()->connections[st->get("leftarm")];
       leftarm.entity = part;
+      leftarm.layer = -2;
       
       
    }
@@ -277,7 +290,7 @@ class SkyApp : public Application
       bg->addComponent<LayerComponent>(std::make_shared<LayerComponent>(RenderLayer::Backdrop));
       bg->addToScene(scene);
 
-      for(int i = 0; i < 1000; ++i)
+      for(int i = 0; i < 10000; ++i)
       {
          lightList.push_back(std::make_shared<Entity>());
          auto light = lightList.back();
@@ -285,7 +298,7 @@ class SkyApp : public Application
          CompHelpers::addRectangleMeshComponent(*light, Rectf(0, 0, 1, 1), Colorf(rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f));
          light->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
          light->getComponent<TextureComponent>()->setBlendFunc(GL_ONE, GL_ONE);
-         auto lightSize = rand(150, 450);
+         auto lightSize = 150;
          light->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(lightSize, lightSize), Float2(0.5f, 0.5f)));
          light->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2(rand(0, 10000), rand(0, 10000))));
          light->addComponent<LightComponent>(std::make_shared<LightComponent>());

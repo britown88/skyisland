@@ -13,13 +13,28 @@
 struct SkeletalFrame
 {
    SkeletalFrame(int frame, Transform transform):
-      frame(frame), transform(transform), layer(0), layerSet(false){}
+      frame(frame), transform(transform), layer(0), layerSet(false), rotationPart(nullptr){}
    const int frame;
    Transform transform;
    int layer;
    bool layerSet;//only change if layer wa sset
+   InternString rotationPart;//set to rotate based on a connection position
 
    SkeletalFrame &setRotation(float rotation){transform.rotationAngle = rotation; return *this;}
+   SkeletalFrame &setRotation(float rotation, Float2 rotationPoint)
+   {
+      transform.rotationPoint = rotationPoint;
+      transform.rotationAngle = rotation; 
+      return *this;
+   }
+   SkeletalFrame &setRotation(float rotation, std::string connection)
+   {
+      rotationPart = IOC.resolve<StringTable>()->get(connection.c_str());
+      transform.rotationAngle = rotation; 
+      return *this;
+   }
+
+
    SkeletalFrame &setOffset(float x, float y){transform.offset = Float2(x, y); return *this;}
    SkeletalFrame &setLayer(int l){layer = l; layerSet = true; return *this;}
 

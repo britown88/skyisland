@@ -81,7 +81,6 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
 {
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
    auto skeletalNodeComp = entity.getComponent<SkeletalNodeComponent>();
-   bool bgSkelNodesDrawn = false;
 
    if(auto skeleton = entity.getComponent<SkeletonComponent>())  
    {
@@ -95,7 +94,7 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    }
 
    if(skeletalNodeComp)    
-      bgSkelNodesDrawn = buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
+      buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
 
    //draw bg children
    if(childrenComp)
@@ -109,19 +108,10 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
       buildMeshRenderable(entity, transforms)->render(*m_renderer); 
 
    if(auto tc = entity.getComponent<TextComponent>())
-      buildTextRenderable(entity, transforms)->render(*m_renderer); 
+      buildTextRenderable(entity, transforms)->render(*m_renderer);
 
-
-
-   if(skeletalNodeComp)    
-   {
-      if(bgSkelNodesDrawn)
-         transforms->pop_back();
-
+   if(skeletalNodeComp)
       buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Foreground)->render(*m_renderer);
-   }
-      
-
 
    if(childrenComp)
    {

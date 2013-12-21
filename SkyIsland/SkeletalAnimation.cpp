@@ -4,6 +4,7 @@
 #include <boost/algorithm/string.hpp>
 #include "IOCContainer.h"
 #include "StringTable.h"
+#include "ComponentHelpers.h"
 
 SkeletalAnimation::SkeletalAnimation(float framesPerSecond):
    m_framesPerSecond(framesPerSecond), m_frameCount(0)
@@ -133,6 +134,18 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                t1.offset.y + LinearInterpolate(t1.offset.y, t2.offset.y, delta));
 
             t.rotationAngle = t1.rotationAngle + LinearInterpolate(t1.rotationAngle, t2.rotationAngle, delta);
+
+            if(frame2->rotationPart)
+            {
+               //rotating based on a connection position
+               t.rotationPoint = CompHelpers::getSkeletalConnectionPoint(*conn->entity, frame2->rotationPart);
+            }
+            else
+            {
+               if(auto gb = conn->entity->getComponent<GraphicalBoundsComponent>())
+                  t.rotationPoint = t2.rotationPoint * gb->size;
+            }
+               
 
             if(frame1->layerSet)
                conn->layer = frame1->layer;

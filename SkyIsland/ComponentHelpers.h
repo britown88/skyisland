@@ -17,5 +17,6 @@ namespace CompHelpers
    void updateAnimationBind(Entity &e);
    RenderLayer getRenderLayer(Entity &e);
    ICamera::Pass getRenderPass(Entity &e);
+   Float2 getSkeletalConnectionPoint(Entity &e, InternString connection);
 }
 

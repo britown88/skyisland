@@ -2,10 +2,21 @@
 #include "MeshComponent.h"
 #include "PositionComponent.h"
 #include "PhysicsComponents.h"
+#include "SkeletalNodeComponent.h"
 
 #include <vector>
 namespace CompHelpers
 {
+
+Float2 getSkeletalConnectionPoint(Entity &e, InternString connection)
+{
+   if(auto snc = e.getComponent<SkeletalNodeComponent>())
+   if(snc->connections.find(connection) != snc->connections.end())
+   if(auto gb = e.getComponent<GraphicalBoundsComponent>())
+      return snc->connections[connection].connectionPos * gb->size;
+
+   return Float2();
+}
 
 Rectf getEntityBounds(Entity& e)
 {
