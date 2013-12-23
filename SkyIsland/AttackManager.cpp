@@ -6,7 +6,7 @@
 #include "IOCContainer.h"
 #include "Application.h"
 
-Rectf getCollisionFromBounds(Rectf &bounds, Rectf &collisionArea)
+Rectf getCollisionFromBounds(Rectf bounds, Rectf collisionArea)
 {
    return Rectf(
          bounds.left + collisionArea.left * bounds.width(),

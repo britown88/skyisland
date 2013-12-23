@@ -57,7 +57,7 @@ public:
       addObjectToScene(pass, layer, DO);
       return DO;
    }
-   
+
    std::shared_ptr<IDrawObject> drawText(ICamera::Pass pass, RenderLayer layer, std::shared_ptr<TextString> text, Transform transform=Transform()) const
    {
       std::shared_ptr<IDrawObject> DO = std::shared_ptr<IDrawObject>(
@@ -84,9 +84,9 @@ public:
 
    bool newScene(IViewport &vp, ICamera &cam)
    {
-      auto &winSize = IOC.resolve<Application>()->windowSize();
+      auto winSize = IOC.resolve<Application>()->windowSize();
 
-      if(auto &parent = vp.getParent().lock())
+      if(auto parent = vp.getParent().lock())
       {
          auto db = parent->getDrawnBounds();
          auto vb = vp.getWindowBounds();
@@ -100,7 +100,7 @@ public:
 
             if(i.width() == vb.width() && i.height() == vb.height())
             {
-               //vp lies entirely within parent bounds, drw normally    
+               //vp lies entirely within parent bounds, drw normally
                m_drawQueue->push_back(std::make_shared<DrawScene>(vp, cam));
                return true;
             }

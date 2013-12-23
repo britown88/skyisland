@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+
 template<typename T>
 class Color
 {
@@ -26,7 +28,7 @@ public:
 
 struct Color255Hash
 {
-   size_t operator()(const Color255 c) const
+   std::size_t operator()(const Color255 c) const
    {
       return *(int*)&c;
    }

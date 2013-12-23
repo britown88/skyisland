@@ -11,7 +11,7 @@
 
 void PhysicsManager::updateOnScreenEntity(Entity &ent)
 {
-   auto &app = IOC.resolve<Application>();
+   auto app = IOC.resolve<Application>();
    if(auto p = ent.getComponent<PositionComponent>())
    {
       CompHelpers::updatePositionBind(ent);
@@ -19,7 +19,7 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
       if(auto elev = ent.getComponent<ElevationComponent>())
       {
          elev->elevation += elev->impulse * app->dt();
-            
+
          if(elev->elevation > 0.0f)
             elev->impulse -= elev->gravityStrength * app->dt();
          else
@@ -32,12 +32,12 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
 
       if(auto v = ent.getComponent<VelocityComponent>())
       {
-         
+
          if(auto a = ent.getComponent<AccelerationComponent>())
          {
             float angle = atan2(a->direction.y, a->direction.x);
             Float2 delta = Float2(
-               cos(angle) * a->acceleration, 
+               cos(angle) * a->acceleration,
                -(sin(angle) * a->acceleration));
 
             v->velocity += delta * app->dt();
@@ -59,7 +59,7 @@ void PhysicsManager::updateOnScreenEntity(Entity &ent)
             else if(v->velocity.x < 0) v->velocity.x = std::min(0.0f, v->velocity.x + f->friction * (float)app->dt());
 
             if(v->velocity.y > 0) v->velocity.y = std::max(0.0f, v->velocity.y - f->friction * (float)app->dt());
-            else if(v->velocity.y < 0) v->velocity.y = std::min(0.0f, v->velocity.y + f->friction * (float)app->dt());               
+            else if(v->velocity.y < 0) v->velocity.y = std::min(0.0f, v->velocity.y + f->friction * (float)app->dt());
 
          }
 

@@ -47,7 +47,7 @@ public:
       return &iter->second;
    }
 
-   std::string *get(const std::string &str)
+   InternString get(const std::string &str)
    {
       return get(str.c_str());
    }

@@ -11,7 +11,7 @@ struct FSNode
    FSNode(InternString path):path(path){}
 
    InternString path;
-   std::unordered_map<InternString, FSNode> children;
+   std::map<InternString, FSNode> children;
 
    FSNode &operator[](InternString dir){return children[dir];}
 };
@@ -22,6 +22,6 @@ class SpriteFactory
 
 public:
    static const int ID = 2909225244;
-   std::shared_ptr<Sprite> buildSprite(InternString filepath, IAnimationStrategy &animStrat);
+   std::shared_ptr<Sprite> buildSprite(InternString filepath, IAnimationStrategy *animStrat);
    void buildAssetIndex(std::string assetRoot);
 };

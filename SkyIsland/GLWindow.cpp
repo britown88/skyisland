@@ -1,12 +1,13 @@
-#include "GL\glew.h"
+#include "GL/glew.h"
 #include <GLFW/glfw3.h>
 #include "GLWindow.h"
 #include "KeyHandler.h"
 #include "MouseHandler.h"
 
-#include "IL\il.h"
-#include "IL\ilu.h"
-#include "IL\ilut.h"
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include "IL/ilut.h"
+#include "GnUtilities.h"
 
 
 
@@ -35,7 +36,7 @@ GLWindow::GLWindow(Int2 winSize, std::string windowName)
    m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), NULL, m_threadWin);
 
    if(!m_window)
-      throw std::exception("Window failed to create");
+      throw ArqException("Window failed to create");
 
    glfwGetFramebufferSize(m_window, &m_windowSize.x, &m_windowSize.y);
    glfwMakeContextCurrent(m_threadWin);
@@ -58,7 +59,7 @@ GLWindow::GLWindow(Int2 winSize, std::string windowName, GLFWmonitor *monitor)
    m_window = glfwCreateWindow(winSize.x, winSize.y, windowName.c_str(), monitor, m_threadWin);
 
    if(!m_window)
-      throw std::exception("Window failed to create");
+      throw ArqException("Window failed to create");
 
    glfwGetFramebufferSize(m_window, &m_windowSize.x, &m_windowSize.y);
    glfwMakeContextCurrent(m_threadWin);

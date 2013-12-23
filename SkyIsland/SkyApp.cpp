@@ -110,9 +110,9 @@ class SkyApp : public Application
       for(int i = 0; i < anims.size(); ++i)
       {
          auto e = CharacterEntities::buildCharacter();
-         e->getComponent<PositionComponent>()->pos = 
+         e->getComponent<PositionComponent>()->pos =
             Float2(
-               charStart.x + charSpacing * (i % rowLength), 
+               charStart.x + charSpacing * (i % rowLength),
                charStart.y + charSpacing * (i / rowLength));
          e->getComponent<SkeletonComponent>()->playingAnimation = anims[i];
          e->addToScene(scene);
@@ -173,8 +173,8 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<DamageMarkerManager>());
       scene->registerEntityManager(std::make_shared<SkeletalAnimationsUpdateManager>());
 
-      camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));      
-      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));  
+      camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));
+      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));
 
       camera2.reset(new Camera(Rectf(0, 0, 150, 150), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));
@@ -182,21 +182,21 @@ class SkyApp : public Application
       camera->addFBOPass(ICamera::Pass::Lighting);
       camera2->addFBOPass(ICamera::Pass::Lighting);
 
-      viewport->addChild(UIViewport);
-      UIViewport->addChild(viewport2);
+      addChildViewport(viewport, UIViewport);
+      addChildViewport(UIViewport, viewport2);
 
       m_window->addViewport(viewport);
 
       buildTestEntities();
       UIEntity = buildUIEntity();
-         
+
       //cc = std::unique_ptr<CharacterController>(new CharacterController(eList[0]));
 
-      camControl.reset(new CameraController(camera, 
+      camControl.reset(new CameraController(camera,
          std::unique_ptr<ICameraMoveStrategy>(new MovingCameraMove(50.05f))));
       camControl->setCameraCenter(Float2(0.5f, 0.5f));
 
-      camControl2.reset(new CameraController(camera2, 
+      camControl2.reset(new CameraController(camera2,
          std::unique_ptr<ICameraMoveStrategy>(new BasicCameraMove())));
       camControl2->setCameraCenter(Float2(0.5f, 0.5f));
 
@@ -205,7 +205,7 @@ class SkyApp : public Application
 
       bg = std::make_shared<Entity>();
       CompHelpers::addRectangleMeshComponent(*bg, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      bg->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/sand.png")));  
+      bg->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/sand.png")));
       bg->getComponent<TextureComponent>()->size = Float2(450, 450);
       bg->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(10000, 10000), Float2()));
       bg->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
@@ -252,7 +252,7 @@ class SkyApp : public Application
             if(elev->elevation == 0.0f)
                elev->impulse = 20.0f;
          }
-         
+
       }));
       //IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), &spaceEvent);
 
@@ -267,7 +267,7 @@ class SkyApp : public Application
       }));
 
       viewport->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
-   
+
       click2 = std::move(MouseEvent([&](Float2 pos)
       {
          auto cb = camera2->getBounds();
@@ -279,9 +279,9 @@ class SkyApp : public Application
       }));
 
       viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
-   
+
    }
-   
+
    void updateVisibleScenes()
    {
       std::unordered_map<std::shared_ptr<IScene>, std::vector<IViewport*>> sceneList;
@@ -296,7 +296,7 @@ class SkyApp : public Application
             visRects.push_back(vp->getCamera()->getBounds());
 
          pair.first->setVisibleRects(std::move(visRects));
-         pair.first->update();  
+         pair.first->update();
       }
    }
 
@@ -307,7 +307,7 @@ class SkyApp : public Application
          sceneList[scene] = std::vector<IViewport*>();
 
       sceneList[scene].push_back(vp);
-      
+
       for(auto &child : vp->getChildren())
          getScenesFromVP(&child, sceneList);
    }
@@ -322,21 +322,21 @@ class SkyApp : public Application
    void onStep()
    {
       updateVisibleScenes();
-         
+
       camControl->updateCamera();
       camControl2->updateCamera();
 
-      
+
 
       for(auto &vp : m_window->getViewports())
       {
          vp->update();
-         
-         updateViewportGraphics(*vp);
-      }        
 
-      IOC.resolve<RenderManager>()->finalizeRender();      
-      m_window->pollEvents(); 
+         updateViewportGraphics(*vp);
+      }
+
+      IOC.resolve<RenderManager>()->finalizeRender();
+      m_window->pollEvents();
       IOC.resolve<KeyHandler>()->updateKeySteps();
    }
 };

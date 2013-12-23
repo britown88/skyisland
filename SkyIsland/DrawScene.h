@@ -8,6 +8,8 @@
 
 #include <vector>
 #include <memory>
+#include "GnUtilities.h"
+#include <map>
 
 typedef std::vector<std::shared_ptr<IDrawObject>> DrawQueue;
 
@@ -27,18 +29,18 @@ struct DrawPass
 
    DrawPass &operator=(DrawPass && ref)
    {
-      fbo = std::move(ref.fbo); 
-      fboTexture = std::move(ref.fboTexture); 
-      drawQueue = std::move(ref.drawQueue); 
+      fbo = std::move(ref.fbo);
+      fboTexture = std::move(ref.fboTexture);
+      drawQueue = std::move(ref.drawQueue);
       return *this;
    }
 };
 
 class DrawScene
 {
-private:   
+private:
    std::vector<DrawQueue> m_drawQueue;
-   std::unordered_map<ICamera::Pass, std::unique_ptr<DrawPass>> m_passes;
+   std::map<ICamera::Pass, std::unique_ptr<DrawPass>> m_passes;
    Rectf m_vpBounds;
    Rectf m_camBounds;
    Rectf m_scissorBounds;

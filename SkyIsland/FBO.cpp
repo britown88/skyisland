@@ -1,4 +1,4 @@
-#include <GL\glew.h>
+#include <GL/glew.h>
 
 #include "FBO.h"
 #include "ComponentHelpers.h"
@@ -7,7 +7,7 @@
 #include "GraphicComponents.h"
 
 FBO::FBO(Rectf bounds):m_bounds(Rectf(bounds))
-{   
+{
    glGenFramebuffers(1, &m_fboHandle);
 
    int pixelCount = m_bounds.width() * m_bounds.height();
@@ -16,8 +16,8 @@ FBO::FBO(Rectf bounds):m_bounds(Rectf(bounds))
    glGenTextures(1, &m_texHandle);
    glBindTexture(GL_TEXTURE_2D, m_texHandle);
    glTexImage2D(
-      GL_TEXTURE_2D, 0, GL_RGBA32F, 
-      m_bounds.width(), m_bounds.height(), 
+      GL_TEXTURE_2D, 0, GL_RGBA32F,
+      m_bounds.width(), m_bounds.height(),
       0, GL_RGBA, GL_FLOAT, pixels);
 
    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

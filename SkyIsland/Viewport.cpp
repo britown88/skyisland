@@ -5,7 +5,7 @@
 Viewport::Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera):
    m_pos(position), m_size(size), m_center(center), m_camera(camera)
 {
-  
+
 }
 std::weak_ptr<IViewport> Viewport::getParent(){return m_parent;}
 std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
@@ -46,7 +46,6 @@ void Viewport::update() {}
 void Viewport::addChild(std::shared_ptr<IViewport> vp)
 {
    m_children.push_back(vp.get());
-   vp->setParent(getptr());
 }
 
 ViewportList &Viewport::getChildren(){return m_children;}
@@ -66,4 +65,11 @@ void Viewport::runMouseCallback(Keystroke k, Float2 pos)
    if(hasMouseCallback(k))
       for(auto &e : m_mouseCallbacks[k])
          e.fn(pos);
+}
+
+void addChildViewport(std::shared_ptr<IViewport> parent, std::shared_ptr<IViewport> child)
+{
+   parent->m_children.push_back(child.get());
+   child->setParent(parent);
+
 }

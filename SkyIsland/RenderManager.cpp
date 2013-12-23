@@ -22,7 +22,7 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-   
+
 }
 
 void RenderManager::terminate()
@@ -32,8 +32,8 @@ void RenderManager::terminate()
 
 bool RenderManager::renderViewport(IViewport &vp)
 {
-   auto &camera = vp.getCamera();
-   auto &scene = camera->getScene();
+   auto camera = vp.getCamera();
+   auto scene = camera->getScene();
 
    if(!m_renderer->newScene(vp, *camera))
       return false;
@@ -62,11 +62,11 @@ bool RenderManager::renderViewport(IViewport &vp)
       auto bot1 = e1->partitionBounds.bottom;
       auto bot2 = e2->partitionBounds.bottom;
 
-      if(bot1 < bot2) 
+      if(bot1 < bot2)
          return true;
-      if(bot1 > bot2) 
+      if(bot1 > bot2)
          return false;
-      
+
       return e1 < e2;
    });
 
@@ -82,7 +82,7 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    auto childrenComp = entity.getComponent<RenderChildrenComponent>();
    auto skeletalNodeComp = entity.getComponent<SkeletalNodeComponent>();
 
-   if(auto skeleton = entity.getComponent<SkeletonComponent>())  
+   if(auto skeleton = entity.getComponent<SkeletonComponent>())
    {
       if(auto skeleton = entity.getComponent<SkeletonComponent>())
       if(auto pPos = entity.getComponent<PositionComponent>())
@@ -90,10 +90,10 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
       {
          sPos->pos = pPos->pos;
          buildSkeletalRenderable(*skeleton->entity, transforms, ComponentDrawLayer::Both)->render(*m_renderer);
-      }      
+      }
    }
 
-   if(skeletalNodeComp)    
+   if(skeletalNodeComp)
       buildSkeletalRenderable(entity, transforms, ComponentDrawLayer::Background)->render(*m_renderer);
 
    //draw bg children
@@ -101,11 +101,11 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    {
       for(int i = 0; i < childrenComp->parentIndex; ++i)
          if(auto e = childrenComp->children[i].lock())
-            renderEntity(*e, transforms);         
+            renderEntity(*e, transforms);
    }
 
    if(auto mc = entity.getComponent<MeshComponent>())
-      buildMeshRenderable(entity, transforms)->render(*m_renderer); 
+      buildMeshRenderable(entity, transforms)->render(*m_renderer);
 
    if(auto tc = entity.getComponent<TextComponent>())
       buildTextRenderable(entity, transforms)->render(*m_renderer);
@@ -117,14 +117,14 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    {
       for(int i = childrenComp->parentIndex; i < childrenComp->children.size(); ++i)
          if(auto e = childrenComp->children[i].lock())
-            renderEntity(*e, transforms);   
+            renderEntity(*e, transforms);
    }
-      
+
 }
 
 void RenderManager::finalizeRender()
 {
-   m_renderThread->resetQueue(std::move(m_renderer->drawQueue()));     
+   m_renderThread->resetQueue(std::move(m_renderer->drawQueue()));
 
 }
 

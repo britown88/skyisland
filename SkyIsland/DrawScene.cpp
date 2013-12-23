@@ -1,4 +1,4 @@
-#include <GL\glew.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "DrawScene.h"
@@ -22,7 +22,7 @@ DrawScene::DrawScene(IViewport &vp, ICamera &camera):
 
       m_passes.insert(std::make_pair(pass.first, std::move(dp)));
    }
-     
+
 
 }
 
@@ -45,7 +45,7 @@ DrawScene::DrawScene(IViewport &vp, ICamera &camera, Rectf scissorBounds):
 std::unique_ptr<IDrawObject> DrawScene::buildFboDrawObject(std::shared_ptr<FBO> fbo)
 {
    if(fbo)
-   {   
+   {
       fbo->updatePosition(m_camBounds);
       auto drawObj = std::unique_ptr<IDrawObject>(
          new DrawTexture(fbo->getGlHandle(), fbo->getVertices(), fbo->getFaces(), fbo->getTransform()));
@@ -81,10 +81,10 @@ void DrawScene::renderFBOObjectList(ICamera::Pass pass, DrawPass &dp)
    glLoadIdentity();
    glOrtho(0, m_camBounds.width(), m_camBounds.height(), 0, 1.0f, -1.0f);
    glMatrixMode(GL_MODELVIEW);
-   glLoadIdentity();   
+   glLoadIdentity();
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
-   
+
    for(auto &layer : dp.drawQueue)
       for(auto &DO : layer)
          if(DO)DO->draw();
@@ -103,10 +103,10 @@ void DrawScene::renderObjectList(std::vector<DrawQueue> &queues)
    glLoadIdentity();
    glOrtho(0, m_camBounds.width(), m_camBounds.height(), 0, 1.0f, -1.0f);
    glMatrixMode(GL_MODELVIEW);
-   glLoadIdentity();   
+   glLoadIdentity();
 
    glTranslatef(-m_camBounds.left, -m_camBounds.top, 0.0f);
-   
+
       for(auto &layer : queues)
          for(auto &DO : layer)
             if(DO)DO->draw();
@@ -124,7 +124,7 @@ void DrawScene::draw()
          renderFBOObjectList(pass.first, *pass.second.get());
 
    ////draw main shit
-   glBindFramebuffer(GL_FRAMEBUFFER, 0); 
+   glBindFramebuffer(GL_FRAMEBUFFER, 0);
    auto fbodebug = IOC.resolve<FBODebugger>();
    if(fbodebug->getPass() == ICamera::Pass::COUNT)
    {
@@ -140,13 +140,13 @@ void DrawScene::draw()
          glEnable(GL_SCISSOR_TEST);
       }
 
-      for(auto &pass : m_passes)      
+      for(auto &pass : m_passes)
          pass.second->fboTexture->draw();
 
       if(m_scissor)
          glDisable(GL_SCISSOR_TEST);
    }
-      
-      
+
+
 
 }

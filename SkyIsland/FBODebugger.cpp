@@ -1,5 +1,5 @@
 #include "FBODebugger.h"
-#include "GLFW\glfw3.h"
+#include "GLFW/glfw3.h"
 
 FBODebugger::FBODebugger():m_pass(ICamera::Pass::COUNT)
 {
@@ -7,15 +7,15 @@ FBODebugger::FBODebugger():m_pass(ICamera::Pass::COUNT)
 
    registerKeyEvent(Keystroke(GLFW_KEY_F1, INPUT_STEP, 0), KeyEvent([&]()
    {this->m_pass = ICamera::Pass::Lighting;}));
-   
+
    registerKeyEvent(Keystroke(GLFW_KEY_F1, GLFW_RELEASE, 0), KeyEvent([&]()
-   {this->m_pass = ICamera::Pass::COUNT;})); 
+   {this->m_pass = ICamera::Pass::COUNT;}));
 
    registerKeyEvent(Keystroke(GLFW_KEY_F2, INPUT_STEP, 0), KeyEvent([&]()
    {this->renderFBOs = false;}));
-   
+
    registerKeyEvent(Keystroke(GLFW_KEY_F2, GLFW_RELEASE, 0), KeyEvent([&]()
-   {this->renderFBOs = true;})); 
+   {this->renderFBOs = true;}));
 }
 
 ICamera::Pass FBODebugger::getPass(){return m_pass;}

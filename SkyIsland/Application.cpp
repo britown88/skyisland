@@ -13,6 +13,7 @@
 #include "FBODebugger.h"
 #include "SkeletalAnimationsManager.h"
 #include "Text.h"
+#include "GnUtilities.h"
 
 #include <chrono>
 #include <thread>
@@ -26,7 +27,7 @@ void Application::start()
    m_dt = 1.0;
 
    if(!glfwInit())
-      throw std::exception("GLFW Failed to initialize");
+      throw ArqException("GLFW Failed to initialize");
 
    auto winSize = getDefaultWindowSize();
    auto winTitle = getWindowTitle();
@@ -44,7 +45,7 @@ void Application::start()
    IOC.add<KeyHandler>(std::make_shared<KeyHandler>());
    IOC.add<MouseHandler>(std::make_shared<MouseHandler>());
    IOC.add<SpriteFactory>(std::make_shared<SpriteFactory>());
-   IOC.add<StringTable>(std::make_shared<StringTable>()); 
+   IOC.add<StringTable>(std::make_shared<StringTable>());
    IOC.add<FontEngine>(std::make_shared<FontEngine>());
    IOC.add<ColorFilterManager>(std::make_shared<ColorFilterManager>());
    IOC.add<SkeletalAnimationsManager>(std::make_shared<SkeletalAnimationsManager>());
@@ -53,7 +54,7 @@ void Application::start()
 
    onAppStart();
 
-   m_appRunning = true;   
+   m_appRunning = true;
 }
 
 Int2 Application::windowSize()
@@ -83,7 +84,7 @@ int Application::rand(int lower, int upper)
 
 void Application::step()
 {
-   m_lastUpdated = getTime();   
+   m_lastUpdated = getTime();
 
    onStep();
 
@@ -100,7 +101,7 @@ std::shared_ptr<Entity> Application::getTag(EntityTag tag)
 {
    if(tag < EntityTag::COUNT)
       return m_taggedEntites[(int)tag];
-   
+
    return nullptr;
 }
 
@@ -108,7 +109,7 @@ void Application::setTag(EntityTag tag, std::shared_ptr<Entity> entity)
 {
    if(tag < EntityTag::COUNT)
       m_taggedEntites[(int)tag] = std::move(entity);
-} 
+}
 
 void Application::terminate()
 {

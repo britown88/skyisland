@@ -19,7 +19,7 @@ public:
    friend Entity;
 
    virtual ~IScene(){}
-   virtual Float2 getSize() = 0;   
+   virtual Float2 getSize() = 0;
 
    //add an entitymanager that will get called when the scene is updated
    virtual void registerEntityManager(std::shared_ptr<IEntityManager> em)=0;
@@ -32,7 +32,7 @@ public:
 
    //retrieve entities
    virtual std::vector<std::shared_ptr<Entity>> getEntities()=0;
-   virtual std::vector<std::shared_ptr<Entity>> getEntities(Rectf &bounds)=0;
+   virtual std::vector<std::shared_ptr<Entity>> getEntities(Rectf bounds)=0;
 
 
 };

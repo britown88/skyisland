@@ -2,18 +2,18 @@
 
 #include "IScene.h"
 #include "FBO.h"
-#include <unordered_map>
+#include <map>
 
 class ICamera
 {
 public:
-   enum class Pass
+   enum class Pass : int
    {
-      Lighting,
+      Lighting = 0,
       COUNT
    };
 
-   virtual std::unordered_map<Pass, std::shared_ptr<FBO>> &getFBOs()=0;
+   virtual std::map<Pass, std::shared_ptr<FBO>> &getFBOs()=0;
    virtual void addFBOPass(Pass passs)=0;
 
    virtual ~ICamera(){}

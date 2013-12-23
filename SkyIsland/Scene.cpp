@@ -16,7 +16,7 @@ Scene::Scene(Float2 size, int sqrtPartitionCount):
       m_partitions.push_back(ScenePartition());
       m_partitions.back().lastUpdatedTimestamp = (10.0 / (m_pCount*m_pCount)) * i;
    }
-      
+
 }
 
 
@@ -27,7 +27,7 @@ void Scene::addEntity(std::shared_ptr<Entity> entity)
    Rectf eBounds = CompHelpers::getEntityBounds(*entity);
    entity->partitionBounds = eBounds;
 
-   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(eBounds);  
+   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(eBounds);
 
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
       for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
@@ -36,7 +36,7 @@ void Scene::addEntity(std::shared_ptr<Entity> entity)
 
 void Scene::removeEntity(std::shared_ptr<Entity> entity)
 {
-   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(entity->partitionBounds);   
+   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(entity->partitionBounds);
 
    //remove moved entities from partition table
    for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
@@ -63,7 +63,7 @@ void Scene::setVisibleRects(std::vector<Rectf> rects)
    //set partitions to vis from supplied visRects
    for(auto &r : rects)
    {
-      Rectf cBounds = mapBounds.intersection(r);   
+      Rectf cBounds = mapBounds.intersection(r);
 
       for(int y = cBounds.top / m_partSize.y; y <= cBounds.bottom / m_partSize.y && y < m_pCount; ++y)
          for(int x = cBounds.left / m_partSize.x; x <= cBounds.right / m_partSize.x && x < m_pCount; ++x)
@@ -110,8 +110,8 @@ void Scene::update()
                   movedEntities.push_back(pe.second);
                }
             }
-         }            
-      }  
+         }
+      }
    }
 
    for(auto e : updatedEntities)
@@ -121,7 +121,7 @@ void Scene::update()
    for(auto e : deletedEntities)
       if(auto p = e.lock())
          removeEntity(p);
-   
+
    for(auto &pe : movedEntities)
    {
       if(auto p = pe.lock())
@@ -132,7 +132,7 @@ void Scene::update()
          //reinsert into new locations
          addEntity(p);
       }
-      
+
    }
 }
 
@@ -147,16 +147,16 @@ std::vector<std::shared_ptr<Entity>> Scene::getEntities()
             pe.first->updated = true;
             entities.push_back(pe.first);
          }
-   
+
    for(auto e : entities)
       e->updated = false;
 
    return std::move(entities);
 }
 
-std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf &bounds)
+std::vector<std::shared_ptr<Entity>> Scene::getEntities(Rectf bounds)
 {
-   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(bounds);   
+   Rectf cBounds = Rectf(0, 0, m_size.x, m_size.y).intersection(bounds);
    std::vector<std::shared_ptr<Entity>> entities;
    std::unordered_set<std::shared_ptr<Entity>> updatedEntities;
 

@@ -15,7 +15,7 @@
 
 #include "DrawTexture.h"
 #include "SeanSort.h"
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 
 
 
@@ -26,7 +26,7 @@ class SkeletalRenderable : public IRenderable
    RenderLayer layer;
    ICamera::Pass pass;
    bool nothingRendered;
-   
+
 public:
 
    SkeletalRenderable(Entity &entity, TransformList transforms, ComponentDrawLayer drawLayer)
@@ -41,7 +41,7 @@ public:
       layer = CompHelpers::getRenderLayer(entity);
 
       if(!transforms)
-         transforms = std::make_shared<std::vector<TransformPtr>>();      
+         transforms = std::make_shared<std::vector<TransformPtr>>();
 
       if(auto snc = entity.getComponent<SkeletalNodeComponent>())
       {
@@ -54,7 +54,7 @@ public:
             if(connection.second->entity)
             if(drawLayer == ComponentDrawLayer::Both ||
                connection.second->layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
-               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background)
             if(auto gb = entity.getComponent<GraphicalBoundsComponent>())
             {
                auto t2 = std::make_shared<Transform>(connection.second->transform);
@@ -68,30 +68,30 @@ public:
                nodes.push_back(std::move(node));
 
                transforms->pop_back();
-               
-            }            
-         } 
+
+            }
+         }
       }
-         
+
 
       //if drawing background
       if(drawLayer == ComponentDrawLayer::Background)
          transforms->pop_back();
 
       //sort nodes based on layerering
-      nodes = seanSort(std::move(nodes), 
+      nodes = seanSort(std::move(nodes),
          [&](const std::shared_ptr<SkeletalNode> &n1, const std::shared_ptr<SkeletalNode> &n2)->bool
-      { 
-         if(n1->layer < n2->layer) 
+      {
+         if(n1->layer < n2->layer)
             return true;
-         if(n1->layer > n2->layer) 
+         if(n1->layer > n2->layer)
             return false;
-      
+
          return n1 < n2;
       });
-            
 
-   }   
+
+   }
 
    bool hasDrawableConnections(Entity &entity, ComponentDrawLayer drawLayer)
    {
@@ -102,7 +102,7 @@ public:
             if(connection.second->entity)
             if(drawLayer == ComponentDrawLayer::Both ||
                connection.second->layer >= 0 && drawLayer == ComponentDrawLayer::Foreground ||
-               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background) 
+               connection.second->layer < 0 && drawLayer == ComponentDrawLayer::Background)
             if(entity.getComponent<GraphicalBoundsComponent>())
             {
                return true;
@@ -125,7 +125,7 @@ public:
             rManager->renderEntity(*e, node->transforms);
 
       return true;
-          
+
    }
 };
 
@@ -251,7 +251,7 @@ public:
          {
             m_texture = spr->sprite->getTexture(spr->face, spr->elapsedTime);
          }
-      }         
+      }
       else
       {
          m_texture = IOC.resolve<StringTable>()->get("");
@@ -264,7 +264,7 @@ public:
          m_tList = std::make_shared<std::vector<TransformPtr>>(*transforms);
          m_tList->push_back(std::make_shared<Transform>(m_transform));
       }
-         
+
    }
 
    //returns whether or not something was rendered
@@ -273,11 +273,11 @@ public:
       if(m_texture->size() > 0)
       {
          std::shared_ptr<IDrawObject> DO;
-         DO = m_tList ? 
-            renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_tList) : 
+         DO = m_tList ?
+            renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_tList) :
             renderer.drawTexture(pass, layer, m_texture, std::move(m_vertices), std::move(m_faces), m_transform);
          dynamic_cast<DrawTexture*>(DO.get())->setBlendFunc(blendS, blendD);
-      }        
+      }
       else
          if(m_tList)
             renderer.drawTriangles(pass, layer, std::move(m_vertices), std::move(m_faces), m_tList);

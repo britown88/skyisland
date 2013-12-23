@@ -16,12 +16,12 @@
 #include "TextComponent.h"
 #include "RotationComponent.h"
 #include "SkeletalNodeComponent.h"
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace CharacterEntities
 {
    std::shared_ptr<Entity> buildCharacter()
-   {      
+   {
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
 
@@ -32,7 +32,7 @@ namespace CharacterEntities
       Float2 rArmConn(0.0f / torsoSize, 4.0f / torsoSize);Float2 rArmCenter(4.0f / rArmSize, 2.0f / rArmSize);
       Float2 lArmConn(9.0f / torsoSize, 4.0f / torsoSize);Float2 lArmCenter(2.0f / lArmSize, 2.0f / lArmSize);
       Float2 rLegConn(2.0f / torsoSize, 8.0f / torsoSize);Float2 rLegCenter(3.0f / rLegSize, 3.0f / rLegSize);
-      Float2 lLegConn(7.0f / torsoSize, 8.0f / torsoSize);Float2 lLegCenter(3.0f / lLegSize, 3.0f / lLegSize);      
+      Float2 lLegConn(7.0f / torsoSize, 8.0f / torsoSize);Float2 lLegCenter(3.0f / lLegSize, 3.0f / lLegSize);
 
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(pixelMult * 25.0f, pixelMult * 25.0f), Float2(0.5f, 0.5f)));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
@@ -41,7 +41,7 @@ namespace CharacterEntities
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
-      
+
       auto skeleton = std::make_shared<Entity>();
       skeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(), Float2()));
       skeleton->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
@@ -49,10 +49,10 @@ namespace CharacterEntities
       auto nc = std::make_shared<SkeletalNodeComponent>();
       auto torsoNode = nc->addConnection(st->get("torso"), Float2());
       skeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
-      
+
       auto torso = buildBasicBodyPart("assets/body/torso.png", Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));
       torsoNode->entity = torso;
-         
+
       nc = std::make_shared<SkeletalNodeComponent>();
       auto headNode = nc->addConnection(st->get("head"), headConn);
       auto rArmNode = nc->addConnection(st->get("rightarm"), rArmConn);
@@ -66,7 +66,7 @@ namespace CharacterEntities
       lArmNode->entity = buildBasicBodyPart("assets/body/arm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
       rLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
       lLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
-      
+
       e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(skeleton));
       return e;
    }
@@ -93,17 +93,18 @@ namespace CharacterEntities
       //build hair
       auto item = std::make_shared<Entity>();
       CompHelpers::addRectangleMeshComponent(*item, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
-      item->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));      
+      item->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
       item->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(parentSize->size), Float2(parentSize->center)));
       item->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
-      
-      auto spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get(sprite), CharacterAnimationStrategy());
+
+      auto animStrat = CharacterAnimationStrategy();
+      auto spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get(sprite), &animStrat);
       item->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(spr), st->get("stand_down")));
-      
+
       //bindings
       item->addComponent<BindAnimationComponent>(std::make_shared<BindAnimationComponent>(e));
       item->addComponent<PositionBindComponent>(std::make_shared<PositionBindComponent>(e, Float2()));
-      
+
       //add children to scene
       item->addToScene(e->getScene());
 
@@ -112,10 +113,10 @@ namespace CharacterEntities
    }
 
    void buildCharacterChildren(std::shared_ptr<Entity> e)
-   {     
+   {
       auto app = IOC.resolve<Application>();
 
-      
+
       char *hairs[3] = {"assets/hair", "assets/hair:redhair", "assets/hair:bluehair"};
       char *clothes[3] = {"", ":redclothes", ":greenclothes"};
 
@@ -128,7 +129,7 @@ namespace CharacterEntities
       rand = app->rand(0, 4);
       if(rand != 3)  addClothesItem(e, hairs[rand]);
 
-      
+
 
    }
 
@@ -136,14 +137,14 @@ namespace CharacterEntities
    {
       auto e = std::make_shared<Entity>();
       auto st = IOC.resolve<StringTable>();
-      
+
       CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
       e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(), Float2(0.5f, 0.5f)));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
 
       CharacterAnimationStrategy animStrat;
-      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/attacks/sword"), animStrat);
+      auto sprite = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/attacks/sword"), &animStrat);
       e->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(sprite), st->get("swing_right")));
 
       e->addComponent<CollisionAreaComponent>(std::make_shared<CollisionAreaComponent>(Rectf(0.5f, 0.5f, 1.25, 1.25)));

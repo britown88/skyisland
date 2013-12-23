@@ -29,7 +29,7 @@ public:
    Scene(Float2 size, int sqrtPartitionCount);
 
    Float2 getSize();
-   
+
 
    //add an entitymanager that will get called when the scene is updated
    void registerEntityManager(std::shared_ptr<IEntityManager> em);
@@ -41,5 +41,5 @@ public:
    void update();
 
    std::vector<std::shared_ptr<Entity>> getEntities();
-   std::vector<std::shared_ptr<Entity>> getEntities(Rectf &bounds);
+   std::vector<std::shared_ptr<Entity>> getEntities(Rectf bounds);
 };

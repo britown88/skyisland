@@ -15,13 +15,13 @@ std::pair<fs::directory_iterator, fs::directory_iterator> iterateDirectory(fs::p
 
 void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animStrat, std::shared_ptr<Sprite> sprite, std::string &filters)
 {
-   auto face = std::unique_ptr<Face>(new Face()); 
+   auto face = std::unique_ptr<Face>(new Face());
    auto st = IOC.resolve<StringTable>();
 
    int i = 0;
    char buf[256];
    while(i < 100)
-   {         
+   {
       sprintf(buf, "%02i.png", i++);
       InternString fname = st->get(std::string(buf));
 
@@ -33,9 +33,9 @@ void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animSt
             face->textures.push_back(faceNode[fname].path);
 
       }
-         
+
       else
-         break;         
+         break;
    }
 
    if(i > 1)
@@ -68,10 +68,10 @@ void SpriteFactory::buildAssetIndex(std::string assetRoot)
    m_assetIndex = FSNode(st->get(assetRoot));
 
    iterateAssetDirectory(assetRoot, m_assetIndex);
-   
+
 }
 
-std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnimationStrategy &animStrat)
+std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnimationStrategy *animStrat)
 {
    std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>();
    auto st = IOC.resolve<StringTable>();
@@ -81,7 +81,7 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
 
    if(filterIndex != std::string::npos && filterIndex < filepath->length() - 1)
    {
-      //using filters      
+      //using filters
       filters = filepath->substr(filterIndex + 1);
       filepath = st->get(filepath->substr(0, filterIndex).c_str());
    }
@@ -99,12 +99,12 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
          auto part = st->get(pathParts[i]);
          if(node->children.find(part) != node->children.end())
          {
-            node = &node->children[part];   
-         }            
+            node = &node->children[part];
+         }
          else
             return sprite;
 
-      }         
+      }
    }
    else
       return sprite;
@@ -114,16 +114,16 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
    {
       //submitted a childrenless node
       auto face = std::unique_ptr<Face>(new Face());
-      face->animation = animStrat.createAnimation(st->get(""), 1);
+      face->animation = animStrat->createAnimation(st->get(""), 1);
       face->name = st->get("");
       face->textures.push_back(node->path);
       sprite->addFace(st->get(""), std::move(face));
    }
    else
    {
-      addFace(st->get(""), *node, animStrat, sprite, filters);
+      addFace(st->get(""), *node, *animStrat, sprite, filters);
       for(auto &child : node->children)
-         addFace(child.first, child.second, animStrat, sprite, filters);
+         addFace(child.first, child.second, *animStrat, sprite, filters);
    }
 
    return sprite;
