@@ -21,7 +21,7 @@ struct SNodeConnection
 class SkeletalNodeComponent : public IComponent
 {
 public:
-   const static int ID = 1964797685;
+   static const unsigned int ID = 1964797685;
    std::unordered_map<InternString, std::shared_ptr<SNodeConnection>> connections;
    std::shared_ptr<SNodeConnection> addConnection(InternString name, Float2 pos)
    {
@@ -33,7 +33,7 @@ public:
 class SkeletonComponent : public IComponent
 {
 public:
-   const static int ID = 1755713335;
+   static const unsigned int ID = 1755713335;
    InternString playingAnimation;
    float elapsedAnimTime, dtMultiplier;
    std::shared_ptr<Entity> entity;

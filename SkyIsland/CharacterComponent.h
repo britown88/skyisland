@@ -7,7 +7,7 @@
 class CharacterComponent : public IComponent
 {
 public:
-   static const int ID = 1933247510;
+   static const unsigned int ID = 1933247510;
 
    CharacterComponent(std::weak_ptr<Entity> e):controller(std::unique_ptr<CharacterController>(new CharacterController(std::move(e)))){}
 

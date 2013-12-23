@@ -1,19 +1,20 @@
 #include "Texture.h"
-
-#include "IL\ilut.h"
 #include <GLFW/glfw3.h>
+#include "IL/ilut.h"
+
 #include "IOCContainer.h"
 #include "StringTable.h"
 #include "ColorFilter.h"
 
+
 Texture::Texture(InternString filePath):
-   m_filename(filePath), m_isLoaded(false), 
+   m_filename(filePath), m_isLoaded(false),
    m_bitsPerPixel(0), m_size(Int2()), m_devilHandle(0), m_glHandle(0)
 {
 }
 
 Texture::Texture(InternString filePath, std::vector<std::string> filters):
-   m_filename(filePath), m_isLoaded(false), 
+   m_filename(filePath), m_isLoaded(false),
    m_bitsPerPixel(0), m_size(Int2()), m_devilHandle(0), m_glHandle(0)
 {
    auto st = IOC.resolve<StringTable>();
@@ -32,7 +33,7 @@ void Texture::acquire()
    ilGenImages(1, &m_devilHandle);
    ilBindImage(m_devilHandle);
    ilLoadImage((char*)m_filename->c_str());
-   
+
 
    //m_glHandle = ilutGLLoadImage((char*)m_filename->c_str());
    m_size.x = ilGetInteger(IL_IMAGE_WIDTH);
@@ -55,7 +56,7 @@ void Texture::acquire()
                if(filter.table.find(c) != filter.table.end())
                {
                   auto &c2 = filter.table[c];
-                  imageData[i*4] = c2.r; 
+                  imageData[i*4] = c2.r;
                   imageData[i*4+1] = c2.g;
                   imageData[i*4+2] = c2.b;
                   imageData[i*4+3] = c2.a;

@@ -17,7 +17,7 @@ class KeyHandler
    std::unordered_map<Keystroke, KeyEventList, ObjectHash<Keystroke>> m_events;
    std::unordered_map<Keystroke, KeyEventList*, ObjectHash<Keystroke>> m_stepEvents;
 public:
-   static const int ID = 588605129;
+   static const unsigned int ID = 588605129;
    void registerEvent(Keystroke key, KeyEvent *e);
 
    void runEvent(Keystroke key);

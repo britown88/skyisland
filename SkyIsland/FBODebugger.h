@@ -8,7 +8,7 @@ class FBODebugger
    ICamera::Pass m_pass;
    std::vector<KeyEvent> m_events;
 public:
-   static const int ID = 2341710366;
+   static const unsigned int ID = 2341710366;
 
    FBODebugger();
    ICamera::Pass getPass();

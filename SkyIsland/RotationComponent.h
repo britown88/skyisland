@@ -8,7 +8,7 @@ class RotationComponent : public IComponent
    float m_angle;
    Float2 m_point;
 public:
-   static const int ID = 3602444871;
+   static const unsigned int ID = 3602444871;
 
    RotationComponent(float angle, Float2 point):
       m_angle(angle), m_point(point){}

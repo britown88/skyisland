@@ -2,7 +2,7 @@
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
-#include FT_GLYPH_H 
+#include FT_GLYPH_H
 
 #include "Vector.h"
 #include <memory>
@@ -82,7 +82,7 @@ class FontEngine
    FT_Library m_library;
    std::unordered_map<TextFont, std::unique_ptr<Font>, FontHasher> m_fontMap;
 public:
-   static const int ID = 1719627241;
+   static const unsigned int ID = 1719627241;
    FontEngine();
    ~FontEngine();
    Font& getFont(TextFont const& font);

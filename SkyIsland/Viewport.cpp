@@ -1,5 +1,5 @@
 #include "Viewport.h"
-
+#include <memory>
 #include "Application.h"
 
 Viewport::Viewport(Float2 position, Float2 size, Float2 center, std::shared_ptr<ICamera> camera):
@@ -14,7 +14,7 @@ std::shared_ptr<ICamera> Viewport::getCamera(){return m_camera;}
 
 Rectf Viewport::getBounds()
 {
-   auto &winSize = IOC.resolve<Application>()->windowSize();
+   auto winSize = IOC.resolve<Application>()->windowSize();
    Rectf bounds = getWindowBounds();
    return Rectf(
       bounds.left,
@@ -43,11 +43,6 @@ void Viewport::setDrawnBounds(Rectf bounds){m_drawnBounds = bounds;}
 
 void Viewport::update() {}
 
-void Viewport::addChild(std::shared_ptr<IViewport> vp)
-{
-   m_children.push_back(vp.get());
-}
-
 ViewportList &Viewport::getChildren(){return m_children;}
 
 bool Viewport::hasMouseCallback(Keystroke k)
@@ -69,7 +64,7 @@ void Viewport::runMouseCallback(Keystroke k, Float2 pos)
 
 void addChildViewport(std::shared_ptr<IViewport> parent, std::shared_ptr<IViewport> child)
 {
-   parent->m_children.push_back(child.get());
-   child->setParent(parent);
+   std::dynamic_pointer_cast<Viewport>(parent)->m_children.push_back(child.get());
+   std::dynamic_pointer_cast<Viewport>(child)->setParent(parent);
 
 }

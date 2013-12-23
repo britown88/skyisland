@@ -12,7 +12,7 @@
 class GraphicalBoundsComponent : public IComponent
 {
 public:
-   static const int ID = 2867340569;
+   static const unsigned int ID = 2867340569;
 
    GraphicalBoundsComponent(Float2 size, Float2 center = Float2()):size(size), center(center){}
 
@@ -23,13 +23,13 @@ public:
 class LightComponent : public IComponent
 {
 public:
-   static const int ID = 3308791299;
+   static const int unsigned ID = 3308791299;
 };
 
 class SpriteComponent : public IComponent
 {
 public:
-   static const int ID = 1102563874;
+   static const int unsigned ID = 1102563874;
    std::shared_ptr<Sprite> sprite;
 
    float dtMultiplier, elapsedTime;
@@ -39,15 +39,15 @@ public:
       sprite(std::move(sprite)), dtMultiplier(1.0f), elapsedTime(0.0f), face(face){}
 
    void updateTime();
-   
-   
+
+
 };
 
 //used to keep faces and animspeed in sprites synced between two entities
 class BindAnimationComponent : public IComponent
 {
 public:
-   static const int ID = 1563562358;
+   static const unsigned int ID = 1563562358;
 
    BindAnimationComponent(std::weak_ptr<Entity> entity):entity(std::move(entity)){}
    std::weak_ptr<Entity> entity;
@@ -59,15 +59,15 @@ enum class RenderLayer
 {
    Backdrop,
    Default,
-   DamageMarkers,   
-   
+   DamageMarkers,
+
    COUNT
 };
 
 class LayerComponent : public IComponent
 {
 public:
-   static const int ID = 109205117;
+   static const unsigned int ID = 109205117;
    RenderLayer layer;
 
    LayerComponent(RenderLayer layer):layer(layer){}
@@ -81,7 +81,7 @@ typedef std::deque<std::weak_ptr<Entity>>::iterator ParentIter;
 class RenderParentComponent : public IComponent
 {
 public:
-   static const int ID = 329001145;
+   static const unsigned int ID = 329001145;
 
    RenderParentComponent(std::weak_ptr<Entity> parent):parent(std::move(parent)){}
 
@@ -92,9 +92,9 @@ public:
 class RenderChildrenComponent : public IComponent
 {
 public:
-   static const int ID = 3156851391;
+   static const unsigned int ID = 3156851391;
    int parentIndex;
-   
+
 
    RenderChildrenComponent():parentIndex(0){}
 
@@ -122,7 +122,7 @@ public:
       {
          children.insert(children.begin() + parentIndex, child);
          iter = children.begin() + parentIndex++;
-      }         
+      }
       else
       {
          children.push_back(child);
@@ -144,6 +144,6 @@ public:
       }
 
    }
-   
+
 };
 

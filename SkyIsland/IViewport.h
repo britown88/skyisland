@@ -35,11 +35,11 @@ public:
    virtual void registerMouseCallback(Keystroke k, MouseEvent *e)=0;
    virtual void runMouseCallback(Keystroke k, Float2 pos)=0;
 
-   friend void addChildViewport(std::shared_ptr<IViewport>, std::shared_ptr<IViewport>);
+
 
 };
 
-void addChildViewport(std::shared_ptr<IViewport> parent, std::shared_ptr<IViewport> child);
+
 
 typedef IntrusiveList<IViewport, &IViewport::hook> ill_ViewportList;
 

@@ -8,7 +8,7 @@
 class TextureComponent : public IComponent
 {
 public:
-   static const int ID = 2790841951;
+   static const unsigned int ID = 2790841951;
    unsigned int blendS, blendD;
    TextureComponent(InternString name);
    void setBlendFunc(unsigned int sFactor, unsigned int dFactor){blendS = sFactor; blendD = dFactor;}

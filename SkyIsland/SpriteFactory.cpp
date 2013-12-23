@@ -1,6 +1,6 @@
 #include "SpriteFactory.h"
 #include "Animations.h"
-#include <boost\filesystem.hpp>
+#include <boost/filesystem.hpp>
 #include "IntrusiveLinkedList.h"
 #include "IOCContainer.h"
 #include "StringTable.h"

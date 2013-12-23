@@ -11,12 +11,12 @@ struct GLFWmonitor;
 
 class GLWindow
 {
-   
+
 
    typedef std::vector<std::shared_ptr<IViewport> > ViewportList;
 
    GLFWwindow* m_window, *m_threadWin;
-   Int2 m_windowSize;   
+   Int2 m_windowSize;
    bool m_fullscreen;
 
    void registerCallbacks();
@@ -27,7 +27,7 @@ class GLWindow
    static void mouseCallback(GLFWwindow *window, int button, int action, int mode);
 
 public:
-   static const int ID = 3006192257;
+   static const unsigned int ID = 3006192257;
 
    GLWindow(Int2 winSize, std::string windowName);
    GLWindow(Int2 winSize, std::string windowName, GLFWmonitor *monitor);

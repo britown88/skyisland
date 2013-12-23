@@ -7,7 +7,7 @@
 class AttackComponent : public IComponent
 {
 public:
-   static const int ID = 3835124759;
+   static const unsigned int ID = 3835124759;
    //to contain:  attack type, damage, affects, etc
    //for now just a direction the attack is heading in
    Float2 attackDirection;
@@ -19,7 +19,7 @@ public:
 class DamageMarkerComponent : public IComponent
 {
 public:
-   static const int ID = 2176428309;
+   static const unsigned int ID = 2176428309;
    std::weak_ptr<Entity> marker;
 
    float startTime;

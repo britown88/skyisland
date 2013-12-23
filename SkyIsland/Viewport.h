@@ -37,5 +37,9 @@ public:
    bool hasMouseCallback(Keystroke k);
    void registerMouseCallback(Keystroke k, MouseEvent *e);
    void runMouseCallback(Keystroke k, Float2 pos);
+
+   friend void addChildViewport(std::shared_ptr<IViewport>, std::shared_ptr<IViewport>);
 };
+
+void addChildViewport(std::shared_ptr<IViewport> parent, std::shared_ptr<IViewport> child);
 

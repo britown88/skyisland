@@ -14,7 +14,7 @@ class SkeletalAnimationsManager
 {
    std::unordered_map<InternString, std::unique_ptr<SkeletalAnimation>> m_animations;
 public:
-   const static int ID = 369131931;
+   static const unsigned int ID = 369131931;
 
    boost::optional<SkeletalAnimation&> getAnimation(InternString name)
    {

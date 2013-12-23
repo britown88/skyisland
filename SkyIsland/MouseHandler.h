@@ -17,7 +17,7 @@ class MouseHandler
    bool _runCallback(Keystroke key, IViewport &vp, Float2 mPos);
 
 public:
-   static const int ID = 3325994233;
+   static const unsigned int ID = 3325994233;
    void runEvent(Keystroke key);
    Float2 mousePos();
 };

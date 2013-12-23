@@ -18,7 +18,7 @@ public:
 class ColorFilterManager
 {
 public:
-   static const int ID = 566953004;
+   static const unsigned int ID = 566953004;
 
    std::unordered_map<InternString, ColorFilter> filters;
 

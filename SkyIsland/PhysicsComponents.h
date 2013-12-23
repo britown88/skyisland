@@ -7,7 +7,7 @@
 class VelocityComponent : public IComponent
 {
 public:
-   static const int ID = 2678353989;
+   static const unsigned int ID = 2678353989;
    Float2 velocity;
    VelocityComponent(Float2 velocity):velocity(velocity){}
 };
@@ -15,7 +15,7 @@ public:
 class AccelerationComponent : public IComponent
 {
 public:
-   static const int ID = 2926389175;
+   static const unsigned int ID = 2926389175;
    Float2 direction;
    float acceleration;
    float maxVelocity;
@@ -26,15 +26,15 @@ public:
 class FrictionComponent : public IComponent
 {
 public:
-   static const int ID = 3508263007;
+   static const unsigned int ID = 3508263007;
    float friction;
    FrictionComponent(float friction):friction(friction){}
 };
 
 class ElevationComponent : public IComponent
-{   
+{
 public:
-   static const int ID = 658737599;
+   static const unsigned int ID = 658737599;
    float impulse;
    float elevation;
    float gravityStrength;
@@ -46,7 +46,7 @@ public:
 class PositionBindComponent : public IComponent
 {
 public:
-   static const int ID = 3545194511;
+   static const unsigned int ID = 3545194511;
    std::weak_ptr<Entity> entity;
    Float2 offset;
    PositionBindComponent(std::weak_ptr<Entity> entity, Float2 offset):
@@ -56,7 +56,7 @@ public:
 class CollisionAreaComponent : public IComponent
 {
 public:
-   static const int ID = 2877756257;
+   static const unsigned int ID = 2877756257;
 
    Rectf area;
    CollisionAreaComponent(Rectf area):area(area){}

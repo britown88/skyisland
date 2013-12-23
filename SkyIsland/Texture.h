@@ -2,6 +2,7 @@
 
 #include "ITexture.h"
 #include "StringTable.h"
+#include <vector>
 
 class Texture : public ITexture
 {

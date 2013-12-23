@@ -17,7 +17,7 @@ class Application : public std::enable_shared_from_this<Application>
    std::shared_ptr<Entity> m_taggedEntites[static_cast<int>(EntityTag::COUNT)];
 
 public:
-   static const int ID = 3070040466;
+   static const unsigned int ID = 3070040466;
    void start();
    void terminate();
    bool isRunning();

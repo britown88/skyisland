@@ -3,7 +3,7 @@
 #include "Sprite.h"
 #include "IAnimationStrategy.h"
 #include "StringTable.h"
-#include <unordered_map>
+#include <map>
 
 struct FSNode
 {
@@ -21,7 +21,7 @@ class SpriteFactory
    FSNode m_assetIndex;
 
 public:
-   static const int ID = 2909225244;
+   static const unsigned int ID = 2909225244;
    std::shared_ptr<Sprite> buildSprite(InternString filepath, IAnimationStrategy *animStrat);
    void buildAssetIndex(std::string assetRoot);
 };

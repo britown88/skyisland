@@ -30,7 +30,7 @@ class StringTable
 {
    std::unordered_map<const char *, std::string, StringHash, StringComp> m_table;
 public:
-   static const int ID = 2615106637;
+   static const unsigned int ID = 2615106637;
 
    std::string *get(const char *str)
    {
