@@ -32,8 +32,10 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-fpermissive" />
+			<Add option="-DILUT_USE_OPENGL" />
 			<Add directory="$(#boost)" />
-			<Add directory="SkyIsland" />
+			<Add directory="/usr/include/freetype2" />
 		</Compiler>
 		<Unit filename="SkyIsland/AIComponent.h" />
 		<Unit filename="SkyIsland/AIManager.cpp" />
@@ -164,7 +166,6 @@
 		<Unit filename="SkyIsland/Viewport.cpp" />
 		<Unit filename="SkyIsland/Viewport.h" />
 		<Unit filename="SkyIsland/WaitTask.h" />
-		<Unit filename="SkyIsland/ft2build.h" />
 		<Unit filename="SkyIsland/main.cpp" />
 		<Extensions>
 			<code_completion />

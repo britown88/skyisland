@@ -41,7 +41,7 @@
 	"Vector.h"
 	<algorithm>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/AIComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/AIComponent.h
 	"IComponent.h"
 	"CharacterAI.h"
 	<memory>
@@ -1241,7 +1241,7 @@
 1387665074 source:/home/p4r4digm/git/skyisland/SkyIsland/AnimationBuilders.cpp
 	"SkeletalAnimationsManager.h"
 
-1387763862 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimationsManager.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimationsManager.h
 	<unordered_map>
 	"IOCContainer.h"
 	"Application.h"
@@ -1251,20 +1251,20 @@
 	<boost/optional.hpp>
 	"IEntityManager.h"
 
-1387764241 /home/p4r4digm/git/skyisland/SkyIsland/Application.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/Application.h
 	"GLWindow.h"
 	<memory>
 	<stdlib.h>
 	<time.h>
 
-1387763723 /home/p4r4digm/git/skyisland/SkyIsland/GLWindow.h
+1387820972 /home/p4r4digm/git/skyisland/SkyIsland/GLWindow.h
 	<string>
 	"Vector.h"
 	<vector>
-	<IViewport.h>
+	"IViewport.h"
 	<memory>
 
-1387665074 /home/p4r4digm/git/skyisland/SkyIsland/IViewport.h
+1387771349 /home/p4r4digm/git/skyisland/SkyIsland/IViewport.h
 	"ICamera.h"
 	"Rect.h"
 	"IntrusiveLinkedList.h"
@@ -1300,7 +1300,7 @@
 
 1387219650 /home/p4r4digm/git/skyisland/SkyIsland/Keystroke.h
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/MouseHandler.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/MouseHandler.h
 	"IntrusiveLinkedList.h"
 	"Event.h"
 	"Vector.h"
@@ -1312,7 +1312,7 @@
 	<memory>
 	<functional>
 
-1387766365 /home/p4r4digm/git/skyisland/SkyIsland/StringTable.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/StringTable.h
 	<string>
 	<unordered_map>
 	<string.h>
@@ -1327,15 +1327,15 @@
 	"SkeletalNodeComponent.h"
 	"Transform.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/PositionComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/PositionComponent.h
 	"Vector.h"
 	"IComponent.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/RotationComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/RotationComponent.h
 	"IComponent.h"
 	"Vector.h"
 
-1387665075 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalNodeComponent.h
+1387772103 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalNodeComponent.h
 	"IComponent.h"
 	"Transform.h"
 	"StringTable.h"
@@ -1343,7 +1343,7 @@
 	<unordered_map>
 	<memory>
 
-1387766006 source:/home/p4r4digm/git/skyisland/SkyIsland/Application.cpp
+1387776382 source:/home/p4r4digm/git/skyisland/SkyIsland/Application.cpp
 	<GLFW/glfw3.h>
 	"Application.h"
 	"RenderManager.h"
@@ -1362,7 +1362,7 @@
 	<chrono>
 	<thread>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/GLFW/glfw3.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/GLFW/glfw3.h
 	<stddef.h>
 	<OpenGL/gl3.h>
 	<OpenGL/gl.h>
@@ -1374,7 +1374,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1387665075 /home/p4r4digm/git/skyisland/SkyIsland/RenderManager.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/RenderManager.h
 	"GLWindow.h"
 	"IRenderer.h"
 	"RenderThread.h"
@@ -1404,7 +1404,7 @@
 	"GnUtilities.h"
 	<map>
 
-1387665074 /home/p4r4digm/git/skyisland/SkyIsland/GraphicComponents.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/GraphicComponents.h
 	"IComponent.h"
 	"Vector.h"
 	"Sprite.h"
@@ -1429,8 +1429,8 @@
 	<unordered_map>
 	<exception>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/Text.h
-	"ft2build.h"
+1387823286 /home/p4r4digm/git/skyisland/SkyIsland/Text.h
+	<ft2build.h>
 	"Vector.h"
 	<memory>
 	<string>
@@ -1440,7 +1440,7 @@
 1387219651 /home/p4r4digm/git/skyisland/SkyIsland/ft2build.h
 	<freetype/config/ftheader.h>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/freetype/config/ftheader.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/freetype/config/ftheader.h
 
 1387665075 /home/p4r4digm/git/skyisland/SkyIsland/RenderThread.h
 	"IRenderer.h"
@@ -1451,7 +1451,7 @@
 	<thread>
 	<atomic>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/TextureManager.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/TextureManager.h
 	"ITexture.h"
 	"StringTable.h"
 	<unordered_map>
@@ -1469,7 +1469,7 @@
 	"Rect.h"
 	"IEntityManager.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/KeyHandler.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/KeyHandler.h
 	"Keystroke.h"
 	"IKeyEvent.h"
 	<unordered_map>
@@ -1482,16 +1482,16 @@
 
 1387219650 /home/p4r4digm/git/skyisland/SkyIsland/ObjectHash.h
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/ColorFilter.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/ColorFilter.h
 	"Color.h"
 	"StringTable.h"
 	<unordered_map>
 
-1387766633 /home/p4r4digm/git/skyisland/SkyIsland/SpriteFactory.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/SpriteFactory.h
 	"Sprite.h"
 	"IAnimationStrategy.h"
 	"StringTable.h"
-	<unordered_map>
+	<map>
 
 1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IAnimationStrategy.h
 	"IAnimation.h"
@@ -1499,7 +1499,7 @@
 	<memory>
 	<string>
 
-1387665074 /home/p4r4digm/git/skyisland/SkyIsland/FBODebugger.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/FBODebugger.h
 	"ICamera.h"
 	"KeyHandler.h"
 
@@ -1515,7 +1515,7 @@
 1387219650 /home/p4r4digm/git/skyisland/SkyIsland/AttackManager.h
 	"IEntityManager.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/CharacterComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/CharacterComponent.h
 	"IComponent.h"
 	"CharacterController.h"
 	<memory>
@@ -1528,12 +1528,12 @@
 	"StringTable.h"
 	"GameComponents.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/GameComponents.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/GameComponents.h
 	"IComponent.h"
 	"Vector.h"
 	"Entity.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/PhysicsComponents.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/PhysicsComponents.h
 	"IComponent.h"
 	"Vector.h"
 
@@ -1641,7 +1641,7 @@
 1387665074 /home/p4r4digm/git/skyisland/SkyIsland/CharacterEntities.h
 	"Entity.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/TextComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/TextComponent.h
 	"IComponent.h"
 	"Text.h"
 
@@ -1665,7 +1665,7 @@
 	"SkeletalNodeComponent.h"
 	<GLFW/glfw3.h>
 
-1387665075 /home/p4r4digm/git/skyisland/SkyIsland/TextureComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/TextureComponent.h
 	"IComponent.h"
 	"StringTable.h"
 	"Vector.h"
@@ -1714,7 +1714,7 @@
 	"SkeletalNodeComponent.h"
 	<vector>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/MeshComponent.h
+1387772106 /home/p4r4digm/git/skyisland/SkyIsland/MeshComponent.h
 	"IComponent.h"
 	"IRenderable.h"
 	<memory>
@@ -1741,7 +1741,7 @@
 	"IOCContainer.h"
 	"FBODebugger.h"
 
-1387665074 /home/p4r4digm/git/skyisland/SkyIsland/GL/glew.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/GL/glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -1800,7 +1800,7 @@
 	"FBODebugger.h"
 	"GLFW/glfw3.h"
 
-1387767014 source:/home/p4r4digm/git/skyisland/SkyIsland/GLWindow.cpp
+1387770993 source:/home/p4r4digm/git/skyisland/SkyIsland/GLWindow.cpp
 	"GL/glew.h"
 	<GLFW/glfw3.h>
 	"GLWindow.h"
@@ -1811,15 +1811,15 @@
 	"IL/ilut.h"
 	"GnUtilities.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IL/il.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/il.h
 	<stdio.h>
 	<limits.h>
 	<wchar.h>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilu.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilu.h
 	<IL/il.h>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilut.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilut.h
 	<IL/il.h>
 	<IL/ilu.h>
 	"IL/config.h"
@@ -1845,9 +1845,9 @@
 	<X11/extensions/XShm.h>
 	<allegro.h>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IL/config.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/config.h
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilut_config.h
+1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/ilut_config.h
 
 1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/KeyHandler.cpp
 	<GLFW/glfw3.h>
@@ -3778,4 +3778,547 @@
 	<boost/algorithm/string/find_format.hpp>
 	<boost/algorithm/string/finder.hpp>
 	<boost/algorithm/string/formatter.hpp>
+
+1387770462 source:/home/p4r4digm/git/skyisland/SkyIsland/SkyApp.cpp
+	<GLFW/glfw3.h>
+	"SkyApp.h"
+	"Viewport.h"
+	"Camera.h"
+	"Scene.h"
+	"RenderManager.h"
+	"SpriteFactory.h"
+	"Color.h"
+	"MeshComponent.h"
+	"PositionComponent.h"
+	"RotationComponent.h"
+	"PhysicsComponents.h"
+	"GraphicComponents.h"
+	"TextureComponent.h"
+	"CharacterComponent.h"
+	"SkeletalNodeComponent.h"
+	"PhysicsManager.h"
+	"CharacterAnimationManager.h"
+	"CharacterManager.h"
+	"AIManager.h"
+	"AIComponent.h"
+	"AttackManager.h"
+	"DamageMarkerManager.h"
+	"IKeyEvent.h"
+	"KeyHandler.h"
+	"MouseHandler.h"
+	"CharacterController.h"
+	"CharacterInputHandler.h"
+	"CameraController.h"
+	"CameraStrategies.h"
+	"ComponentHelpers.h"
+	"CharacterAnimationStrategy.h"
+	"CharacterEntities.h"
+	"ColorFilter.h"
+	"SkeletalAnimation.h"
+	"SkeletalAnimationsManager.h"
+	<unordered_map>
+
+1387771321 /home/p4r4digm/git/skyisland/SkyIsland/Viewport.h
+	"IViewport.h"
+	"Camera.h"
+	"ObjectHash.h"
+	"FBO.h"
+	<unordered_map>
+
+1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/SpriteComponent.cpp
+	"GraphicComponents.h"
+	"IOCContainer.h"
+	"Application.h"
+
+1387770543 source:/home/p4r4digm/git/skyisland/SkyIsland/SpriteFactory.cpp
+	"SpriteFactory.h"
+	"Animations.h"
+	<boost/filesystem.hpp>
+	"IntrusiveLinkedList.h"
+	"IOCContainer.h"
+	"StringTable.h"
+	<boost/algorithm/string.hpp>
+
+1379794620 /home/p4r4digm/boost_1_55_0/boost/filesystem.hpp
+	<boost/filesystem/config.hpp>
+	<boost/filesystem/path.hpp>
+	<boost/filesystem/operations.hpp>
+	<boost/filesystem/convenience.hpp>
+
+1337607883 /home/p4r4digm/boost_1_55_0/boost/filesystem/config.hpp
+	<boost/config.hpp>
+	<boost/system/api_config.hpp>
+	<boost/detail/workaround.hpp>
+	<boost/config/auto_link.hpp>
+
+1278413250 /home/p4r4digm/boost_1_55_0/boost/system/api_config.hpp
+
+1379436951 /home/p4r4digm/boost_1_55_0/boost/config/auto_link.hpp
+	<boost/config.hpp>
+	<boost/version.hpp>
+
+1379794620 /home/p4r4digm/boost_1_55_0/boost/version.hpp
+
+1337607883 /home/p4r4digm/boost_1_55_0/boost/filesystem/path.hpp
+	<boost/config.hpp>
+	<boost/filesystem/config.hpp>
+	<boost/filesystem/path_traits.hpp>
+	<boost/system/error_code.hpp>
+	<boost/system/system_error.hpp>
+	<boost/iterator/iterator_facade.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/io/detail/quoted_manip.hpp>
+	<boost/static_assert.hpp>
+	<boost/functional/hash_fwd.hpp>
+	<boost/type_traits/is_integral.hpp>
+	<string>
+	<iterator>
+	<cstring>
+	<iosfwd>
+	<stdexcept>
+	<cassert>
+	<locale>
+	<algorithm>
+	<boost/config/abi_prefix.hpp>
+	<boost/config/abi_suffix.hpp>
+
+1337607883 /home/p4r4digm/boost_1_55_0/boost/filesystem/path_traits.hpp
+	<boost/config.hpp>
+	<boost/filesystem/config.hpp>
+	<boost/utility/enable_if.hpp>
+	<boost/type_traits/is_array.hpp>
+	<boost/type_traits/decay.hpp>
+	<boost/system/error_code.hpp>
+	<cwchar>
+	<string>
+	<vector>
+	<list>
+	<iterator>
+	<locale>
+	<boost/assert.hpp>
+	<boost/config/abi_prefix.hpp>
+	<boost/config/abi_suffix.hpp>
+
+1206222355 /home/p4r4digm/boost_1_55_0/boost/type_traits/decay.hpp
+	<boost/type_traits/config.hpp>
+	<boost/type_traits/is_array.hpp>
+	<boost/type_traits/is_function.hpp>
+	<boost/type_traits/remove_bounds.hpp>
+	<boost/type_traits/add_pointer.hpp>
+	<boost/type_traits/remove_reference.hpp>
+	<boost/mpl/eval_if.hpp>
+	<boost/mpl/identity.hpp>
+
+1364156429 /home/p4r4digm/boost_1_55_0/boost/system/error_code.hpp
+	<boost/system/config.hpp>
+	<boost/cstdint.hpp>
+	<boost/assert.hpp>
+	<boost/operators.hpp>
+	<boost/noncopyable.hpp>
+	<boost/utility/enable_if.hpp>
+	<ostream>
+	<string>
+	<stdexcept>
+	<functional>
+	<boost/cerrno.hpp>
+	<boost/config/abi_prefix.hpp>
+	<boost/config/abi_suffix.hpp>
+	<boost/../libs/system/src/error_code.cpp>
+
+1337607598 /home/p4r4digm/boost_1_55_0/boost/system/config.hpp
+	<boost/config.hpp>
+	<boost/system/api_config.hpp>
+	<boost/config/auto_link.hpp>
+
+1301000496 /home/p4r4digm/boost_1_55_0/boost/operators.hpp
+	<boost/config.hpp>
+	<boost/iterator.hpp>
+	<boost/detail/workaround.hpp>
+
+1365860992 /home/p4r4digm/boost_1_55_0/boost/noncopyable.hpp
+	<boost/config.hpp>
+
+1195144266 /home/p4r4digm/boost_1_55_0/boost/cerrno.hpp
+	<cerrno>
+
+1216118512 /home/p4r4digm/boost_1_55_0/boost/config/abi_prefix.hpp
+	<boost/config.hpp>
+
+1216118512 /home/p4r4digm/boost_1_55_0/boost/config/abi_suffix.hpp
+
+1382829953 /home/p4r4digm/boost_1_55_0/libs/system/src/error_code.cpp
+	<boost/config/warning_disable.hpp>
+	<boost/system/config.hpp>
+	<boost/system/error_code.hpp>
+	<boost/cerrno.hpp>
+	<vector>
+	<cstdlib>
+	<cassert>
+	<cstring>
+	<windows.h>
+	"local_free_on_destruction.hpp"
+
+1303733448 /home/p4r4digm/boost_1_55_0/boost/config/warning_disable.hpp
+
+1278413250 /home/p4r4digm/boost_1_55_0/libs/system/src/local_free_on_destruction.hpp
+
+1364156429 /home/p4r4digm/boost_1_55_0/boost/system/system_error.hpp
+	<string>
+	<stdexcept>
+	<cassert>
+	<boost/system/error_code.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/shared_ptr.hpp
+	<boost/smart_ptr/shared_ptr.hpp>
+
+1361035283 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/shared_ptr.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/shared_ptr_nmt.hpp>
+	<boost/config/no_tr1/memory.hpp>
+	<boost/assert.hpp>
+	<boost/checked_delete.hpp>
+	<boost/throw_exception.hpp>
+	<boost/smart_ptr/detail/shared_count.hpp>
+	<boost/detail/workaround.hpp>
+	<boost/smart_ptr/detail/sp_convertible.hpp>
+	<boost/smart_ptr/detail/sp_nullptr_t.hpp>
+	<boost/smart_ptr/detail/spinlock_pool.hpp>
+	<boost/memory_order.hpp>
+	<algorithm>
+	<functional>
+	<typeinfo>
+	<cstddef>
+	<iosfwd>
+	<ostream>
+	<boost/smart_ptr/detail/operator_bool.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/shared_ptr_nmt.hpp
+	<boost/assert.hpp>
+	<boost/checked_delete.hpp>
+	<boost/throw_exception.hpp>
+	<boost/smart_ptr/detail/atomic_count.hpp>
+	<memory>
+	<algorithm>
+	<functional>
+	<new>
+
+1092330787 /home/p4r4digm/boost_1_55_0/boost/checked_delete.hpp
+
+1240136270 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/sp_has_sync.hpp>
+	<boost/smart_ptr/detail/atomic_count_pthreads.hpp>
+	<boost/smart_ptr/detail/atomic_count_gcc_x86.hpp>
+	<boost/smart_ptr/detail/atomic_count_win32.hpp>
+	<boost/smart_ptr/detail/atomic_count_sync.hpp>
+	<boost/smart_ptr/detail/atomic_count_gcc.hpp>
+	<boost/smart_ptr/detail/atomic_count_pthreads.hpp>
+
+1352894278 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_has_sync.hpp
+
+1240136270 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count_pthreads.hpp
+	<pthread.h>
+
+1240136270 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count_gcc_x86.hpp
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count_win32.hpp
+	<boost/detail/interlocked.hpp>
+
+1382623313 /home/p4r4digm/boost_1_55_0/boost/detail/interlocked.hpp
+	<boost/config.hpp>
+	<windows.h>
+	<intrin.h>
+	<intrin.h>
+	<intrin.h>
+
+1240136270 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count_sync.hpp
+	<ia64intrin.h>
+
+1240136270 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/atomic_count_gcc.hpp
+	<ext/atomicity.h>
+	<bits/atomicity.h>
+
+1362644328 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/shared_count.hpp
+	<boost/config.hpp>
+	<boost/checked_delete.hpp>
+	<boost/throw_exception.hpp>
+	<boost/smart_ptr/bad_weak_ptr.hpp>
+	<boost/smart_ptr/detail/sp_counted_base.hpp>
+	<boost/smart_ptr/detail/sp_counted_impl.hpp>
+	<boost/detail/workaround.hpp>
+	<boost/config/no_tr1/memory.hpp>
+	<functional>
+	<new>
+	<boost/utility/addressof.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/bad_weak_ptr.hpp
+	<exception>
+
+1355410389 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/sp_has_sync.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_nt.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_spin.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_pt.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_nt.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_snc_ps3.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_acc_ia64.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_gcc_ia64.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_vacpp_ppc.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_cw_ppc.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_gcc_ppc.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_gcc_mips.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_sync.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_gcc_sparc.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_w32.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_aix.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_nt.hpp>
+	<boost/smart_ptr/detail/sp_counted_base_spin.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_nt.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_spin.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<boost/smart_ptr/detail/spinlock_pool.hpp>
+
+1300836575 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_pool.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/spinlock.hpp>
+	<cstddef>
+
+1300839234 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/sp_has_sync.hpp>
+	<boost/smart_ptr/detail/spinlock_pt.hpp>
+	<boost/smart_ptr/detail/spinlock_gcc_arm.hpp>
+	<boost/smart_ptr/detail/spinlock_sync.hpp>
+	<boost/smart_ptr/detail/spinlock_w32.hpp>
+	<boost/smart_ptr/detail/spinlock_pt.hpp>
+	<boost/smart_ptr/detail/spinlock_nt.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_pt.hpp
+	<pthread.h>
+
+1352891868 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_gcc_arm.hpp
+	<boost/smart_ptr/detail/yield_k.hpp>
+
+1382623526 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/yield_k.hpp
+	<boost/config.hpp>
+	<windows.h>
+	<sched.h>
+	<time.h>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_sync.hpp
+	<boost/smart_ptr/detail/yield_k.hpp>
+	<ia64intrin.h>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_w32.hpp
+	<boost/detail/interlocked.hpp>
+	<boost/smart_ptr/detail/yield_k.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/spinlock_nt.hpp
+	<boost/assert.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_pt.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<pthread.h>
+
+1356278847 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_snc_ps3.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<inttypes.h>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_acc_ia64.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<machine/sys/inline.h>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_gcc_ia64.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_vacpp_ppc.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_cw_ppc.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_gcc_ppc.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_gcc_mips.hpp
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_sync.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<limits.h>
+	<ia64intrin.h>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_gcc_sparc.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<inttypes.h>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_w32.hpp
+	<boost/detail/interlocked.hpp>
+	<boost/detail/workaround.hpp>
+	<boost/detail/sp_typeinfo.hpp>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_base_aix.hpp
+	<boost/detail/sp_typeinfo.hpp>
+	<builtins.h>
+	<sys/atomic_op.h>
+
+1355410632 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_counted_impl.hpp
+	<boost/config.hpp>
+	<boost/checked_delete.hpp>
+	<boost/smart_ptr/detail/sp_counted_base.hpp>
+	<boost/smart_ptr/detail/quick_allocator.hpp>
+	<memory>
+	<cstddef>
+
+1260812659 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/quick_allocator.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/lightweight_mutex.hpp>
+	<boost/type_traits/type_with_alignment.hpp>
+	<boost/type_traits/alignment_of.hpp>
+	<new>
+	<cstddef>
+
+1236011851 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/lightweight_mutex.hpp
+	<boost/config.hpp>
+	<boost/smart_ptr/detail/lwm_nop.hpp>
+	<boost/smart_ptr/detail/lwm_pthreads.hpp>
+	<boost/smart_ptr/detail/lwm_win32_cs.hpp>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/lwm_nop.hpp
+
+1259612701 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/lwm_pthreads.hpp
+	<boost/assert.hpp>
+	<pthread.h>
+
+1236010936 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/lwm_win32_cs.hpp
+	<windows.h>
+
+1352901131 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_convertible.hpp
+	<boost/config.hpp>
+
+1357774891 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/sp_nullptr_t.hpp
+	<boost/config.hpp>
+	<cstddef>
+
+1259862637 /home/p4r4digm/boost_1_55_0/boost/memory_order.hpp
+
+1355250921 /home/p4r4digm/boost_1_55_0/boost/smart_ptr/detail/operator_bool.hpp
+
+1295032915 /home/p4r4digm/boost_1_55_0/boost/io/detail/quoted_manip.hpp
+	<iosfwd>
+	<ios>
+	<string>
+	<iterator>
+	<boost/io/ios_state.hpp>
+
+1262768123 /home/p4r4digm/boost_1_55_0/boost/io/ios_state.hpp
+	<boost/io_fwd.hpp>
+	<boost/detail/workaround.hpp>
+	<ios>
+	<locale>
+	<ostream>
+	<streambuf>
+	<string>
+
+1092564829 /home/p4r4digm/boost_1_55_0/boost/io_fwd.hpp
+	<iosfwd>
+
+1236811869 /home/p4r4digm/boost_1_55_0/boost/functional/hash_fwd.hpp
+	<boost/functional/hash/hash_fwd.hpp>
+
+1236811869 /home/p4r4digm/boost_1_55_0/boost/functional/hash/hash_fwd.hpp
+	<boost/config.hpp>
+	<cstddef>
+	<boost/detail/workaround.hpp>
+
+1337607883 /home/p4r4digm/boost_1_55_0/boost/filesystem/operations.hpp
+	<boost/config.hpp>
+	<boost/filesystem/config.hpp>
+	<boost/filesystem/path.hpp>
+	<boost/detail/scoped_enum_emulation.hpp>
+	<boost/detail/bitmask.hpp>
+	<boost/system/error_code.hpp>
+	<boost/system/system_error.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/utility/enable_if.hpp>
+	<boost/type_traits/is_same.hpp>
+	<boost/iterator.hpp>
+	<boost/cstdint.hpp>
+	<boost/assert.hpp>
+	<string>
+	<utility>
+	<ctime>
+	<vector>
+	<stack>
+	<fstream>
+	<boost/config/abi_prefix.hpp>
+	<boost/config/abi_suffix.hpp>
+
+1379794620 /home/p4r4digm/boost_1_55_0/boost/detail/scoped_enum_emulation.hpp
+	<boost/config.hpp>
+	<boost/detail/workaround.hpp>
+
+1297779522 /home/p4r4digm/boost_1_55_0/boost/detail/bitmask.hpp
+	<boost/cstdint.hpp>
+
+1337607883 /home/p4r4digm/boost_1_55_0/boost/filesystem/convenience.hpp
+	<boost/config.hpp>
+	<boost/filesystem/operations.hpp>
+	<boost/system/error_code.hpp>
+	<boost/config/abi_prefix.hpp>
+	<boost/config/abi_suffix.hpp>
+
+1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/Text.cpp
+	"Text.h"
+	<GLFW/glfw3.h>
+
+1387820850 source:/home/p4r4digm/git/skyisland/SkyIsland/Texture.cpp
+	"Texture.h"
+	<GLFW/glfw3.h>
+	<IL/ilut.h>
+	"IOCContainer.h"
+	"StringTable.h"
+	"ColorFilter.h"
+
+1387770626 /home/p4r4digm/git/skyisland/SkyIsland/Texture.h
+	"ITexture.h"
+	"StringTable.h"
+	<vector>
+
+1387771099 source:/home/p4r4digm/git/skyisland/SkyIsland/TextureComponent.cpp
+	"TextureComponent.h"
+	"GLFW/glfw3.h"
+
+1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/TextureManager.cpp
+	"TextureManager.h"
+	"Texture.h"
+	"IOCContainer.h"
+	"StringTable.h"
+	<boost/algorithm/string.hpp>
+
+1387665075 source:/home/p4r4digm/git/skyisland/SkyIsland/Transform.cpp
+	<GLFW/glfw3.h>
+	"Transform.h"
+	"Entity.h"
+	"RotationComponent.h"
+	"GraphicComponents.h"
+	"PositionComponent.h"
+	"PhysicsComponents.h"
+
+1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/Vertex.cpp
+	"Vertex.h"
+	<GLFW/glfw3.h>
+
+1387771359 source:/home/p4r4digm/git/skyisland/SkyIsland/Viewport.cpp
+	"Viewport.h"
+	<memory>
+	"Application.h"
 

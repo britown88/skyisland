@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include <GLFW/glfw3.h>
-#include "IL/ilut.h"
+#include <IL/ilut.h>
 
 #include "IOCContainer.h"
 #include "StringTable.h"
