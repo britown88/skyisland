@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-#include <boost\optional.hpp>
+#include <boost/optional.hpp>
 
 class IOCContainer
 {
@@ -17,7 +17,7 @@ public:
    {
       if(!m_typeInstanceMap.empty() && m_typeInstanceMap.find(T::ID) != m_typeInstanceMap.end())
          return *std::static_pointer_cast<T>(m_typeInstanceMap[T::ID]);
-      else 
+      else
          return boost::none;
    }
 

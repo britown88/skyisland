@@ -6,7 +6,7 @@
 #include "StringTable.h"
 #include "SkeletalAnimation.h"
 #include <memory>
-#include <boost\optional.hpp>
+#include <boost/optional.hpp>
 #include "IEntityManager.h"
 
 
@@ -29,7 +29,7 @@ public:
       m_animations.insert(std::make_pair(IOC.resolve<StringTable>()->get(name), std::move(anim)));
    }
 
-   
+
 
 };
 

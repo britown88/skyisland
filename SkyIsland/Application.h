@@ -3,18 +3,18 @@
 #include "GLWindow.h"
 #include <memory>
 #include <stdlib.h>
-#include <time.h> 
+#include <time.h>
 
-enum class EntityTag
+enum class EntityTag : int
 {
-   PlayerControlled,
+   PlayerControlled = 0,
    COUNT
 };
 
 
 class Application : public std::enable_shared_from_this<Application>
 {
-   std::shared_ptr<Entity> m_taggedEntites[EntityTag::COUNT];
+   std::shared_ptr<Entity> m_taggedEntites[static_cast<int>(EntityTag::COUNT)];
 
 public:
    static const int ID = 3070040466;
@@ -34,10 +34,10 @@ public:
    std::shared_ptr<Application> getptr() {return shared_from_this();}
 
    std::shared_ptr<Entity> getTag(EntityTag tag);
-   void setTag(EntityTag tag, std::shared_ptr<Entity> entity); 
+   void setTag(EntityTag tag, std::shared_ptr<Entity> entity);
 
 protected:
-   
+
 
    std::shared_ptr<GLWindow> m_window;
    bool m_appRunning;
@@ -52,5 +52,5 @@ protected:
    virtual void onStep(){}
    virtual void onTerminate(){}
 
-   
+
 };

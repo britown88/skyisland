@@ -6,11 +6,11 @@
 #include <bitset>
 #include <vector>
 
-typedef int vint;//FUCK YOOOOOOUUUUUUU
+typedef unsigned int vint;//FUCK YOOOOOOUUUUUUU
 
-enum class VertexComponent
+enum class VertexComponent : vint
 {
-   Position,
+   Position=0,
    Color,
    TextureCoordinate,
    COUNT
@@ -54,7 +54,7 @@ inline size_t sizeOfComponent(VertexComponent vc)
 
 typedef std::bitset<(size_t)VertexComponent::COUNT> VertexFlags;
 
-//If you're reading this code comtime in the future I just want to remind 
+//If you're reading this code comtime in the future I just want to remind
 //you that Sean is a fag and likes to suck a million cocks in space.
 class VertexBuilder
 {
@@ -88,7 +88,7 @@ public:
    {
       return m_first != m_last;
    }
-   
+
    void moveNext()
    {
       m_first += m_vertexSize;
@@ -97,7 +97,7 @@ public:
    template<VertexComponent vc>
    typename VertexComponentType<vc>::type *get()
    {
-      return m_flags[(vint)vc] ? (VertexComponentType<vc>::type*)(m_first + m_offsets[(vint)vc]) : nullptr;
+      return m_flags[static_cast<vint>(vc)] ? (typename VertexComponentType<vc>::type*)(m_first + m_offsets[static_cast<vint>(vc)]) : nullptr;
    }
 };
 
@@ -105,7 +105,7 @@ class VertexList
 {
    VertexFlags m_flags;
    size_t m_vertexSize;
-   size_t m_componentOffset[VertexComponent::COUNT];
+   size_t m_componentOffset[static_cast<vint>(VertexComponent::COUNT)];
 
    std::vector<char> m_bytes;
 
@@ -113,7 +113,7 @@ public:
    VertexList(VertexFlags flags):m_flags(flags){build();}
 
    VertexList(const VertexList &rhs):
-      m_flags(VertexFlags(rhs.m_flags)), m_vertexSize(rhs.m_vertexSize), 
+      m_flags(VertexFlags(rhs.m_flags)), m_vertexSize(rhs.m_vertexSize),
       m_bytes(std::vector<char>(rhs.m_bytes))
    {
       for(int i = 0; i < (int)VertexComponent::COUNT; ++i)
@@ -121,7 +121,7 @@ public:
    }
 
    VertexList(VertexList && ref):
-      m_flags(std::move(ref.m_flags)), m_vertexSize(ref.m_vertexSize), 
+      m_flags(std::move(ref.m_flags)), m_vertexSize(ref.m_vertexSize),
       m_bytes(std::move(ref.m_bytes))
    {
       for(int i = 0; i < (int)VertexComponent::COUNT; ++i)
@@ -164,7 +164,7 @@ public:
 class VertexListFactory
 {
    VertexListFactory(){}//I DONT THINK YOU ARE COMPREHENDING JUST HOW MANY COCKS WE ARE TALKING HERE
-   
+
    VertexFlags m_flags;
 
    friend VertexListFactory createVertexList();

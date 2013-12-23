@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <string.h>
 
 struct StringHash
 {
@@ -19,11 +20,11 @@ struct StringComp
 {
    bool operator()(const char *lhs, const char *rhs) const
    {
-      return strcmp(lhs, rhs) == 0;
+      return strcasecmp(lhs, rhs) == 0;
    }
 };
 
-typedef std::string* InternString; 
+typedef std::string* InternString;
 
 class StringTable
 {
@@ -41,8 +42,8 @@ public:
          strcpy((char*)tempStrPtrBadVariableName, temp.c_str());
          iter = m_table.insert(std::make_pair(tempStrPtrBadVariableName, std::move(temp))).first;
 
-      } 
-      
+      }
+
       return &iter->second;
    }
 

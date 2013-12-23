@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="skyisland" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/skyisland" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/skyisland" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add directory="$(#boost)" />
+			<Add directory="SkyIsland" />
+		</Compiler>
+		<Unit filename="SkyIsland/AIComponent.h" />
+		<Unit filename="SkyIsland/AIManager.cpp" />
+		<Unit filename="SkyIsland/AIManager.h" />
+		<Unit filename="SkyIsland/AnimationBuilders.cpp" />
+		<Unit filename="SkyIsland/Animations.h" />
+		<Unit filename="SkyIsland/Application.cpp" />
+		<Unit filename="SkyIsland/Application.h" />
+		<Unit filename="SkyIsland/AttackManager.cpp" />
+		<Unit filename="SkyIsland/AttackManager.h" />
+		<Unit filename="SkyIsland/Camera.cpp" />
+		<Unit filename="SkyIsland/Camera.h" />
+		<Unit filename="SkyIsland/CameraController.cpp" />
+		<Unit filename="SkyIsland/CameraController.h" />
+		<Unit filename="SkyIsland/CameraStrategies.cpp" />
+		<Unit filename="SkyIsland/CameraStrategies.h" />
+		<Unit filename="SkyIsland/CharacterAI.cpp" />
+		<Unit filename="SkyIsland/CharacterAI.h" />
+		<Unit filename="SkyIsland/CharacterAnimationManager.cpp" />
+		<Unit filename="SkyIsland/CharacterAnimationManager.h" />
+		<Unit filename="SkyIsland/CharacterAnimationStrategy.h" />
+		<Unit filename="SkyIsland/CharacterAttackTask.h" />
+		<Unit filename="SkyIsland/CharacterComponent.h" />
+		<Unit filename="SkyIsland/CharacterController.cpp" />
+		<Unit filename="SkyIsland/CharacterController.h" />
+		<Unit filename="SkyIsland/CharacterEntities.cpp" />
+		<Unit filename="SkyIsland/CharacterEntities.h" />
+		<Unit filename="SkyIsland/CharacterInputHandler.cpp" />
+		<Unit filename="SkyIsland/CharacterInputHandler.h" />
+		<Unit filename="SkyIsland/CharacterManager.cpp" />
+		<Unit filename="SkyIsland/CharacterManager.h" />
+		<Unit filename="SkyIsland/Color.h" />
+		<Unit filename="SkyIsland/ColorFilter.h" />
+		<Unit filename="SkyIsland/ColorFilters.cpp" />
+		<Unit filename="SkyIsland/ComponentHelpers.cpp" />
+		<Unit filename="SkyIsland/ComponentHelpers.h" />
+		<Unit filename="SkyIsland/DamageMarkerManager.cpp" />
+		<Unit filename="SkyIsland/DamageMarkerManager.h" />
+		<Unit filename="SkyIsland/DrawScene.cpp" />
+		<Unit filename="SkyIsland/DrawScene.h" />
+		<Unit filename="SkyIsland/DrawText.cpp" />
+		<Unit filename="SkyIsland/DrawText.h" />
+		<Unit filename="SkyIsland/DrawTexture.cpp" />
+		<Unit filename="SkyIsland/DrawTexture.h" />
+		<Unit filename="SkyIsland/DrawTriangle.cpp" />
+		<Unit filename="SkyIsland/DrawTriangle.h" />
+		<Unit filename="SkyIsland/Entity.h" />
+		<Unit filename="SkyIsland/EntityBuilders.h" />
+		<Unit filename="SkyIsland/Event.h" />
+		<Unit filename="SkyIsland/FBO.cpp" />
+		<Unit filename="SkyIsland/FBO.h" />
+		<Unit filename="SkyIsland/FBODebugger.cpp" />
+		<Unit filename="SkyIsland/FBODebugger.h" />
+		<Unit filename="SkyIsland/GLWindow.cpp" />
+		<Unit filename="SkyIsland/GLWindow.h" />
+		<Unit filename="SkyIsland/GameComponents.h" />
+		<Unit filename="SkyIsland/GraphicComponents.h" />
+		<Unit filename="SkyIsland/IAITask.h" />
+		<Unit filename="SkyIsland/IAnimation.h" />
+		<Unit filename="SkyIsland/IAnimationStrategy.h" />
+		<Unit filename="SkyIsland/ICamera.h" />
+		<Unit filename="SkyIsland/IComponent.h" />
+		<Unit filename="SkyIsland/IDrawObject.h" />
+		<Unit filename="SkyIsland/IEntityManager.h" />
+		<Unit filename="SkyIsland/IKeyEvent.h" />
+		<Unit filename="SkyIsland/IOCContainer.h" />
+		<Unit filename="SkyIsland/IRenderable.h" />
+		<Unit filename="SkyIsland/IRenderer.h" />
+		<Unit filename="SkyIsland/IScene.h" />
+		<Unit filename="SkyIsland/ITexture.h" />
+		<Unit filename="SkyIsland/IViewport.h" />
+		<Unit filename="SkyIsland/Interpolation.h" />
+		<Unit filename="SkyIsland/IntrusiveLinkedList.h" />
+		<Unit filename="SkyIsland/KeyHandler.cpp" />
+		<Unit filename="SkyIsland/KeyHandler.h" />
+		<Unit filename="SkyIsland/Keystroke.h" />
+		<Unit filename="SkyIsland/MeshComponent.h" />
+		<Unit filename="SkyIsland/MouseHandler.cpp" />
+		<Unit filename="SkyIsland/MouseHandler.h" />
+		<Unit filename="SkyIsland/MoveCharacterTask.h" />
+		<Unit filename="SkyIsland/ObjectHash.h" />
+		<Unit filename="SkyIsland/PhysicsComponents.h" />
+		<Unit filename="SkyIsland/PhysicsManager.cpp" />
+		<Unit filename="SkyIsland/PhysicsManager.h" />
+		<Unit filename="SkyIsland/PositionComponent.h" />
+		<Unit filename="SkyIsland/Rect.h" />
+		<Unit filename="SkyIsland/RenderManager.cpp" />
+		<Unit filename="SkyIsland/RenderManager.h" />
+		<Unit filename="SkyIsland/RenderThread.cpp" />
+		<Unit filename="SkyIsland/RenderThread.h" />
+		<Unit filename="SkyIsland/Renderables.cpp" />
+		<Unit filename="SkyIsland/Renderables.h" />
+		<Unit filename="SkyIsland/Renderer.cpp" />
+		<Unit filename="SkyIsland/Renderer.h" />
+		<Unit filename="SkyIsland/RotationComponent.h" />
+		<Unit filename="SkyIsland/Scene.cpp" />
+		<Unit filename="SkyIsland/Scene.h" />
+		<Unit filename="SkyIsland/ScissorComponent.h" />
+		<Unit filename="SkyIsland/SeanSort.h" />
+		<Unit filename="SkyIsland/Singleton.h" />
+		<Unit filename="SkyIsland/SkeletalAnimation.cpp" />
+		<Unit filename="SkyIsland/SkeletalAnimation.h" />
+		<Unit filename="SkyIsland/SkeletalAnimationsManager.h" />
+		<Unit filename="SkyIsland/SkeletalNodeComponent.h" />
+		<Unit filename="SkyIsland/SkyApp.cpp" />
+		<Unit filename="SkyIsland/SkyApp.h" />
+		<Unit filename="SkyIsland/Sprite.h" />
+		<Unit filename="SkyIsland/SpriteComponent.cpp" />
+		<Unit filename="SkyIsland/SpriteFactory.cpp" />
+		<Unit filename="SkyIsland/SpriteFactory.h" />
+		<Unit filename="SkyIsland/StringTable.h" />
+		<Unit filename="SkyIsland/TaskList.h" />
+		<Unit filename="SkyIsland/Text.cpp" />
+		<Unit filename="SkyIsland/Text.h" />
+		<Unit filename="SkyIsland/TextComponent.h" />
+		<Unit filename="SkyIsland/Texture.cpp" />
+		<Unit filename="SkyIsland/Texture.h" />
+		<Unit filename="SkyIsland/TextureComponent.cpp" />
+		<Unit filename="SkyIsland/TextureComponent.h" />
+		<Unit filename="SkyIsland/TextureManager.cpp" />
+		<Unit filename="SkyIsland/TextureManager.h" />
+		<Unit filename="SkyIsland/Transform.cpp" />
+		<Unit filename="SkyIsland/Transform.h" />
+		<Unit filename="SkyIsland/Trig.h" />
+		<Unit filename="SkyIsland/Vector.h" />
+		<Unit filename="SkyIsland/Vertex.cpp" />
+		<Unit filename="SkyIsland/Vertex.h" />
+		<Unit filename="SkyIsland/Viewport.cpp" />
+		<Unit filename="SkyIsland/Viewport.h" />
+		<Unit filename="SkyIsland/WaitTask.h" />
+		<Unit filename="SkyIsland/ft2build.h" />
+		<Unit filename="SkyIsland/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

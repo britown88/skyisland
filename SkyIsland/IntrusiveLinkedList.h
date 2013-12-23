@@ -180,8 +180,8 @@ public:
    typedef const T* pointer;
    typedef const T& reference;
    IntrusiveListConstIterator(IntrusiveListHook * hookPtr) : hook(hookPtr) {}
-   IntrusiveListConstIterator() : hook(nullptr)
-      IntrusiveListConstIterator(IntrusiveListConstIterator const& rhs) : hook(rhs.hook) {}
+   IntrusiveListConstIterator() : hook(nullptr) {}
+   IntrusiveListConstIterator(IntrusiveListConstIterator const& rhs) : hook(rhs.hook) {}
 
    IntrusiveListConstIterator& operator =(IntrusiveListConstIterator const& rhs)
    {
