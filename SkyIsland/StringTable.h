@@ -4,6 +4,10 @@
 #include <unordered_map>
 #include <string.h>
 
+#if defined(_WIN32) || defined(_WIN64)
+#define strcasecmp strcmp
+#endif
+
 struct StringHash
 {
    size_t operator()(const char *str) const

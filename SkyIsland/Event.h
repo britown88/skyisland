@@ -13,6 +13,6 @@ public:
    Event(){}
    Event(std::function<FnType> fn):fn(std::move(fn)) {}
    Event(Event &&ref):fn(std::move(ref.fn)), hook(std::move(ref.hook)){}
-   Event &operator=(Event &&ref){fn = std::move(ref.fn); hook = std::move(ref.hook);}
+   Event &operator=(Event &&ref){fn = std::move(ref.fn); hook = std::move(ref.hook); return *this;}
 
 };
