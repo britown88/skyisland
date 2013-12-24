@@ -6,6 +6,7 @@
 #include "StringTable.h"
 #include "ComponentHelpers.h"
 #include "TextureComponent.h"
+#include "SkeletalNodeComponent.h"
 
 SkeletalAnimation::SkeletalAnimation(float framesPerSecond):
    m_framesPerSecond(framesPerSecond), m_frameCount(1)//bad division by zero, bad
@@ -40,7 +41,7 @@ SkeletalFrame &SkeletalAnimation::addFrame(std::string partName, int frame)
 
    object->frames.push_back(SkeletalFrame(frame, Transform()));
 
-   return object->frames.back();   
+   return object->frames.back();
 
 }
 
@@ -55,7 +56,6 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
          frame = m_frameCount;
 
    auto snc = entity.getComponent<SkeletalNodeComponent>();
-   std::shared_ptr<SkeletalFrame> startFrame;
    if(!snc) return;
 
    for(auto &obj : m_frameObjs)
@@ -86,7 +86,7 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                      //reset searchsnc
                      if(auto newsnc = searchSnc->connections[obj.name[i]]->entity->getComponent<SkeletalNodeComponent>())
                         searchSnc = &(*newsnc);
-                     else 
+                     else
                         break;
                   }
                }
@@ -106,13 +106,17 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                if(!conn->startFrameSet)
                {
                   //set first frame to current frame transform
-                  conn->startFrame = Transform(conn->transform);
+                  conn->startFrame = std::make_shared<SkeletalFrame>(0, conn->transform);
+                  /*conn->startFrame->_layer = conn->layer;
+                  if(auto spr = conn->entity->getComponent<SpriteComponent>())
+                     conn->startFrame->_spriteFace = spr->face;*/
+
+
                   conn->startFrameSet = true;
                }
 
                frame2 = &obj.frames[i];
-               startFrame = std::make_shared<SkeletalFrame>(0, conn->startFrame);
-               frame1 = startFrame.get();
+               frame1 = conn->startFrame.get();
 
             }
             else
@@ -125,7 +129,7 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
             //now interpolate the data
             auto &t1 = frame1->_transform;
             auto &t2 = frame2->_transform;
-            
+
             float delta = (float)(frame - frame1->frame) / (float)(frame2->frame - frame1->frame);
             auto t = Transform();
 
@@ -145,17 +149,21 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
             {
                if(auto gb = conn->entity->getComponent<GraphicalBoundsComponent>())
                   t.rotationPoint = t2.rotationPoint * gb->size;
-            }               
+            }
 
             if(frame2->_layerSet)
                conn->layer = frame2->_layer;
 
-            if(frame2->_flipX || frame2->_flipY)
-               if(auto tc = conn->entity->getComponent<TextureComponent>())
-               {
-                  tc->xFlipped = frame2->_flipX;
-                  tc->yFlipped = frame2->_flipY;
-               }
+            if(frame2->_spriteFace)
+            if(auto spr = conn->entity->getComponent<SpriteComponent>())
+               spr->face = frame2->_spriteFace;
+
+            //if(frame2->_flipX || frame2->_flipY)
+            if(auto tc = conn->entity->getComponent<TextureComponent>())
+            {
+               tc->xFlipped = frame2->_flipX;
+               tc->yFlipped = frame2->_flipY;
+            }
 
             //set the final transform
             conn->transform = t;

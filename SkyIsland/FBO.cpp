@@ -11,12 +11,12 @@ FBO::FBO(Rectf bounds):m_bounds(Rectf(bounds))
    glGenFramebuffers(1, &m_fboHandle);
 
    int pixelCount = m_bounds.width() * m_bounds.height();
-   unsigned char *pixels = (unsigned char*)calloc(pixelCount * 16, sizeof(unsigned char));
+   unsigned char *pixels = (unsigned char*)calloc(pixelCount * 4, sizeof(unsigned char));
 
    glGenTextures(1, &m_texHandle);
    glBindTexture(GL_TEXTURE_2D, m_texHandle);
    glTexImage2D(
-      GL_TEXTURE_2D, 0, GL_RGBA32F,
+      GL_TEXTURE_2D, 0, GL_RGBA8,
       m_bounds.width(), m_bounds.height(),
       0, GL_RGBA, GL_FLOAT, pixels);
 

@@ -24,6 +24,7 @@ class Scene : public IScene
 
    void addEntity(std::shared_ptr<Entity> entity);
    void removeEntity(std::shared_ptr<Entity> entity);
+   void updateEntity(Entity &e, bool visible);
 
 public:
    Scene(Float2 size, int sqrtPartitionCount);

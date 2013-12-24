@@ -8,6 +8,7 @@
 #include <memory>
 #include <boost/optional.hpp>
 #include "IEntityManager.h"
+#include "SkeletalNodeComponent.h"
 
 
 class SkeletalAnimationsManager

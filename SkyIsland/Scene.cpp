@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "ComponentHelpers.h"
 #include "IEntityManager.h"
+#include "SkeletalNodeComponent.h"
 
 Scene::Scene(Float2 size, int sqrtPartitionCount):
    m_size(size), m_pCount(sqrtPartitionCount)
@@ -74,6 +75,31 @@ void Scene::setVisibleRects(std::vector<Rectf> rects)
    //TODO: This
 }
 
+void Scene::updateEntity(Entity &e, bool visible)
+{
+   for(auto em : m_entityManagers)
+      if(visible)
+         em->updateOnScreenEntity(e);
+      else
+         em->updateOffScreenEntity(e);
+
+   if(auto skel = e.getComponent<SkeletonComponent>())
+      if(skel->entity)
+         updateEntity(*skel->entity, visible);
+
+   if(auto snc = e.getComponent<SkeletalNodeComponent>())
+      for(auto c : snc->connections)
+         if(c.second->entity)
+            updateEntity(*c.second->entity, visible);
+
+   if(auto children = e.getComponent<RenderChildrenComponent>())
+      for(auto childPtr : children->children)
+         if(auto child = childPtr.lock())
+            updateEntity(*child, visible);
+
+
+}
+
 //update scene entities
 void Scene::update()
 {
@@ -90,11 +116,8 @@ void Scene::update()
          auto e = pe.first;
          if(!e->updated)
          {
-            for(auto em : m_entityManagers)
-               if(p.visible)
-                  em->updateOnScreenEntity(*e);
-               else
-                  em->updateOffScreenEntity(*e);
+            updateEntity(*e, p.visible);
+
 
             updatedEntities.push_back(e);
             e->updated = true;

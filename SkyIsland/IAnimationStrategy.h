@@ -10,5 +10,5 @@ class IAnimationStrategy
 public:
    virtual ~IAnimationStrategy(){}
 
-   virtual std::unique_ptr<IAnimation<int>> createAnimation(InternString faceName, int frameCount)=0;
+   virtual std::unique_ptr<IAnimation<int>> createAnimation(int frameCount)=0;
 };

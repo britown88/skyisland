@@ -1238,10 +1238,10 @@
 
 1301600862 /home/p4r4digm/boost_1_55_0/boost/optional/optional_fwd.hpp
 
-1387665074 source:/home/p4r4digm/git/skyisland/SkyIsland/AnimationBuilders.cpp
+1387865662 source:/home/p4r4digm/git/skyisland/SkyIsland/AnimationBuilders.cpp
 	"SkeletalAnimationsManager.h"
 
-1387772106 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimationsManager.h
+1387864113 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimationsManager.h
 	<unordered_map>
 	"IOCContainer.h"
 	"Application.h"
@@ -1250,6 +1250,7 @@
 	<memory>
 	<boost/optional.hpp>
 	"IEntityManager.h"
+	"SkeletalNodeComponent.h"
 
 1387772106 /home/p4r4digm/git/skyisland/SkyIsland/Application.h
 	"GLWindow.h"
@@ -1307,24 +1308,23 @@
 	"Keystroke.h"
 	<memory>
 
-1387768146 /home/p4r4digm/git/skyisland/SkyIsland/Event.h
+1387830913 /home/p4r4digm/git/skyisland/SkyIsland/Event.h
 	"IntrusiveLinkedList.h"
 	<memory>
 	<functional>
 
-1387772106 /home/p4r4digm/git/skyisland/SkyIsland/StringTable.h
+1387830913 /home/p4r4digm/git/skyisland/SkyIsland/StringTable.h
 	<string>
 	<unordered_map>
 	<string.h>
 
-1387665075 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimation.h
+1387902041 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimation.h
 	<string>
 	<vector>
 	"StringTable.h"
 	"Entity.h"
 	"PositionComponent.h"
 	"RotationComponent.h"
-	"SkeletalNodeComponent.h"
 	"Transform.h"
 
 1387772106 /home/p4r4digm/git/skyisland/SkyIsland/PositionComponent.h
@@ -1335,13 +1335,14 @@
 	"IComponent.h"
 	"Vector.h"
 
-1387772103 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalNodeComponent.h
+1387902085 /home/p4r4digm/git/skyisland/SkyIsland/SkeletalNodeComponent.h
 	"IComponent.h"
 	"Transform.h"
 	"StringTable.h"
 	"Entity.h"
 	<unordered_map>
 	<memory>
+	"SkeletalAnimation.h"
 
 1387776382 source:/home/p4r4digm/git/skyisland/SkyIsland/Application.cpp
 	<GLFW/glfw3.h>
@@ -1493,7 +1494,7 @@
 	"StringTable.h"
 	<map>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/IAnimationStrategy.h
+1387854075 /home/p4r4digm/git/skyisland/SkyIsland/IAnimationStrategy.h
 	"IAnimation.h"
 	"StringTable.h"
 	<memory>
@@ -1624,7 +1625,7 @@
 1387219650 /home/p4r4digm/git/skyisland/SkyIsland/CharacterAnimationManager.h
 	"IEntityManager.h"
 
-1387219650 source:/home/p4r4digm/git/skyisland/SkyIsland/CharacterController.cpp
+1387901896 source:/home/p4r4digm/git/skyisland/SkyIsland/CharacterController.cpp
 	"CharacterController.h"
 	"PhysicsComponents.h"
 	"GraphicComponents.h"
@@ -1634,18 +1635,20 @@
 	"Application.h"
 	"CharacterEntities.h"
 	"TextComponent.h"
+	"SkeletalNodeComponent.h"
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/Animations.h
+1387855741 /home/p4r4digm/git/skyisland/SkyIsland/Animations.h
 	"IAnimation.h"
+	<cmath>
 
-1387665074 /home/p4r4digm/git/skyisland/SkyIsland/CharacterEntities.h
+1387857714 /home/p4r4digm/git/skyisland/SkyIsland/CharacterEntities.h
 	"Entity.h"
 
 1387772106 /home/p4r4digm/git/skyisland/SkyIsland/TextComponent.h
 	"IComponent.h"
 	"Text.h"
 
-1387766657 source:/home/p4r4digm/git/skyisland/SkyIsland/CharacterEntities.cpp
+1387869547 source:/home/p4r4digm/git/skyisland/SkyIsland/CharacterEntities.cpp
 	"CharacterEntities.h"
 	"ComponentHelpers.h"
 	"StringTable.h"
@@ -1671,7 +1674,7 @@
 	"Vector.h"
 	<string>
 
-1387219650 /home/p4r4digm/git/skyisland/SkyIsland/CharacterAnimationStrategy.h
+1387855498 /home/p4r4digm/git/skyisland/SkyIsland/CharacterAnimationStrategy.h
 	"IAnimationStrategy.h"
 	"Animations.h"
 	"StringTable.h"
@@ -1788,7 +1791,7 @@
 	"Vertex.h"
 	"Transform.h"
 
-1387766953 source:/home/p4r4digm/git/skyisland/SkyIsland/FBO.cpp
+1387912127 source:/home/p4r4digm/git/skyisland/SkyIsland/FBO.cpp
 	<GL/glew.h>
 	"FBO.h"
 	"ComponentHelpers.h"
@@ -1800,15 +1803,15 @@
 	"FBODebugger.h"
 	"GLFW/glfw3.h"
 
-1387770993 source:/home/p4r4digm/git/skyisland/SkyIsland/GLWindow.cpp
+1387825917 source:/home/p4r4digm/git/skyisland/SkyIsland/GLWindow.cpp
 	"GL/glew.h"
 	<GLFW/glfw3.h>
 	"GLWindow.h"
 	"KeyHandler.h"
 	"MouseHandler.h"
-	"IL/il.h"
-	"IL/ilu.h"
-	"IL/ilut.h"
+	<IL/il.h>
+	<IL/ilu.h>
+	<IL/ilut.h>
 	"GnUtilities.h"
 
 1387776382 /home/p4r4digm/git/skyisland/SkyIsland/IL/il.h
@@ -1936,7 +1939,7 @@
 	"GLWindow.h"
 	"Application.h"
 
-1387767307 source:/home/p4r4digm/git/skyisland/SkyIsland/Scene.cpp
+1387853784 source:/home/p4r4digm/git/skyisland/SkyIsland/Scene.cpp
 	"Scene.h"
 	"PositionComponent.h"
 	"GraphicComponents.h"
@@ -1944,13 +1947,14 @@
 	"Application.h"
 	"ComponentHelpers.h"
 	"IEntityManager.h"
+	"SkeletalNodeComponent.h"
 
-1387767317 /home/p4r4digm/git/skyisland/SkyIsland/Scene.h
+1387851503 /home/p4r4digm/git/skyisland/SkyIsland/Scene.h
 	"IScene.h"
 	<unordered_set>
 	<unordered_map>
 
-1387665075 source:/home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimation.cpp
+1387912247 source:/home/p4r4digm/git/skyisland/SkyIsland/SkeletalAnimation.cpp
 	"SkeletalAnimation.h"
 	"Interpolation.h"
 	"Trig.h"
@@ -1959,6 +1963,7 @@
 	"StringTable.h"
 	"ComponentHelpers.h"
 	"TextureComponent.h"
+	"SkeletalNodeComponent.h"
 
 1387665074 /home/p4r4digm/git/skyisland/SkyIsland/Interpolation.h
 
@@ -3779,7 +3784,7 @@
 	<boost/algorithm/string/finder.hpp>
 	<boost/algorithm/string/formatter.hpp>
 
-1387770462 source:/home/p4r4digm/git/skyisland/SkyIsland/SkyApp.cpp
+1387850664 source:/home/p4r4digm/git/skyisland/SkyIsland/SkyApp.cpp
 	<GLFW/glfw3.h>
 	"SkyApp.h"
 	"Viewport.h"
@@ -3830,7 +3835,7 @@
 	"IOCContainer.h"
 	"Application.h"
 
-1387770543 source:/home/p4r4digm/git/skyisland/SkyIsland/SpriteFactory.cpp
+1387854134 source:/home/p4r4digm/git/skyisland/SkyIsland/SpriteFactory.cpp
 	"SpriteFactory.h"
 	"Animations.h"
 	<boost/filesystem.hpp>

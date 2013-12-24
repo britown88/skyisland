@@ -40,7 +40,7 @@ void addFace(InternString facename, FSNode &faceNode, IAnimationStrategy &animSt
 
    if(i > 1)
    {
-      face->animation = animStrat.createAnimation(facename, i - 1);
+      face->animation = animStrat.createAnimation(i - 1);
       sprite->addFace(facename, std::move(face));
    }
 }
@@ -114,7 +114,7 @@ std::shared_ptr<Sprite> SpriteFactory::buildSprite(InternString filepath, IAnima
    {
       //submitted a childrenless node
       auto face = std::unique_ptr<Face>(new Face());
-      face->animation = animStrat->createAnimation(st->get(""), 1);
+      face->animation = animStrat->createAnimation(1);
       face->name = st->get("");
       face->textures.push_back(node->path);
       sprite->addFace(st->get(""), std::move(face));

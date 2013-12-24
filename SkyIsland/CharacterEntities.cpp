@@ -23,6 +23,7 @@ namespace CharacterEntities
    std::shared_ptr<Entity> buildCharacter()
    {
       auto e = std::make_shared<Entity>();
+      auto app = IOC.resolve<Application>();
       auto st = IOC.resolve<StringTable>();
 
       //beautiful numbers
@@ -50,7 +51,7 @@ namespace CharacterEntities
       auto torsoNode = nc->addConnection(st->get("torso"), Float2());
       skeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
 
-      auto torso = buildBasicBodyPart("assets/body/torso.png", Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));
+      auto torso = buildSpriteBodyPart(Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));
       torsoNode->entity = torso;
 
       nc = std::make_shared<SkeletalNodeComponent>();
@@ -61,11 +62,21 @@ namespace CharacterEntities
       auto lLegNode = nc->addConnection(st->get("leftleg"), lLegConn);
       torso->addComponent<SkeletalNodeComponent>(nc);
 
-      headNode->entity = buildBasicBodyPart("assets/body/head.png", Float2(headSize*pixelMult, headSize*pixelMult), headCenter);
+      headNode->entity = buildSpriteBodyPart(Float2(headSize*pixelMult, headSize*pixelMult), headCenter);
       rArmNode->entity = buildBasicBodyPart("assets/body/arm.png", Float2(rArmSize*pixelMult, rArmSize*pixelMult), rArmCenter);
       lArmNode->entity = buildBasicBodyPart("assets/body/arm.png", Float2(lArmSize*pixelMult, lArmSize*pixelMult), lArmCenter);
       rLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
       lLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
+
+
+      auto blinkStrat = BlinkAnimationStrategy(2.0f, 0.1f);
+      auto spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/body/head"), &blinkStrat);
+      headNode->entity->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(spr), st->get("front")));
+      headNode->entity->getComponent<SpriteComponent>()->elapsedTime += app->rand(0, 100) / 100.0f;
+
+      auto animStrat = CharacterAnimationStrategy();
+      spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/body/torso"), &animStrat);
+      torso->addComponent<SpriteComponent>(std::make_shared<SpriteComponent>(std::move(spr), st->get("front")));
 
       e->addComponent<SkeletonComponent>(std::make_shared<SkeletonComponent>(skeleton));
       return e;
@@ -80,6 +91,23 @@ namespace CharacterEntities
       e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get(texture)));
       e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, center));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+
+      return e;
+   }
+
+   std::shared_ptr<Entity> buildSpriteBodyPart(Float2 size, Float2 center)
+   {
+      auto e = std::make_shared<Entity>();
+
+      auto st = IOC.resolve<StringTable>();
+
+      CompHelpers::addRectangleMeshComponent(*e, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 1.0f));
+      e->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("")));
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(size, center));
+      e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
+
+
+
 
       return e;
    }

@@ -50,7 +50,7 @@ class SkyApp : public Application
 
    Int2 getDefaultWindowSize()
    {
-      return Int2(1440, 810);
+      return Int2(800, 600);
    }
 
    //GLFWmonitor *getWindowMonitor()
@@ -173,8 +173,9 @@ class SkyApp : public Application
       scene->registerEntityManager(std::make_shared<DamageMarkerManager>());
       scene->registerEntityManager(std::make_shared<SkeletalAnimationsUpdateManager>());
 
-      camera.reset(new Camera(Rectf(0, 0, 1440, 810), scene));
-      viewport.reset(new Viewport(Float2(), Float2(1440, 810), Float2(), camera));
+      Float2 winSize(m_window->getSize().x, m_window->getSize().y);
+      camera.reset(new Camera(Rectf(0, 0, winSize.x, winSize.y), scene));
+      viewport.reset(new Viewport(Float2(), winSize, Float2(), camera));
 
       camera2.reset(new Camera(Rectf(0, 0, 150, 150), scene));
       viewport2.reset(new Viewport(Float2(30, 30), Float2(200, 200), Float2(), camera2));

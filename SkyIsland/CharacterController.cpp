@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "CharacterEntities.h"
 #include "TextComponent.h"
+#include "SkeletalNodeComponent.h"
 
 CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
@@ -21,16 +22,16 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
 
    auto st = IOC.resolve<StringTable>();
    f_standDown = st->get("stand_down");
-   f_standUp = st->get("stand_up"); 
-   f_standRight = st->get("stand_right"); 
-   f_standLeft = st->get("stand_left"); 
-   f_runUp = st->get("run_up"); 
-   f_runDown = st->get("run_down"); 
-   f_runLeft = st->get("run_left"); 
+   f_standUp = st->get("stand_up");
+   f_standRight = st->get("stand_right");
+   f_standLeft = st->get("stand_left");
+   f_runUp = st->get("run_up");
+   f_runDown = st->get("run_down");
+   f_runLeft = st->get("run_left");
    f_runRight = st->get("run_right");
-   f_attackLeft = st->get("attack_left"); 
-   f_attackRight = st->get("attack_right"); 
-   f_attackUp = st->get("attack_up"); 
+   f_attackLeft = st->get("attack_left");
+   f_attackRight = st->get("attack_right");
+   f_attackUp = st->get("attack_up");
    f_attackDown = st->get("attack_down");
 
 
@@ -48,7 +49,7 @@ StatePtr CharacterController::buildMoveState()
 
       void move(Float2 vector)
       {
-         if(vector != Float2()) 
+         if(vector != Float2())
             cc.m_facing = vector;
 
          if(auto e = cc.m_entity.lock())
@@ -61,7 +62,7 @@ StatePtr CharacterController::buildMoveState()
                ac->acceleration = cc.m_accel;
                ac->maxVelocity = cc.m_maxVelocity;
             }
-         }   
+         }
       }
 
       void stop()
@@ -79,35 +80,45 @@ StatePtr CharacterController::buildMoveState()
 
       void updateAnimation()
       {
+         auto st = IOC.resolve<StringTable>();
          if(auto e = cc.m_entity.lock())
          {
             if(auto ac = e->getComponent<AccelerationComponent>())
             if(auto fc = e->getComponent<FrictionComponent>())
             if(auto vc = e->getComponent<VelocityComponent>())
-            if(auto spr = e->getComponent<SpriteComponent>())
+            if(auto spr = e->getComponent<SkeletonComponent>())
             {
                if(vc->velocity == Float2())
                {
+
+                  spr->changeAnim(st->get("idle"));
+
+                  spr->dtMultiplier = 1.0f;
                   //stopped, set face
-                  if(fabs(cc.m_facing.x) > fabs(cc.m_facing.y))
+                  /*if(fabs(cc.m_facing.x) > fabs(cc.m_facing.y))
+
                      spr->face = cc.m_facing.x >= 0.0f ? cc.f_standRight: cc.f_standLeft;
                   else
-                     spr->face = cc.m_facing.y >= 0.0f ? cc.f_standUp : cc.f_standDown;
+                     spr->face = cc.m_facing.y >= 0.0f ? cc.f_standUp : cc.f_standDown;*/
                }
                else
                {
                   //moving, set face
                   if(fabs(vc->velocity.x) > fabs(vc->velocity.y))
-                     spr->face = vc->velocity.x >= 0.0f ? cc.f_runRight : cc.f_runLeft;
+                     spr->changeAnim(st->get("walkright"));
+                     //spr->playingAnimation = st->get("walkright");
+                     //spr->face = vc->velocity.x >= 0.0f ? cc.f_runRight : cc.f_runLeft;
                   else
-                     spr->face = vc->velocity.y >= 0.0f ? cc.f_runDown : cc.f_runUp;
+                     spr->changeAnim(st->get("walkdown"));
+                     //spr->playingAnimation = st->get("walkdown");
+                     //spr->face = vc->velocity.y >= 0.0f ? cc.f_runDown : cc.f_runUp;
 
                   //now reset anim speed base don velocity
                   auto &v = vc->velocity;
                   float mag = v.x * v.x + v.y * v.y;
-           
+
                   spr->dtMultiplier = mag / (ac->maxVelocity * ac->maxVelocity);
-            
+
                }
             }
          }
@@ -140,7 +151,7 @@ StatePtr CharacterController::buildAttackState()
          if(spr.elapsedTime > spr.sprite->getFace(spr.face)->animation->getLength())
          {
             cc.m_taskDone = true;
-            cc.revertState();               
+            cc.revertState();
          }
       }
 
@@ -211,7 +222,7 @@ StatePtr CharacterController::buildDamagedState(const AttackComponent &ac)
 {
    class DamagedState : public CharacterState
    {
-      CharacterController &cc;   
+      CharacterController &cc;
       const AttackComponent &ac;
       float startTime;
    public:
@@ -231,7 +242,7 @@ StatePtr CharacterController::buildDamagedState(const AttackComponent &ac)
             startTime = app->getTime();
             vc->velocity = (Float2)ac.attackDirection * 10.0f;
             fc->friction = cc.m_friction;
-            spr->dtMultiplier = 0.0f;
+            //spr->dtMultiplier = 0.0f;
             spr->elapsedTime = 0.0f;
 
             auto dm = CharacterEntities::buildDamageMarker(e);
@@ -243,7 +254,7 @@ StatePtr CharacterController::buildDamagedState(const AttackComponent &ac)
                   ec2->elevation = 50.0f;
                   ec2->impulse = 15.0f;
                }
-                  
+
             }
 
             dm->addToScene(e->getScene());
