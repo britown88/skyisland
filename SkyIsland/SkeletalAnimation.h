@@ -10,6 +10,13 @@
 
 #include "Transform.h"
 
+struct SkeletalOptions
+{
+   int layer;
+   bool flipX, fipY;
+   InternString spriteFace;
+};
+
 struct SkeletalFrame
 {
    SkeletalFrame(int frame, Transform transform):
@@ -48,6 +55,8 @@ struct SkeletalFrameObject
    std::string fullName;
    std::vector<InternString> name;
    std::vector<SkeletalFrame> frames;
+
+   SkeletalOptions startOpts, endOpts;
 
    SkeletalFrameObject(std::string fullName, std::vector<InternString> name):
       fullName(std::move(fullName)), name(std::move(name)){}

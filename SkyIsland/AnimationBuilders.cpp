@@ -132,8 +132,8 @@ void buildWalkRight()
    anim->addFrame("torso/rightarm", 750).setOffset(armCenter, 0.0f).setRotation(45.0f);
    anim->addFrame("torso/rightarm", 1000).setOffset(armCenter, 0.0f);
 
-   anim->addFrame("torso/head", 500).setSpriteFace("side").setLayer(2);
-   anim->addFrame("torso/head", 1000);
+   anim->addFrame("torso/head", 250).setSpriteFace("side").setLayer(2);
+   anim->addFrame("torso/head", 750);
 
 
    manager->addAnimation("walkright", std::move(anim));

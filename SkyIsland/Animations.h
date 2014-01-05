@@ -37,7 +37,8 @@ public:
       for(int i = 0; i < m_frames.size(); ++i)
       {
 
-         if(currLen <= currTime && (i == m_frames.size() - 1 || m_frames[i+1] > currTime))
+         if(currLen <= currTime && (i == m_frames.size() - 1 ||
+            (i < m_frames.size() - 1 && m_frames[i+1] > currTime)))
             return i;
 
          currLen += m_frames[i];

@@ -156,8 +156,14 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
 
             if(frame2->_spriteFace)
             if(auto spr = conn->entity->getComponent<SpriteComponent>())
-               spr->face = frame2->_spriteFace;
+            {
+               if(spr->face != frame2->_spriteFace)
+               {
+                  spr->face = frame2->_spriteFace;
+                  spr->elapsedTime = 0.0f;
+               }
 
+            }
             //if(frame2->_flipX || frame2->_flipY)
             if(auto tc = conn->entity->getComponent<TextureComponent>())
             {
