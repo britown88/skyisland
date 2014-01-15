@@ -13,19 +13,17 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_entity(std::move(entity))
 {
    m_taskDone = false;
-   m_accel = 0.5f;
-   m_runAccel = 1.0f;
-   m_maxVelocity = 10.0f;
-   m_friction = 0.5f;
-   m_minAnimSpeed = 0.09f;
-   m_maxAnimSpeed = 0.5f;
+   m_accel = 0.25f;
+   m_runAccel = 0.5f;
+   m_maxVelocity = 7.0f;
+   m_friction = 0.25f;
 
    auto st = IOC.resolve<StringTable>();
-   f_standDown = st->get("stand_down");
-   f_standUp = st->get("stand_up");
-   f_standRight = st->get("stand_right");
-   f_standLeft = st->get("stand_left");
-   f_runUp = st->get("run_up");
+   f_standDown = st->get("idledown");
+   f_standUp = st->get("idleup");
+   f_standRight = st->get("idleright");
+   f_standLeft = st->get("idleleft");
+   f_runUp = st->get("walkup");
    f_runDown = st->get("run_down");
    f_runLeft = st->get("run_left");
    f_runRight = st->get("run_right");
@@ -86,38 +84,99 @@ StatePtr CharacterController::buildMoveState()
             if(auto ac = e->getComponent<AccelerationComponent>())
             if(auto fc = e->getComponent<FrictionComponent>())
             if(auto vc = e->getComponent<VelocityComponent>())
-            if(auto spr = e->getComponent<SkeletonComponent>())
+            if(auto skel = e->getComponent<SkeletonComponent>())
             {
                if(vc->velocity == Float2())
                {
-
-                  spr->changeAnim(st->get("idle"));
-
-                  spr->dtMultiplier = 1.0f;
+                  skel->dtMultiplier = 1.0f;
                   //stopped, set face
-                  /*if(fabs(cc.m_facing.x) > fabs(cc.m_facing.y))
 
-                     spr->face = cc.m_facing.x >= 0.0f ? cc.f_standRight: cc.f_standLeft;
+                  //left/right
+                  if(fabs(cc.m_facing.x) > fabs(cc.m_facing.y))
+                  {
+                     //right
+                     if(cc.m_facing.x >= 0.0f )
+                     {
+                        if(skel->playingAnimation != st->get("walkright") && skel->playingAnimation != st->get("idleright"))
+                           skel->changeAnim(st->get("faceright"));
+
+                        skel->changeAnim(st->get("idleright"));
+                     }
+                     //left
+                     else
+                     {
+                        if(skel->playingAnimation != st->get("walkleft") && skel->playingAnimation != st->get("idleleft"))
+                           skel->changeAnim(st->get("faceleft"));
+
+                        skel->changeAnim(st->get("idleleft"));
+                     }
+                  }
+                  //up/down   
                   else
-                     spr->face = cc.m_facing.y >= 0.0f ? cc.f_standUp : cc.f_standDown;*/
+                  {
+                     //down
+                     if(cc.m_facing.y >= 0.0f)
+                     {
+                        if(skel->playingAnimation != st->get("walkup") && skel->playingAnimation != st->get("idleup"))
+                           skel->changeAnim(st->get("faceup"));
+
+                        skel->changeAnim(st->get("idleup"));
+                     }
+                     //up
+                     else
+                     {
+                        if(skel->playingAnimation != st->get("walkdown") && skel->playingAnimation != st->get("idledown"))
+                           skel->changeAnim(st->get("facedown"));
+
+                        skel->changeAnim(st->get("idledown"));
+                     }
+                  }
+                     
                }
                else
                {
                   //moving, set face
                   if(fabs(vc->velocity.x) > fabs(vc->velocity.y))
-                     spr->changeAnim(st->get("walkright"));
-                     //spr->playingAnimation = st->get("walkright");
-                     //spr->face = vc->velocity.x >= 0.0f ? cc.f_runRight : cc.f_runLeft;
-                  else
-                     spr->changeAnim(st->get("walkdown"));
-                     //spr->playingAnimation = st->get("walkdown");
-                     //spr->face = vc->velocity.y >= 0.0f ? cc.f_runDown : cc.f_runUp;
+                  {
+                     if(vc->velocity.x >= 0.0f)
+                     {
+                        if(skel->playingAnimation != st->get("walkright") && skel->playingAnimation != st->get("idleright"))
+                           skel->changeAnim(st->get("faceright"));
+
+                        skel->changeAnim(st->get("walkright"));
+                     }
+                     else
+                     {
+                        if(skel->playingAnimation != st->get("walkleft") && skel->playingAnimation != st->get("idleleft"))
+                           skel->changeAnim(st->get("faceleft"));
+
+                        skel->changeAnim(st->get("walkleft"));
+                     }
+                  }
+                     
+                  else                     
+                     if( vc->velocity.y >= 0.0f)
+                     {
+                        if(skel->playingAnimation != st->get("walkdown") && skel->playingAnimation != st->get("idledown"))
+                           skel->changeAnim(st->get("facedown"));
+
+                        skel->changeAnim(st->get("walkdown"));
+                     }
+                     else
+                     {
+                        if(skel->playingAnimation != st->get("walkup") && skel->playingAnimation != st->get("idleup"))
+                           skel->changeAnim(st->get("faceup"));
+
+                        skel->changeAnim(st->get("walkup"));
+                     }
+
+
 
                   //now reset anim speed base don velocity
                   auto &v = vc->velocity;
                   float mag = v.x * v.x + v.y * v.y;
 
-                  spr->dtMultiplier = mag / (ac->maxVelocity * ac->maxVelocity);
+                  skel->dtMultiplier = mag / (ac->maxVelocity * ac->maxVelocity) * 2.0f;
 
                }
             }

@@ -103,6 +103,7 @@
     <ClCompile Include="RenderThread.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkeletalAnimation.cpp" />
+    <ClCompile Include="SkeletalNodeComponent.cpp" />
     <ClCompile Include="SkyApp.cpp" />
     <ClCompile Include="GLWindow.cpp" />
     <ClCompile Include="main.cpp" />

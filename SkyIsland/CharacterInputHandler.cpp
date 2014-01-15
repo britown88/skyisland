@@ -57,7 +57,7 @@ void CharacterInputHandler::sendControllerAttack()
    if(auto cp = e->getComponent<CharacterComponent>())
    {
       auto &cc = *cp->controller;
-      cc.attack();
+      //cc.attack();
    }
 }
 

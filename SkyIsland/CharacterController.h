@@ -29,7 +29,7 @@ typedef std::unique_ptr<CharacterState> StatePtr;
 class CharacterController
 {
    std::weak_ptr<Entity> m_entity;
-   float m_accel, m_runAccel, m_maxVelocity, m_friction, m_minAnimSpeed, m_maxAnimSpeed;
+   float m_accel, m_runAccel, m_maxVelocity, m_friction;
    Float2 m_facing;
 
    std::stack<StatePtr> m_states;

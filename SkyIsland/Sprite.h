@@ -33,7 +33,13 @@ public:
    InternString getTexture(InternString face, float time)
    {
       if(m_faces.find(face) != m_faces.end())
-         return m_faces[face]->textures[m_faces[face]->animation->get(time)];
+      {
+         int index = m_faces[face]->animation->get(time);
+         index = index < m_faces[face]->textures.size() ? index : 0;
+         
+         return m_faces[face]->textures[index];
+
+      }         
       else
          return IOC.resolve<StringTable>()->get("");
    }

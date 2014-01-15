@@ -50,7 +50,7 @@ class SkyApp : public Application
 
    Int2 getDefaultWindowSize()
    {
-      return Int2(800, 600);
+      return Int2(1024, 768);
    }
 
    //GLFWmonitor *getWindowMonitor()
@@ -73,48 +73,11 @@ class SkyApp : public Application
 
    void buildTestEntities()
    {
-      auto st = IOC.resolve<StringTable>();
-      int rowLength = 9;
-      float charSpacing = 150.0f;
-      Float2 charStart = Float2(125.0f, 400.0f);
-      std::vector<InternString> anims;
-
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("walkright"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("walkright"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("walkright"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkright"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("walkright"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("dance"));
-      anims.push_back(st->get("idle"));
-      anims.push_back(st->get("walkdown"));
-      anims.push_back(st->get("walkright"));
-
-      for(int i = 0; i < anims.size(); ++i)
+      for(int i = 0; i < 1000; ++i)
       {
          auto e = CharacterEntities::buildCharacter();
-         e->getComponent<PositionComponent>()->pos =
-            Float2(
-               charStart.x + charSpacing * (i % rowLength),
-               charStart.y + charSpacing * (i / rowLength));
-         e->getComponent<SkeletonComponent>()->playingAnimation = anims[i];
+         e->getComponent<PositionComponent>()->pos = Float2(rand(0, 10000), rand(0, 10000));
+
          e->addToScene(scene);
          eList.push_back(e);
       }

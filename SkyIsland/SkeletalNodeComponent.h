@@ -43,12 +43,5 @@ public:
    SkeletonComponent(std::shared_ptr<Entity> skeleton):
       entity(std::move(skeleton)), elapsedAnimTime(0.0f), dtMultiplier(1.0f){}
 
-   void changeAnim(InternString anim)
-   {
-      if(playingAnimation != anim)
-         elapsedAnimTime = 0.0f;
-
-      playingAnimation = anim;
-
-   }
+   void changeAnim(InternString anim);
 };

@@ -107,10 +107,18 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                {
                   //set first frame to current frame transform
                   conn->startFrame = std::make_shared<SkeletalFrame>(0, conn->transform);
-                  /*conn->startFrame->_layer = conn->layer;
-                  if(auto spr = conn->entity->getComponent<SpriteComponent>())
-                     conn->startFrame->_spriteFace = spr->face;*/
+                  conn->startFrame->_layer = conn->layer;
+                  conn->startFrame->_transform.rotationPoint = Float2();
 
+                  if(auto spr = conn->entity->getComponent<SpriteComponent>())
+                  {
+                     conn->startFrame->_spriteFace = spr->face;
+                  }
+                  if(auto tex = conn->entity->getComponent<TextureComponent>())
+                  {
+                     conn->startFrame->flipX(tex->xFlipped);
+                     conn->startFrame->flipY(tex->yFlipped);
+                  }
 
                   conn->startFrameSet = true;
                }

@@ -42,6 +42,8 @@ namespace CharacterEntities
       e->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
       e->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
       e->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(e));
+      e->addComponent<AIComponent>(std::make_shared<AIComponent>(e));
+      e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
 
       auto skeleton = std::make_shared<Entity>();
       skeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(), Float2()));

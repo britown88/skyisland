@@ -25,6 +25,6 @@ public:
 
    std::unique_ptr<IAnimation<int>> createAnimation(int frameCount)
    {
-      return std::unique_ptr<IAnimation<int>>(new FrameLengthAnimation(std::move(m_frames)));
+      return std::unique_ptr<IAnimation<int>>(new FrameLengthAnimation(m_frames));
    }
 };

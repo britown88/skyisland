@@ -22,8 +22,8 @@ class FrameLengthAnimation : public IAnimation<int>
    std::vector<float> m_frames;
    float m_len;
 public:
-   FrameLengthAnimation(std::vector<float> frames):
-      m_frames(std::move(frames))
+   FrameLengthAnimation(std::vector<float> &frames):
+      m_frames(std::vector<float>(frames))
    {
       m_len = 0.0f;
       for(auto i : m_frames)
@@ -39,7 +39,8 @@ public:
 
          if(currLen <= currTime && (i == m_frames.size() - 1 ||
             (i < m_frames.size() - 1 && m_frames[i+1] > currTime)))
-            return i;
+            if(i < m_frames.size())
+               return i;
 
          currLen += m_frames[i];
 
