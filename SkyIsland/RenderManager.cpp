@@ -49,8 +49,7 @@ bool RenderManager::renderViewport(IViewport &vp)
 
       //skip entity if it has a parent and that parent still exists
       if(auto rpc = ent->getComponent<RenderParentComponent>())
-         if(rpc->parent.lock())
-            continue;
+         continue;
 
       //generate new entity list for drawing
       eList.push_back(ent);
@@ -100,7 +99,7 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    if(childrenComp)
    {
       for(int i = 0; i < childrenComp->parentIndex; ++i)
-         if(auto e = childrenComp->children[i].lock())
+         if(auto e = childrenComp->children[i])
             renderEntity(*e, transforms);
    }
 
@@ -116,7 +115,7 @@ void RenderManager::renderEntity(Entity &entity, TransformList transforms)
    if(childrenComp)
    {
       for(int i = childrenComp->parentIndex; i < childrenComp->children.size(); ++i)
-         if(auto e = childrenComp->children[i].lock())
+         if(auto e = childrenComp->children[i])
             renderEntity(*e, transforms);
    }
 

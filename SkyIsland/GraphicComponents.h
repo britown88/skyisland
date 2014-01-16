@@ -75,7 +75,7 @@ public:
 };
 
 
-typedef std::deque<std::weak_ptr<Entity>>::iterator ParentIter;
+typedef std::deque<std::shared_ptr<Entity>>::iterator ParentIter;
 
 
 class RenderParentComponent : public IComponent
@@ -83,9 +83,9 @@ class RenderParentComponent : public IComponent
 public:
    static const unsigned int ID = 329001145;
 
-   RenderParentComponent(std::weak_ptr<Entity> parent):parent(std::move(parent)){}
+   RenderParentComponent(std::shared_ptr<Entity> parent):parent(std::move(parent)){}
 
-   std::weak_ptr<Entity> parent;
+   std::shared_ptr<Entity> parent;
    ParentIter parentIter;
 };
 
@@ -98,7 +98,7 @@ public:
 
    RenderChildrenComponent():parentIndex(0){}
 
-   std::deque<std::weak_ptr<Entity>> children;
+   std::deque<std::shared_ptr<Entity>> children;
 
    enum class Layer
    {

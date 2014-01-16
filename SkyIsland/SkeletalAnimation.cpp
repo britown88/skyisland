@@ -7,6 +7,7 @@
 #include "ComponentHelpers.h"
 #include "TextureComponent.h"
 #include "SkeletalNodeComponent.h"
+#include "GraphicComponents.h"
 
 SkeletalAnimation::SkeletalAnimation(float framesPerSecond):
    m_framesPerSecond(framesPerSecond), m_frameCount(1)//bad division by zero, bad
@@ -43,6 +44,39 @@ SkeletalFrame &SkeletalAnimation::addFrame(std::string partName, int frame)
 
    return object->frames.back();
 
+}
+
+void SkeletalAnimation::setPieceFlip(Entity &e, SkeletalFrame &frame)
+{
+   if(auto tc = e.getComponent<TextureComponent>())
+   {
+      tc->xFlipped = frame._flipX;
+      tc->yFlipped = frame._flipY;
+   }
+
+   if(auto childrenComp = e.getComponent<RenderChildrenComponent>())
+   {
+      for(auto child : childrenComp->children)
+         setPieceFlip(*child, frame);
+   }
+}
+
+void SkeletalAnimation::setPieceSpriteFace(Entity &e, SkeletalFrame &frame)
+{
+   if(auto spr = e.getComponent<SpriteComponent>())
+   {
+      if(spr->face != frame._spriteFace)
+      {
+         spr->face = frame._spriteFace;
+         spr->elapsedTime = 0.0f;
+      }
+   }
+
+   if(auto childrenComp = e.getComponent<RenderChildrenComponent>())
+   {
+      for(auto child : childrenComp->children)
+         setPieceSpriteFace(*child, frame);
+   }
 }
 
 void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
@@ -163,21 +197,9 @@ void SkeletalAnimation::updateEntity(float timeElapsed, Entity &entity)
                conn->layer = frame2->_layer;
 
             if(frame2->_spriteFace)
-            if(auto spr = conn->entity->getComponent<SpriteComponent>())
-            {
-               if(spr->face != frame2->_spriteFace)
-               {
-                  spr->face = frame2->_spriteFace;
-                  spr->elapsedTime = 0.0f;
-               }
+               setPieceSpriteFace(*conn->entity, *frame2);
 
-            }
-            //if(frame2->_flipX || frame2->_flipY)
-            if(auto tc = conn->entity->getComponent<TextureComponent>())
-            {
-               tc->xFlipped = frame2->_flipX;
-               tc->yFlipped = frame2->_flipY;
-            }
+            setPieceFlip(*conn->entity, *frame2);
 
             //set the final transform
             conn->transform = t;

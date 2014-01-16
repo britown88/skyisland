@@ -76,6 +76,16 @@ namespace CharacterEntities
       rLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
       lLegNode->entity = buildBasicBodyPart("assets/body/leg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
 
+      lLegNode->entity->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
+      auto rcc = lLegNode->entity->getComponent<RenderChildrenComponent>();
+      auto pantLeg = buildBasicBodyPart("assets/clothes/shirt1/leg.png", Float2(lLegSize*pixelMult, lLegSize*pixelMult), lLegCenter);
+      rcc->addChild(lLegNode->entity, std::move(pantLeg), RenderChildrenComponent::Layer::Foreground);
+
+      rLegNode->entity->addComponent<RenderChildrenComponent>(std::make_shared<RenderChildrenComponent>());
+      rcc = rLegNode->entity->getComponent<RenderChildrenComponent>();
+      pantLeg = buildBasicBodyPart("assets/clothes/shirt1/leg.png", Float2(rLegSize*pixelMult, rLegSize*pixelMult), rLegCenter);
+      rcc->addChild(rLegNode->entity, std::move(pantLeg), RenderChildrenComponent::Layer::Foreground);
+
 
       auto blinkStrat = BlinkAnimationStrategy(2.0f, 0.1f);
       auto spr = IOC.resolve<SpriteFactory>()->buildSprite(st->get("assets/body/head"), &blinkStrat);

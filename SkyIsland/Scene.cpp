@@ -94,8 +94,7 @@ void Scene::updateEntity(Entity &e, bool visible)
 
    if(auto children = e.getComponent<RenderChildrenComponent>())
       for(auto childPtr : children->children)
-         if(auto child = childPtr.lock())
-            updateEntity(*child, visible);
+         updateEntity(*childPtr, visible);
 
 
 }

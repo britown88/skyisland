@@ -70,6 +70,9 @@ class SkeletalAnimation
    bool m_loop;
    int m_frameCount;
 
+   void setPieceFlip(Entity &e, SkeletalFrame &frame);
+   void setPieceSpriteFace(Entity &e, SkeletalFrame &frame);
+
 public:
    SkeletalAnimation(float framesPerSecond);
 
