@@ -15,7 +15,7 @@ CharacterController::CharacterController(std::weak_ptr<Entity> entity):
    m_taskDone = false;
    m_accel = 0.25f;
    m_runAccel = 0.5f;
-   m_maxVelocity = 7.0f;
+   m_maxVelocity = 10.0f;
    m_friction = 0.25f;
 
    auto st = IOC.resolve<StringTable>();

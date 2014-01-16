@@ -17,28 +17,28 @@ CharacterInputHandler::CharacterInputHandler()
    leftPressed = false;
    rightPressed = false;
    
-   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, INPUT_STEP, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_D, INPUT_STEP, 0), KeyEvent([&]()
       {this->rightPressed = true; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_RIGHT, GLFW_RELEASE, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_D, GLFW_RELEASE, 0), KeyEvent([&]()
       {this->rightPressed = false; this->sendControllerMovement();}));   
    
-   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, INPUT_STEP, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_A, INPUT_STEP, 0), KeyEvent([&]()
       {this->leftPressed = true; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_LEFT, GLFW_RELEASE, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_A, GLFW_RELEASE, 0), KeyEvent([&]()
       {this->leftPressed = false; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_UP, INPUT_STEP, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_W, INPUT_STEP, 0), KeyEvent([&]()
       {this->upPressed = true; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_UP, GLFW_RELEASE, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_W, GLFW_RELEASE, 0), KeyEvent([&]()
       {this->upPressed = false; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, INPUT_STEP, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_S, INPUT_STEP, 0), KeyEvent([&]()
       {this->downPressed = true; this->sendControllerMovement();}));
    
-   registerKeyEvent(Keystroke(GLFW_KEY_DOWN, GLFW_RELEASE, 0), KeyEvent([&]()
+   registerKeyEvent(Keystroke(GLFW_KEY_S, GLFW_RELEASE, 0), KeyEvent([&]()
       {this->downPressed = false; this->sendControllerMovement();}));
 
    registerKeyEvent(Keystroke(GLFW_KEY_SPACE, INPUT_STEP, 0), KeyEvent([&]()

@@ -181,7 +181,8 @@ class SkyApp : public Application
          lightList.push_back(std::make_shared<Entity>());
          auto light = lightList.back();
 
-         CompHelpers::addRectangleMeshComponent(*light, Rectf(0, 0, 1, 1), Colorf(rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f));
+         //CompHelpers::addRectangleMeshComponent(*light, Rectf(0, 0, 1, 1), Colorf(rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f, rand(0, 3)/ 2.0f));
+         CompHelpers::addRectangleMeshComponent(*light, Rectf(0, 0, 1, 1), Colorf(1.0f, 1.0f, 0.0f));
          light->addComponent<TextureComponent>(std::make_shared<TextureComponent>(st->get("assets/misc/target/00.png")));
          light->getComponent<TextureComponent>()->setBlendFunc(GL_ONE, GL_ONE);
          auto lightSize = 450;
@@ -193,10 +194,10 @@ class SkyApp : public Application
          light->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
          light->addComponent<AccelerationComponent>(std::make_shared<AccelerationComponent>(Float2(), 0.0f, 10.0f));
          light->addComponent<ElevationComponent>(std::make_shared<ElevationComponent>(1.0f));
-         light->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(light));
+         //light->addComponent<CharacterComponent>(std::make_shared<CharacterComponent>(light));
 
-         light->addComponent<AIComponent>(std::make_shared<AIComponent>(light));
-         light->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
+         //light->addComponent<AIComponent>(std::make_shared<AIComponent>(light));
+         //light->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
 
          light->addToScene(scene);
 
@@ -208,41 +209,6 @@ class SkyApp : public Application
 
       tabEvent = std::move(KeyEvent([&](){this->nextEntity();}));
       IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_TAB, GLFW_PRESS, 0), &tabEvent);
-
-      spaceEvent = std::move(KeyEvent([&]()
-      {
-         if(auto elev = this->eList[eIndex]->getComponent<ElevationComponent>())
-         {
-            if(elev->elevation == 0.0f)
-               elev->impulse = 20.0f;
-         }
-
-      }));
-      //IOC.resolve<KeyHandler>()->registerEvent(Keystroke(GLFW_KEY_SPACE, GLFW_PRESS, 0), &spaceEvent);
-
-
-      clickEvent = std::move(MouseEvent([&](Float2 pos)
-      {
-         auto cb = camera->getBounds();
-         auto posComp = eList[eIndex]->getComponent<PositionComponent>();
-
-         posComp->pos = pos + Float2(cb.left, cb.top);
-
-      }));
-
-      viewport->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &clickEvent);
-
-      click2 = std::move(MouseEvent([&](Float2 pos)
-      {
-         auto cb = camera2->getBounds();
-         auto vp = viewport2->getWindowBounds();
-
-         auto posComp = eList[eIndex]->getComponent<PositionComponent>();
-
-         posComp->pos = Float2(pos.x * (cb.width() / vp.width()), pos.y * (cb.height() / vp.height())) + Float2(cb.left, cb.top);
-      }));
-
-      viewport2->registerMouseCallback(Keystroke(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS, 0), &click2);
 
    }
 

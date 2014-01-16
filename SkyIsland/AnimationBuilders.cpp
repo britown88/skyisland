@@ -366,7 +366,7 @@ void buildWalkDown()
    auto anim = std::unique_ptr<SkeletalAnimation>(new SkeletalAnimation(1000));
    anim->setLooping(true);
 
-   float bodySway = 5.0f, headBob = 6.0f, bodyBob = 6.0f, legDip = 6.0f, armSwing = 15.0f;
+   float bodySway = 2.0f, headBob = 6.0f, bodyBob = 6.0f, legDip = 6.0f, armSwing = 15.0f;
 
    anim->addFrame("torso", 250).setSpriteFace("front").setOffset(0.0f, bodyBob).setRotation(bodySway, "leftleg");
    anim->addFrame("torso", 500).setRotation(0.0f, "leftleg");
@@ -409,7 +409,7 @@ void buildWalkUp()
 
    float legRepos = 30.0f;
    float armRepos = 66.0f;
-   float bodySway = 5.0f, headBob = 6.0f, bodyBob = 6.0f, legDip = 6.0f, armSwing = 15.0f;
+   float bodySway = 2.0f, headBob = 6.0f, bodyBob = 6.0f, legDip = 6.0f, armSwing = 15.0f;
 
    anim->addFrame("torso", 250).setSpriteFace("back").setOffset(0.0f, bodyBob).setRotation(bodySway, "leftleg");
    anim->addFrame("torso", 500).setRotation(0.0f, "leftleg");

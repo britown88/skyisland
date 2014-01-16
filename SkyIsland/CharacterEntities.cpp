@@ -35,7 +35,11 @@ namespace CharacterEntities
       Float2 rLegConn(2.0f / torsoSize, 8.0f / torsoSize);Float2 rLegCenter(3.0f / rLegSize, 3.0f / rLegSize);
       Float2 lLegConn(7.0f / torsoSize, 8.0f / torsoSize);Float2 lLegCenter(3.0f / lLegSize, 3.0f / lLegSize);
 
-      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(pixelMult * 25.0f, pixelMult * 25.0f), Float2(0.5f, 0.5f)));
+      float charSize = 25.0f;
+      Float2 charCenter = Float2(0.5f, 0.5f);
+      float skeletonYOffset = 2.5f / charSize;
+
+      e->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(pixelMult * charSize, pixelMult * charSize), charCenter));
       e->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
       e->addComponent<VelocityComponent>(std::make_shared<VelocityComponent>(Float2()));
       e->addComponent<FrictionComponent>(std::make_shared<FrictionComponent>(0.0f));
@@ -46,11 +50,13 @@ namespace CharacterEntities
       e->addComponent<WanderComponent>(std::make_shared<WanderComponent>());
 
       auto skeleton = std::make_shared<Entity>();
-      skeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(Float2(), Float2()));
+      skeleton->addComponent<GraphicalBoundsComponent>(std::make_shared<GraphicalBoundsComponent>(
+         Float2(pixelMult * charSize, pixelMult * charSize), charCenter));//offset for centering
+
       skeleton->addComponent<PositionComponent>(std::make_shared<PositionComponent>(Float2()));
 
       auto nc = std::make_shared<SkeletalNodeComponent>();
-      auto torsoNode = nc->addConnection(st->get("torso"), Float2());
+      auto torsoNode = nc->addConnection(st->get("torso"), Float2(0.5f, 0.5f + skeletonYOffset));//centers....2.5pixels
       skeleton->addComponent<SkeletalNodeComponent>(std::move(nc));
 
       auto torso = buildSpriteBodyPart(Float2(torsoSize*pixelMult, torsoSize*pixelMult), Float2(0.5f, 0.5f));
