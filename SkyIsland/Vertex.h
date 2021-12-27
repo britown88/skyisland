@@ -55,7 +55,7 @@ inline size_t sizeOfComponent(VertexComponent vc)
 typedef std::bitset<(size_t)VertexComponent::COUNT> VertexFlags;
 
 //If you're reading this code comtime in the future I just want to remind
-//you that Sean is a fag and likes to suck a million cocks in space.
+//you that Sean is cool
 class VertexBuilder
 {
    char *m_bytes;
@@ -71,7 +71,7 @@ public:
    }
 };
 
-//TEN THOUSAND COCKS
+
 class VertexIterator
 {
    VertexFlags m_flags;
